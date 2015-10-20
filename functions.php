@@ -3,21 +3,21 @@
 // http://code.tutsplus.com/articles/applying-categories-tags-and-custom-taxonomies-to-media-attachments--wp-32319
 // ajouter recherche par tag dans admin medias
 // ajouter col sorting par tag dans admin medias
-// 
+// http://wordpress.stackexchange.com/questions/29858/adding-category-tag-taxonomy-support-to-images-media
 
 /**
  *  Add categories to Medias Attachments
  */
-function cfcng_add_categories_to_attachments() {
+function cfcreation_add_categories_to_attachments() {
     register_taxonomy_for_object_type( 'category', 'attachment' );
 }
-//add_action( 'init' , 'cfcng_add_categories_to_attachments' );
+//add_action( 'init' , 'cfcreation_add_categories_to_attachments' );
 
 // apply tags to attachments
-function cfcng_add_tags_to_attachments() {
+function cfcreation_add_tags_to_attachments() {
     register_taxonomy_for_object_type( 'post_tag', 'attachment' );
 }
-add_action( 'init' , 'cfcng_add_tags_to_attachments' );
+add_action( 'init' , 'cfcreation_add_tags_to_attachments' );
 
 
 
