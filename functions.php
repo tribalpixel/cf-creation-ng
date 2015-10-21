@@ -9,78 +9,80 @@
 
 define('CFCNG_DEBUG', false);
 
+add_action('after_setup_theme', 'cfcreation_setup');
+function cfcreation_setup(){
+    load_theme_textdomain('cfcreation', get_template_directory() . '/languages');
+}
+
 /*******************************************************************************
  *  REGISTER CUSTOM TAXONOMY FOR MEDIAS
  *******************************************************************************/
 function cfcreation_media_tags() {
 
-	$labels = array(
-		'name'                       => _x( 'Travaux', 'Taxonomy General Name', 'cfcreation' ),
-		'singular_name'              => _x( 'Travaux', 'Taxonomy Singular Name', 'cfcreation' ),
-		'menu_name'                  => __( 'Tags', 'cfcreation' ),
-		'all_items'                  => __( 'All Items', 'cfcreation' ),
-		'parent_item'                => __( 'Parent Item', 'cfcreation' ),
-		'parent_item_colon'          => __( 'Parent Item:', 'cfcreation' ),
-		'new_item_name'              => __( 'New Item Name', 'cfcreation' ),
-		'add_new_item'               => __( 'Add New Item', 'cfcreation' ),
-		'edit_item'                  => __( 'Edit Item', 'cfcreation' ),
-		'update_item'                => __( 'Update Item', 'cfcreation' ),
-		'view_item'                  => __( 'View Item', 'cfcreation' ),
-		'separate_items_with_commas' => __( 'Separate items with commas', 'cfcreation' ),
-		'add_or_remove_items'        => __( 'Add or remove items', 'cfcreation' ),
-		'choose_from_most_used'      => __( 'Choose from the most used', 'cfcreation' ),
-		'popular_items'              => __( 'Popular Items', 'cfcreation' ),
-		'search_items'               => __( 'Search Items', 'cfcreation' ),
-		'not_found'                  => __( 'Not Found', 'cfcreation' ),
-	);
-	$rewrite = array(
-		'slug'                       => 'travaux',
-		'with_front'                 => true,
-		'hierarchical'               => false,
-	);
-	$args = array(
-		'labels'                     => $labels,
-		'hierarchical'               => false,
-		'public'                     => true,
-		'show_ui'                    => true,
-		'show_admin_column'          => true,
-		'show_in_nav_menus'          => true,
-		'show_tagcloud'              => true,
-		'rewrite'                    => $rewrite,
-		'update_count_callback'      => '_update_generic_term_count',
-	);
-	register_taxonomy( 'media_tag', array( 'attachment' ), $args );
-
+    $rewrite = array(
+        'slug' => __('travaux','tax_slug','cfcreation'),
+        'with_front' => true,
+        'hierarchical' => false,
+    );
+    $args = array(
+        'hierarchical' => false,
+        'public' => true,
+        'show_ui' => true,
+        'show_admin_column' => true,
+        'show_in_nav_menus' => true,
+        'show_tagcloud' => true,
+        'rewrite' => $rewrite,
+        'update_count_callback' => '_update_generic_term_count',
+    );
+    register_taxonomy('media_tag', array('attachment'), $args);
 }
-add_action( 'init', 'cfcreation_media_tags', 0 );
+
+add_action('init', 'cfcreation_media_tags', 0);
+
+/*******************************************************************************
+ *  ADD ADMIN SETTINGS FOR CUSTOM TAG CLOUD
+ *******************************************************************************/
+add_action('admin_menu', 'cfcreation_add_settings');
+
+function cfcreation_add_settings() {
+    add_media_page( __('Tag Cloud'), __('Tag Cloud'), 'manage_options', 'tagcloud-settings', 'cfcreation_tag_cloud_settings');
+}
+
+function cfcreation_tag_cloud_settings(){
+    ?>
+    <div class="wrap nosubsub">
+    <h1><?php echo __('Tag Cloud'); ?></h1>
+    </div>
+    <?php
+}
 
 /*******************************************************************************
  *  CUSTOM TAG CLOUD, BASED ON wp_tag_cloud()
  *******************************************************************************/
-function cfcreation_tag_cloud( $args = '' ) {
+function cfcreation_tag_cloud($args = '') {
     $defaults = array(
         'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 45,
         'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
         'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'media_tag', 'post_type' => '', 'echo' => true, 'hide_empty' => false
     );
-    $args = wp_parse_args( $args, $defaults );
- 
-    $tags = get_terms( $args['taxonomy'], array_merge( $args, array( 'orderby' => 'count', 'order' => 'DESC' ) ) ); // Always query top tags
- 
-    if ( empty( $tags ) || is_wp_error( $tags ) )
+    $args = wp_parse_args($args, $defaults);
+
+    $tags = get_terms($args['taxonomy'], array_merge($args, array('orderby' => 'count', 'order' => 'DESC'))); // Always query top tags
+
+    if (empty($tags) || is_wp_error($tags))
         return;
- 
-    foreach ( $tags as $key => $tag ) {
-        $link = get_term_link( intval($tag->term_id), $tag->taxonomy );
-        if ( is_wp_error( $link ) )
+
+    foreach ($tags as $key => $tag) {
+        $link = get_term_link(intval($tag->term_id), $tag->taxonomy);
+        if (is_wp_error($link))
             return;
- 
-        $tags[ $key ]->link = $link;
-        $tags[ $key ]->id = $tag->term_id;
+
+        $tags[$key]->link = $link;
+        $tags[$key]->id = $tag->term_id;
     }
- 
-    $return = wp_generate_tag_cloud( $tags, $args ); // Here's where those top tags get sorted according to $args
- 
+
+    $return = wp_generate_tag_cloud($tags, $args); // Here's where those top tags get sorted according to $args
+
     /**
      * Filter the tag cloud output.
      *
@@ -89,14 +91,13 @@ function cfcreation_tag_cloud( $args = '' ) {
      * @param string $return HTML output of the tag cloud.
      * @param array  $args   An array of tag cloud arguments.
      */
-    $return = apply_filters( 'wp_tag_cloud', $return, $args );
- 
-    if ( 'array' == $args['format'] || empty($args['echo']) )
+    $return = apply_filters('wp_tag_cloud', $return, $args);
+
+    if ('array' == $args['format'] || empty($args['echo']))
         return $return;
- 
+
     echo $return;
 }
-
 
 /*******************************************************************************
  *  ADD SCRIPTS AND EXTRA LIBRARIES
@@ -162,9 +163,130 @@ function cfcreation_login_logo_url_title() {
 add_filter( 'login_headertitle', 'cfcreation_login_logo_url_title' );
 
 /*******************************************************************************
- *  CUSTOM THEME ADMIN
+ *  THEME CUSTOMIZER
  *******************************************************************************/
 
+/**
+ * Add Options for the Theme Customizer.
+ */
+function cfcreation_customize_register($wp_customize) {
+
+    // remove default section
+    $wp_customize->remove_section('static_front_page');
+    $wp_customize->remove_section('nav');
+
+    /* INFOS SECTION */
+    // add section options
+    $wp_customize->add_section('cfcreation_infos_section', array(
+        'title' => 'Extra infos',
+        'priority' => 30,
+    ));
+
+    // add settings
+    $wp_customize->add_setting('cfcreation_name', array('default' => 'Christel Falconnier',));
+    $wp_customize->add_setting('cfcreation_infos1', array('default' => 'Avenue de Rumine 40',));
+    $wp_customize->add_setting('cfcreation_infos2', array('default' => 'CH-1005 Lausannne',));
+    $wp_customize->add_setting('cfcreation_tel', array('default' => '+41 21 601 41 02',));
+    $wp_customize->add_setting('cfcreation_mobile', array('default' => '+41 79 503 07 48',));
+    $wp_customize->add_setting('cfcreation_email', array('default' => 'cf-creation@bluewin.ch',));
+
+    // add text field for name
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'cfcreation_name_control', array(
+        'label' => 'Nom',
+        'section' => 'cfcreation_infos_section',
+        'settings' => 'cfcreation_name',
+        'priority' => 11,
+    )));
+
+    // add text field for info1 & info2
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'cfcreation_infos1_control', array(
+        'label' => 'Adresse 1',
+        'section' => 'cfcreation_infos_section',
+        'settings' => 'cfcreation_infos1',
+        'priority' => 12,
+    )));
+
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'cfcreation_infos2_control', array(
+        'label' => 'Adresse 2',
+        'section' => 'cfcreation_infos_section',
+        'settings' => 'cfcreation_infos2',
+        'priority' => 13,
+    )));
+
+    // add text field for tel & mobile
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'cfcreation_tel_control', array(
+        'label' => 'T&eacute;l&eacute;phone',
+        'section' => 'cfcreation_infos_section',
+        'settings' => 'cfcreation_tel',
+        'priority' => 14,
+    )));
+
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'cfcreation_mobile_control', array(
+        'label' => 'Mobile',
+        'section' => 'cfcreation_infos_section',
+        'settings' => 'cfcreation_mobile',
+        'priority' => 15,
+    )));
+
+    // add text field for email
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'cfcreation_email_control', array(
+        'label' => 'E-mail',
+        'section' => 'cfcreation_infos_section',
+        'settings' => 'cfcreation_email',
+        'priority' => 16,
+    )));
+
+    /* FACEBOOK SECTION */
+    // add section options
+    $wp_customize->add_section('cfcreation_fb_section', array(
+        'title' => 'Facebook',
+        'priority' => 30,
+    ));
+
+    // add settings
+    $wp_customize->add_setting('cfcreation_fb_settings', array('default' => '',));
+    $wp_customize->add_setting('cfcreation_fb_footer', array('default' => 0,));
+
+    // add text field for URL
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'cfcreation_fb_control', array(
+        'label' => 'URL de la page Faceboook',
+        'section' => 'cfcreation_fb_section',
+        'settings' => 'cfcreation_fb_settings',
+    )));
+
+    // add checkbox option to show fb widget
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'cfcreation_fb_hidden', array(
+        'label' => 'montrer le boutton dans le pied de page',
+        'type' => 'checkbox',
+        'section' => 'cfcreation_fb_section',
+        'settings' => 'cfcreation_fb_footer',
+    )));
+
+    /* HOME NEWS & SLIDESHOW SECTION */
+    // add section options
+    $wp_customize->add_section('cfcreation_slideshow_section', array(
+        'title' => 'Page d\'accueil',
+        'priority' => 20,
+    ));
+
+    //echo '<pre>'; print_r($wp_customize); echo '</pre>';
+}
+add_action('customize_register', 'cfcreation_customize_register');
+
+/**
+ * Add custom palette for admin theme
+ * not used for the moment, need to generate admin-style.css with scss
+ */
+function cfcreation_custom_admin_color_palette() {
+  wp_admin_css_color(
+    'cfcreation-colors',
+    __('CF-Création'),
+    get_stylesheet_directory_uri() . '/admin-style.css',
+    array('#222222', '#333333', '#feba03', '#ff5c00')
+  );
+}
+//add_action('admin_init', 'cfcreation_custom_admin_color_palette');
+ 
 /* Plugin Name: Link Manager
  * Description: Enables the Link Manager that existed in WordPress until version 3.5.
  * Author: WordPress
