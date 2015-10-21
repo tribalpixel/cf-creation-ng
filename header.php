@@ -11,3 +11,4 @@
     </head>
 	
     <body <?php body_class(); ?>>  
+	<?php if(CFCNG_DEBUG) { echo "<pre>"; print_r( debug_backtrace() ); echo "</pre>"; } ?> 
