@@ -4,9 +4,139 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.0.3
+Version: 0.0.4
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
 
-body { background-color: #333; margin:0 25%;}
+/*
+fonts reference: Josefin Slab (google fonts)
+color reference:
+	$tags_colors = array(
+            'dark grey' 	=> 	'#444444',
+            'light grey'	=> 	'#434343',
+            'yellow' 		=> 	'#feba03',
+            'green'		=> 	'#a3be0e',
+            'blue' 		=> 	'#0ea7be',
+            'purple' 		=> 	'#8f04a0',
+	);
+*/
+
+.full-width { width:100%; }
+/*.button,.alert-box, .label, .label a { font-family: Arial, sans-serif; }*/
+
+*, body, h1, h2, h3, h4, h5, h6 { font-family: 'Josefin Slab', serif; color:#444444; font-weight:400; line-height:1;}
+h2 { font-size:1.8em;  font-weight:600;  }  
+h3 { font-size:1.25em;  font-weight:600;  }  
+h4 { font-size:1em; text-transform:uppercase;  font-weight:600; }  
+h5 {  font-size:0.85em; font-weight:600;  } 
+hr { border:none; border-top: 1px solid #444444; margin: 25px 0; }
+fieldset { border: none; padding: 0em; margin:0 0.3em; }
+label{ font-weight:normal; }
+blockquote, blockquote p { color:#feba03; }
+strong{  font-weight:600; }
+
+#logo { text-align:center; padding:20px 0; } 
+#logo h1 { text-indent: -9999em; line-height:0.001em; height:0.001em; } 
+#content { margin:30px auto 0 auto; }
+#content ul, #content ol { list-style-position: inside; }
+.presse-title { font-size:1em; font-weight:600; }
+#contact-address { font-size:1em; text-align:center; padding:15px 0; margin:0; border-top:1px solid #444444; } 
+#contact-address a, #contact-address p { white-space:nowrap; } 
+
+#diamant { background: url('images/panorama_atelier.jpg') repeat-x 1200px -80px ; padding: 120px 0; margin: 10px 0; } 
+#diamant_title, #diamant_content, #diamant_bg { position: absolute; top:70px; left:20px; } 
+#diamant_title { margin:15px auto; z-index:10; color:#feba03; font-size:1.35em; text-align:center; width:300px; } 
+#diamant_content { margin:40px auto 0 auto; z-index:10; color:#feba03; font-size:1em; text-align:center; width:300px; } 
+#diamant_bg { background: url('images/overlay_map.png') no-repeat top center; width:300px; height:195px;}
+
+#footer { background-color:#eee; padding: 10px 0; text-align: center; } 
+#header_nav, #footer_nav { text-align:center;  margin:0; border-top:1px solid #444444; border-bottom:1px solid #444444; } 
+#header_nav a, #footer_nav a { font-size: 1.6em; padding: 20px 0;  }
+#footer iframe { vertical-align: middle; }
+.coypright { vertical-align: middle; height: 70px; margin: 0; padding: 17px 25px; } 
+.fancy-desc { color: #FFF; }
+
+/* TAG CLOUD */	
+#tags-cloud { margin:15px 0 0 0; padding: 0 70px; text-align: center; }
+#tags-cloud a { color:#444444; white-space:nowrap; padding:0 3px; }
+#tags-cloud a:hover { color:#feba03; }
+
+/* LIENS (page popup) */
+.linkcat { list-style-type: none; }
+.linkcat h5 { color:#444444; font-weight:normal; font-size:1em; }
+.linkcat ul, .linkcat ul li ul { margin:0; list-style-type: none; }
+.linkcat ul li { margin:0; padding:0; }
+.linkcat ul li  a { padding:2px; margin:0; color: #888; }
+.linkcat ul li  a:hover { color: #feba03; }
+
+/* WORDPRESS CORE  Images */
+.alignleft { float: left; }
+.alignright { float: right; }
+.aligncenter { display: block; margin-left: auto; margin-right: auto; } 
+img.alignleft { margin: 6px 24px 12px 0; } 
+img.alignright { margin: 6px 0 12px 24px;} 
+img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
+ 
+/* NAVIGATION */
+.tags-nav { list-style-type:none; text-align: center; margin:0; } 
+.tags-nav a { color: #444444; }
+.menu-item, .menu-item a, #footer_nav a { color:#444444; } 
+.menu-item a:hover, .menu-item a:active, #footer_nav a:hover, #footer_nav a:active, .current-menu-item, .current-menu-item a{ color:#feba03; white-space:nowrap; }
+.inline-list { margin: 0 auto; } 
+.inline-list > li { float:none; display:inline-block; margin: 0 auto; padding: 0 30px; } 
+
+/* MEDIA QUERIES*/
+@media only screen and (min-width: 1440px) {}
+
+@media only screen and (max-width: 1280px) {
+	.reveal-modal .close-reveal-modal {
+		font-size: 5.375em !important;
+		position: absolute;
+		top: -0.4em;
+		right: 0.1em;
+		margin: 10px;
+	}	
+}
+
+@media only screen and (max-width: 1024px) {
+
+#header_nav, #footer_nav {  margin:0; } 
+#header_nav a, #footer_nav a { font-size: 1.2em; padding: 10px 0;} 
+#contact-address {  max-width:99%;  margin:0px;font-size:0.55em; padding:5px 0; }	
+.inline-list > li { padding: 0 15px; } 
+
+}
+
+
+@media only screen and (max-width: 610px) {
+
+	h1,h2,h3,h4,h5,h6 { line-height: normal; }
+	h3  { font-size: 1em; }
+	h4  { font-size: 0.9em; }	
+	p { font-size:0.8em; -webkit-transition-duration: .5s; text-align:justify; } 	
+	
+	hr { margin: 10px 0; }
+
+	#header_nav, #footer_nav { margin:0; } 
+	#header_nav a, #footer_nav a {  font-size: 0.9em; padding: 5px 0; } 
+	#header_nav div, #footer_nav div, #footer div { text-align:center; } 
+	#contact-address {  max-width:99%; -webkit-transition-duration: .5s; margin:0px;font-size:0.45em; padding:5px 0; }	
+	#content { margin:10px auto 0 auto; }
+	
+	/* TAG CLOUD */	
+	#tags-cloud { margin:5px 0 0 0; padding: 0 20px; text-align: center;} 
+	#tags-cloud a { color:#444444; white-space:nowrap; padding:0 2px; } 
+
+	.inline-list > li { padding: 0 5px; } 	
+	
+
+		
+	/* FOOTER */
+	#footer { padding: 3px 0; font-size: 0.7em; }
+	#diamant { background: url('images/panorama_atelier.jpg') repeat-x -1450px -160px ; padding: 55px 0; }	 	
+	#diamant_title, #diamant_content, #diamant_bg { 	top: 25px; }
+	#diamant_title { margin:8px 0; font-size:0.7em; width:150px; } 
+	#diamant_content { margin:20px auto 0 auto; font-size:0.5em; width:150px; }
+	#diamant_bg { background: url('images/overlay_map_small.png') no-repeat top center; width:150px; height:98px;}		
+}

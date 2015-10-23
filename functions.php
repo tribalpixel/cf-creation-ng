@@ -5,7 +5,7 @@
 // ajouter col sorting par tag dans admin medias
 // http://wordpress.stackexchange.com/questions/29858/adding-category-tag-taxonomy-support-to-images-media
 // http://wordpress.stackexchange.com/questions/76720/how-to-use-taxonomies-on-attachments-with-the-new-media-library
-
+// use #qtransLangSwLM?type=AL&title=none&colon=hidden&current=hidden for custom language switcher in menu
 
 define('CFCNG_DEBUG', false);
 
@@ -141,8 +141,8 @@ function cfcreation_load_styles() {
     $my_theme = wp_get_theme();
 
     // load foundation stylesheet
-    //wp_enqueue_style('cf-creation-normalize', get_stylesheet_directory_uri() . '/css/normalize.css', false, $my_theme->Version, 'all');
-    //wp_enqueue_style('cf-creation-foundation', get_stylesheet_directory_uri() . '/css/foundation.min.css', false, $my_theme->Version, 'all');
+    wp_enqueue_style('cf-creation-normalize', get_stylesheet_directory_uri() . '/css/normalize.css', false, $my_theme->Version, 'all');
+    wp_enqueue_style('cf-creation-foundation', get_stylesheet_directory_uri() . '/css/foundation.min.css', false, $my_theme->Version, 'all');
 
     // load extras stylesheet
     wp_enqueue_style('cf-creation-font', 'http://fonts.googleapis.com/css?family=Josefin+Slab:400,600', false, $my_theme->Version, 'all');
