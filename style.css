@@ -4,7 +4,9 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.0.2
+Version: 0.0.3
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
+
+body { background-color: #333; margin:0 25%;}

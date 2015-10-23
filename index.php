@@ -9,7 +9,11 @@
 			<?php the_content(); ?>
 		<?php endwhile; ?>
 	<?php endif; ?>
+<?php 
 
+        $args = array('hide_empty' => false);
+        //print_r(get_terms('media_tag', $args));
+?>
 
     </div>
   </div>

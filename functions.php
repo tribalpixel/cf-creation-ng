@@ -9,10 +9,39 @@
 
 define('CFCNG_DEBUG', false);
 
-add_action('after_setup_theme', 'cfcreation_setup');
+//add_action('after_setup_theme', 'cfcreation_setup');
 function cfcreation_setup(){
     load_theme_textdomain('cfcreation', get_template_directory() . '/languages');
 }
+
+add_action( 'admin_footer-edit-tags.php', 'wpse_56569_remove_cat_tag_description' );
+
+function wpse_56569_remove_cat_tag_description(){
+    global $current_screen;
+    switch ( $current_screen->id ) 
+    {
+        case 'edit-category':
+            // WE ARE AT /wp-admin/edit-tags.php?taxonomy=category
+            // OR AT /wp-admin/edit-tags.php?action=edit&taxonomy=category&tag_ID=1&post_type=post
+            break;
+        case 'edit-post_tag':
+            // WE ARE AT /wp-admin/edit-tags.php?taxonomy=post_tag
+            // OR AT /wp-admin/edit-tags.php?action=edit&taxonomy=post_tag&tag_ID=3&post_type=post
+            break;
+    }
+    ?>
+    <script type="text/javascript">
+    jQuery(document).ready( function($) {
+        $('#tag-description').parent().hide();
+    });
+    </script>
+    <?php
+}
+
+
+
+
+
 
 /*******************************************************************************
  *  REGISTER CUSTOM TAXONOMY FOR MEDIAS
@@ -20,7 +49,7 @@ function cfcreation_setup(){
 function cfcreation_media_tags() {
 
     $rewrite = array(
-        'slug' => __('travaux','tax_slug','cfcreation'),
+        //'slug' => __('travaux','tax_slug','cfcreation'),
         'with_front' => true,
         'hierarchical' => false,
     );
@@ -40,21 +69,24 @@ function cfcreation_media_tags() {
 add_action('init', 'cfcreation_media_tags', 0);
 
 /*******************************************************************************
+ *  ADD SORTABLE CUSTOM TAG COLUMN TO MEDIA ADMIN PAGE
+ *******************************************************************************/
+// Register the column as sortable & sort by name
+function cfreation_media_tag_column_sortable( $cols ) {
+    $cols["taxonomy-media_tag"] = "name";
+    return $cols;
+}
+
+// Hook actions to admin_init
+function cfcreation_media_tag_columns() {
+    add_filter( 'manage_upload_sortable_columns', 'cfreation_media_tag_column_sortable' );
+}
+add_action( 'admin_init', 'cfcreation_media_tag_columns' );
+
+/*******************************************************************************
  *  ADD ADMIN SETTINGS FOR CUSTOM TAG CLOUD
  *******************************************************************************/
-add_action('admin_menu', 'cfcreation_add_settings');
-
-function cfcreation_add_settings() {
-    add_media_page( __('Tag Cloud'), __('Tag Cloud'), 'manage_options', 'tagcloud-settings', 'cfcreation_tag_cloud_settings');
-}
-
-function cfcreation_tag_cloud_settings(){
-    ?>
-    <div class="wrap nosubsub">
-    <h1><?php echo __('Tag Cloud'); ?></h1>
-    </div>
-    <?php
-}
+// in plugin will be better or not ?
 
 /*******************************************************************************
  *  CUSTOM TAG CLOUD, BASED ON wp_tag_cloud()
@@ -117,6 +149,10 @@ function cfcreation_load_styles() {
 
     // load our main stylesheet.
     wp_enqueue_style('cf-creation-styles', get_stylesheet_uri(), false, $my_theme->Version, 'all');
+    
+    // load jQuery
+    wp_enqueue_script('jquery'); 
+
 }
 add_action('wp_enqueue_scripts', 'cfcreation_load_styles');
 
@@ -158,7 +194,7 @@ add_filter( 'login_headerurl', 'cfcreation_login_logo_url' );
 
 /** change title on logo link */
 function cfcreation_login_logo_url_title() {
-    return "CF-Création";
+    return get_bloginfo('name');;
 }
 add_filter( 'login_headertitle', 'cfcreation_login_logo_url_title' );
 
