@@ -16,10 +16,12 @@
 <div class="row" id="content">
 
     <div class="small-12 columns">
+        <div id='tags-cloud'>
         <?php
         // show tag cloud
         cfcreation_tag_cloud();
         ?>		
+            </div>
     </div>
 
     <div class="small-12 columns slideshow">

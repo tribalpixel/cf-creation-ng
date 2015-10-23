@@ -9,40 +9,6 @@
 
 define('CFCNG_DEBUG', false);
 
-//add_action('after_setup_theme', 'cfcreation_setup');
-function cfcreation_setup(){
-    load_theme_textdomain('cfcreation', get_template_directory() . '/languages');
-}
-
-add_action( 'admin_footer-edit-tags.php', 'wpse_56569_remove_cat_tag_description' );
-
-function wpse_56569_remove_cat_tag_description(){
-    global $current_screen;
-    switch ( $current_screen->id ) 
-    {
-        case 'edit-category':
-            // WE ARE AT /wp-admin/edit-tags.php?taxonomy=category
-            // OR AT /wp-admin/edit-tags.php?action=edit&taxonomy=category&tag_ID=1&post_type=post
-            break;
-        case 'edit-post_tag':
-            // WE ARE AT /wp-admin/edit-tags.php?taxonomy=post_tag
-            // OR AT /wp-admin/edit-tags.php?action=edit&taxonomy=post_tag&tag_ID=3&post_type=post
-            break;
-    }
-    ?>
-    <script type="text/javascript">
-    jQuery(document).ready( function($) {
-        $('#tag-description').parent().hide();
-    });
-    </script>
-    <?php
-}
-
-
-
-
-
-
 /*******************************************************************************
  *  REGISTER CUSTOM TAXONOMY FOR MEDIAS
  *******************************************************************************/
@@ -92,43 +58,23 @@ add_action( 'admin_init', 'cfcreation_media_tag_columns' );
  *  CUSTOM TAG CLOUD, BASED ON wp_tag_cloud()
  *******************************************************************************/
 function cfcreation_tag_cloud($args = '') {
-    $defaults = array(
+    
+    $tax = get_terms('media_tag');
+    $inactif = array();
+    foreach ($tax as $tag) {
+        $tag_options = maybe_unserialize($tag->description);
+        if( $tag_options['group'] === 'inactif' ) {
+           $inactif[] = $tag->term_id; 
+        }
+    }
+    $exclude = implode($inactif);
+    $args = array(
         'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 45,
         'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
-        'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'media_tag', 'post_type' => '', 'echo' => true, 'hide_empty' => false
+        'exclude' => $exclude, 'include' => '', 'link' => 'view', 'taxonomy' => 'media_tag', 'post_type' => '', 'echo' => true, 'hide_empty' => false
     );
-    $args = wp_parse_args($args, $defaults);
 
-    $tags = get_terms($args['taxonomy'], array_merge($args, array('orderby' => 'count', 'order' => 'DESC'))); // Always query top tags
-
-    if (empty($tags) || is_wp_error($tags))
-        return;
-
-    foreach ($tags as $key => $tag) {
-        $link = get_term_link(intval($tag->term_id), $tag->taxonomy);
-        if (is_wp_error($link))
-            return;
-
-        $tags[$key]->link = $link;
-        $tags[$key]->id = $tag->term_id;
-    }
-
-    $return = wp_generate_tag_cloud($tags, $args); // Here's where those top tags get sorted according to $args
-
-    /**
-     * Filter the tag cloud output.
-     *
-     * @since 2.3.0
-     *
-     * @param string $return HTML output of the tag cloud.
-     * @param array  $args   An array of tag cloud arguments.
-     */
-    $return = apply_filters('wp_tag_cloud', $return, $args);
-
-    if ('array' == $args['format'] || empty($args['echo']))
-        return $return;
-
-    echo $return;
+    return wp_tag_cloud($args);
 }
 
 /*******************************************************************************
