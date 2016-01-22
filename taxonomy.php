@@ -17,25 +17,27 @@
 
     <div class="small-12 columns">
         <div id='tags-cloud'>
-        <?php
-        // show tag cloud
-        cfcreation_tag_cloud();
-        ?>		
-            </div>
+            <?php
+            // show tag cloud
+            cfcreation_tag_cloud();
+            ?>		
+        </div>
     </div>
 
     <div class="small-12 columns slideshow">
         <?php
         //echo "<pre>"; print_r( $wp_query->query_vars['term'] ); echo "</pre>";
         $tag_query = array();
-        if( isset($wp_query->query_vars['term']) ) {
-            $tag_query = array('media_tag'=>$wp_query->query_vars['term']);
-        } 
-        $args = array_merge( array('post_type' => 'attachment', 'posts_per_page' => -1, 'post_status' => 'any'), $tag_query);
+        if (isset($wp_query->query_vars['term'])) {
+            $tag_query = array('media_tag' => $wp_query->query_vars['term']);
+        }
+        $args = array_merge(array('post_type' => 'attachment', 'posts_per_page' => -1, 'post_status' => 'any'), $tag_query);
         $attachments = get_posts($args);
         if ($attachments) {
             foreach ($attachments as $attachment) {
-                echo "<div>"; the_attachment_link( $attachment->ID , false ); echo "</div>";
+                echo "<div>";
+                the_attachment_link($attachment->ID, false);
+                echo "</div>";
                 //echo "<pre>"; print_r($attachment); echo "</pre>";
             }
         }
@@ -46,16 +48,16 @@
 </div>
 
 <script>
-jQuery(document).ready(function($){
-    $('.slideshow').slick({
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        adaptiveHeight: true,
-        dots: true
-    });  
-});
+    jQuery(document).ready(function ($) {
+        $('.slideshow').slick({
+            slidesToShow: 5,
+            slidesToScroll: 3,
+            autoplay: true,
+            autoplaySpeed: 10000,
+            adaptiveHeight: true,
+            dots: true
+        });
+    });
 </script>
 
 <?php get_footer(); ?>

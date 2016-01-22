@@ -1,3 +1,12 @@
+<?php /* NAV */ ?>	
+<div class="row">
+    <div class="small-12 centered columns">
+        <div id="footer_nav">
+            <?php wp_nav_menu(array('theme_location' => 'footer_menu', 'items_wrap' => '<ul id="%1$s" class="%2$s inline-list">%3$s</ul>',)); ?>
+        </div>
+    </div>
+</div>  
+
 <?php /* COPYRIGHT */ ?>
 <div class="row">
     <div class="small-12 centered columns">
