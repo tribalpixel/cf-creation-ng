@@ -1,8 +1,5 @@
 <?php
-// cfcng = Christel Falconnier Creation New Generation
 // http://code.tutsplus.com/articles/applying-categories-tags-and-custom-taxonomies-to-media-attachments--wp-32319
-// ajouter recherche par tag dans admin medias
-// ajouter col sorting par tag dans admin medias
 // http://wordpress.stackexchange.com/questions/29858/adding-category-tag-taxonomy-support-to-images-media
 // http://wordpress.stackexchange.com/questions/76720/how-to-use-taxonomies-on-attachments-with-the-new-media-library
 // use #qtransLangSwLM?type=AL&title=none&colon=hidden&current=hidden for custom language switcher in menu
@@ -26,11 +23,29 @@ define("CUSTOM_COLOR_13", "#ff5781");  // rose
 
 $color_array_options = array('-', CUSTOM_COLOR_4, CUSTOM_COLOR_5, CUSTOM_COLOR_6, CUSTOM_COLOR_7, CUSTOM_COLOR_8, CUSTOM_COLOR_9, CUSTOM_COLOR_10, CUSTOM_COLOR_11, CUSTOM_COLOR_12, CUSTOM_COLOR_13);
 
+/*******************************************************************************
+* THEME FEATURES
+*******************************************************************************/
+if ( ! function_exists('cfcreation_theme_features') ) {
 
-/* * *****************************************************************************
+    // Register Theme Features
+    function cfcreation_theme_features()  {
+
+            // Add theme support for Post Formats
+            add_theme_support( 'post-formats', array( 'quote', 'gallery', 'video' ) );
+            
+            // add post-formats to post_type 'page'
+            add_post_type_support( 'page', 'post-formats' );
+    }
+    add_action( 'after_setup_theme', 'cfcreation_theme_features' );
+
+}
+
+
+/*******************************************************************************
  *  REGISTER CUSTOM TAXONOMY FOR MEDIAS
- * ***************************************************************************** */
-
+ *******************************************************************************/
+/* slug is made by qTranslate slug plugin */
 function cfcreation_media_tags() {
 
     $rewrite = array(
@@ -53,9 +68,9 @@ function cfcreation_media_tags() {
 
 add_action('init', 'cfcreation_media_tags', 0);
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  REGISTER CATEGORIES FOR MEDIAS
- * ***************************************************************************** */
+ *******************************************************************************/
 
 function cfcreation_register_taxonomy_for_images() {
     register_taxonomy_for_object_type('category', 'attachment');
@@ -63,9 +78,9 @@ function cfcreation_register_taxonomy_for_images() {
 
 add_action('init', 'cfcreation_register_taxonomy_for_images');
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  ADD CATEGORIES FILTER FOR MEDIAS
- * ***************************************************************************** */
+ *******************************************************************************/
 
 function cfcreation_add_image_category_filter() {
     $screen = get_current_screen();
@@ -77,9 +92,9 @@ function cfcreation_add_image_category_filter() {
 
 add_action('restrict_manage_posts', 'cfcreation_add_image_category_filter');
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  ADD SORTABLE CUSTOM TAG COLUMN TO MEDIA ADMIN PAGE
- * ***************************************************************************** */
+ *******************************************************************************/
 
 // Register the column as sortable & sort by name
 function cfcreation_media_tag_column_sortable($cols) {
@@ -94,9 +109,9 @@ function cfcreation_media_tag_columns() {
 
 add_action('admin_init', 'cfcreation_media_tag_columns');
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  ADD ADMIN SETTINGS FOR CUSTOM TAG CLOUD
- * ***************************************************************************** */
+ *******************************************************************************/
 
 class cfcreation_admin_tag_cloud {
 
@@ -253,9 +268,9 @@ class cfcreation_admin_tag_cloud {
 
 new cfcreation_admin_tag_cloud();
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  CUSTOM TAG CLOUD, BASED ON wp_tag_cloud()
- * ***************************************************************************** */
+ *******************************************************************************/
 
 function cfcreation_tag_cloud($args = '') {
 
@@ -309,10 +324,10 @@ function cfcreation_add_custom_color_styles() {
 }
 add_action('wp_head', 'cfcreation_add_custom_color_styles');
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  ADD SCRIPTS AND EXTRA LIBRARIES
  *  http://codex.wordpress.org/Function_Reference/wp_enqueue_script  
- * ***************************************************************************** */
+ *******************************************************************************/
 
 function cfcreation_load_styles() {
 
@@ -328,6 +343,7 @@ function cfcreation_load_styles() {
 
     // load our main stylesheet.
     wp_enqueue_style('cf-creation-styles', get_stylesheet_uri(), false, $my_theme->Version, 'all');
+    //wp_enqueue_style('cf-creation-fancybox', get_stylesheet_directory_uri() . '/css/fancybox.css', array('fancybox'), $my_theme->Version, 'all');
 
     // load jQuery
     wp_enqueue_script('jquery');
@@ -335,10 +351,10 @@ function cfcreation_load_styles() {
 
 add_action('wp_enqueue_scripts', 'cfcreation_load_styles');
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  REGISTER MENUS
  *  http://generatewp.com/nav-menus/  
- * ***************************************************************************** */
+ *******************************************************************************/
 if (!function_exists('cfcreation_navigation_menus')) {
 
     // Register Navigation Menus
@@ -355,9 +371,9 @@ if (!function_exists('cfcreation_navigation_menus')) {
     add_action('init', 'cfcreation_navigation_menus');
 }
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  CUSTOM LOGIN PAGE
- * ***************************************************************************** */
+ *******************************************************************************/
 
 /** Enqueues scripts and styles to change default login page */
 function cfcreation_login_stylesheet() {
@@ -380,9 +396,9 @@ function cfcreation_login_logo_url_title() {
 
 add_filter('login_headertitle', 'cfcreation_login_logo_url_title');
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  THEME CUSTOMIZER
- * ***************************************************************************** */
+ *******************************************************************************/
 
 /**
  * Add Options for the Theme Customizer.
@@ -498,23 +514,35 @@ add_action('customize_register', 'cfcreation_customize_register');
  */
 function cfcreation_custom_admin_color_palette() {
     wp_admin_css_color(
-            'cfcreation-colors', __('CF-Création'), get_stylesheet_directory_uri() . '/admin-style.css', array('#222222', '#333333', '#feba03', '#ff5c00')
+        'cfcreation-colors', __('CF-Création'), get_stylesheet_directory_uri() . '/admin-style.css', array('#222222', '#333333', '#feba03', '#ff5c00')
     );
 }
 
 //add_action('admin_init', 'cfcreation_custom_admin_color_palette');
 
-/* Plugin Name: Link Manager
- * Description: Enables the Link Manager that existed in WordPress until version 3.5.
- * Author: WordPress
- * Version: 0.1-beta
- * See http://core.trac.wordpress.org/ticket/21307
- */
+/*************************************************************************
+ * ADMIN UI TWEAKS
+ ************************************************************************/
+// show link manager to WP
 add_filter('pre_option_link_manager_enabled', '__return_true');
 
-/* * ***********************************************************************
+// Remove unwanted menu
+// !!! only remove menu from admin UI, but page is still reachable by url
+function cfcreation_remove_menus() {
+    remove_menu_page( 'edit-comments.php' );    // Comments
+}
+add_action( 'admin_menu', 'cfcreation_remove_menus' );
+
+// Modifying TinyMCE editor to remove unused items.
+function cfcreation_custom_tiny_mce($init){
+    $init['block_formats'] = 'Paragraph=p;Header 3=h3;Header 4=h4;Header 5=h5;Header 6=h6';
+    return $init;
+  }
+add_filter('tiny_mce_before_init', 'cfcreation_custom_tiny_mce');
+
+/*************************************************************************
  * ADD EDITOR CAPABILITY -> MANAGE THEME
- * *********************************************************************** */
+ *************************************************************************/
 add_action('admin_init', 'cfcreation_allow_editor');
 
 function cfcreation_allow_editor() {
@@ -522,9 +550,9 @@ function cfcreation_allow_editor() {
     $role->add_cap('edit_theme_options'); // Let them manage our theme
 }
 
-/* * ***********************************************************************
+/*************************************************************************
  * SECURITY & ANTI-HACK & CLEANING WP TRICKS 
- * *********************************************************************** */
+ *************************************************************************/
 
 // Remove fucking emoji nobody use
 remove_action('wp_head', 'print_emoji_detection_script', 7);

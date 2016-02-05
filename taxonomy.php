@@ -18,6 +18,7 @@
     <div class="small-12 columns">
         <div id='tags-cloud'>
             <?php
+            echo "<pre>"; print_r( $wp_query->query_vars['term'] ); echo "</pre>";
             // show tag cloud
             cfcreation_tag_cloud();
             ?>		
@@ -26,7 +27,7 @@
 
     <div class="small-12 columns slideshow">
         <?php
-        //echo "<pre>"; print_r( $wp_query->query_vars['term'] ); echo "</pre>";
+        
         $tag_query = array();
         if (isset($wp_query->query_vars['term'])) {
             $tag_query = array('media_tag' => $wp_query->query_vars['term']);
@@ -35,9 +36,21 @@
         $attachments = get_posts($args);
         if ($attachments) {
             foreach ($attachments as $attachment) {
-                echo "<div>";
-                the_attachment_link($attachment->ID, false);
-                echo "</div>";
+                $attachment_tags = get_the_terms($attachment->ID, 'media_tag');
+                $show_tags_array = array();
+                foreach ($attachment_tags as $tag) {
+                   $show_tags_array[] = '<span class="label">' . $tag->name . '</span>'; 
+                }
+                //var_dump($show_tags_array);
+                $show_tags = implode(', ', $show_tags_array);
+                echo '<div>';
+                echo '<a href="'.  wp_get_attachment_url($attachment->ID) .'" rel="gallery">';
+                echo wp_get_attachment_image($attachment->ID, 'thumbnail', false, array(
+                    'alt'   => '<div class="fancy-desc">'.$show_tags.'<div class="fancy-desc-right">  <span class="success label">Nouveauté</span></div></div>',
+                    'title' => strip_tags($show_tags)
+                ));
+                echo '</a>';
+                echo '</div>';
                 //echo "<pre>"; print_r($attachment); echo "</pre>";
             }
         }

@@ -18,7 +18,7 @@
             <div class="small-12 columns">
                 <div id="logo">
                     <h1><?php bloginfo('name'); ?>, <?php bloginfo('description'); ?>, <?php echo get_theme_mod('cfcreation_name'); ?></h1>
-                    <img src="<?php echo get_template_directory_uri(); ?>/img/logo_cfcreation.png" alt="CF-Creation logo" width="321" height="135" />
+                    <a href="<?php echo home_url(); ?>"><img src="<?php echo get_template_directory_uri(); ?>/img/logo_cfcreation.png" alt="CF-Creation logo" width="321" height="135" /></a>
                 </div>
             </div>
         </div>		

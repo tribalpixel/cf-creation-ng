@@ -1,3 +1,20 @@
+<?php /* FOOTER SLIDE */ ?>
+<div class="row">
+    <div class="small-12 centered columns">
+        <hr />
+        <div id="diamant">
+            <div id="diamant_title">Atelier sur rendez-vous</div>
+            <div id="diamant_content">				
+                <?php echo get_theme_mod('cfcreation_tel'); ?><br />
+                <?php echo get_theme_mod('cfcreation_mobile'); ?><br /><br />
+                <a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a><br /><br />
+                <a href="javascript:void(0);" id="open_gmap"> >> google map</a>
+            </div>
+            <div id="diamant_bg"></div> 	
+        </div>
+    </div>
+</div>
+
 <?php /* NAV */ ?>	
 <div class="row">
     <div class="small-12 centered columns">

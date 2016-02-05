@@ -1,0 +1,35 @@
+/* FACYBOX Overrides */
+#fancybox-left-ico {
+    background: url('../img/back.png') no-repeat 0 0;
+    width: 52px;
+    height: 80px;
+    margin-top: -40px;
+}
+
+#fancybox-right-ico {
+    background: url('../img/next.png') no-repeat 0 0;
+    width: 52px;
+    height: 80px;
+    margin-top: -40px;
+}
+
+#fancybox-title-over{
+    padding:6px;
+}
+
+.fancy-desc-right {
+    float:right;
+    font-size: 1em;
+    font-family: 'Josefin Slab', serif;
+    color: #FFF;
+}
+
+/* FANCYBOX FIXES (box-sizing of inherited from fountation.css) */
+#fancybox, #fancybox-left, #fancybox-right, #fancybox-title, 
+#fancybox-tmp, #fancybox-loading, #fancybox-overlay, #fancybox-wrap, 
+#fancybox-outer, #fancybox-content, 
+#fancybox-bg-n, #fancybox-bg-ne, #fancybox-bg-e, #fancybox-bg-se , #fancybox-bg-s, #fancybox-bg-sw, #fancybox-bg-w, #fancybox-bg-nw   {
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+}
