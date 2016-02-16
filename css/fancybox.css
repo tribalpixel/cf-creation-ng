@@ -1,13 +1,13 @@
 /* FACYBOX Overrides */
-#fancybox-left-ico {
-    background: url('../img/back.png') no-repeat 0 0;
+.fancybox-left-ico {
+    background: url('img/back.png') no-repeat 0 0;
     width: 52px;
     height: 80px;
     margin-top: -40px;
 }
 
 #fancybox-right-ico {
-    background: url('../img/next.png') no-repeat 0 0;
+    background: url('img/next.png') no-repeat 0 0;
     width: 52px;
     height: 80px;
     margin-top: -40px;

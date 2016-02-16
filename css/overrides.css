@@ -1,0 +1,50 @@
+/* SLICK OVERRIDES */
+
+.slideshow {
+    opacity: 0;
+    -webkit-transition: opacity 0.3s ease-in;
+    -moz-transition: opacity 0.3s ease-in;
+    -ms-transition: opacity 0.3s ease-in;
+    -o-transition: opacity 0.3s ease-in;
+    transition: opacity 0.3s ease-in;
+    margin-top:15px;
+}
+
+.slick-prev,
+.slick-next {
+    width:39px;
+    height: 60px;
+}
+
+.slick-prev {
+    left: 0px;
+}
+
+.slick-next {
+    right: 0px;
+}
+
+.slick-list {
+    width:90%;
+    margin: 0 auto;
+}
+
+
+/* FANCYBOX OVERRIDES */
+#fancybox-right-ico {
+    background-image: url('../img/next.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#fancybox-left-ico {
+    background-image: url('../img/back.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#fancybox-left-ico, #fancybox-right-ico {
+    width: 52px;
+    height: 80px;
+    margin-top:-40px;
+}

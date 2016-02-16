@@ -58,9 +58,9 @@ strong{  font-weight:600; }
 .fancy-desc { color: #FFF; }
 
 /* TAG CLOUD */	
-#tags-cloud { margin:15px 0 0 0; padding: 0 70px; text-align: center; }
-//#tags-cloud a { color:#444444; white-space:nowrap; padding:0 3px; }
-//#tags-cloud a:hover { color:#feba03; }
+#tags-cloud { margin:15px 0; padding: 0 70px; text-align: center; }
+#tags-cloud a { color: #444444; }
+#tags-cloud a.active-tag { color: #feba03; font-weight: 600; }
 
 /* LIENS (page popup) */
 .linkcat { list-style-type: none; }
@@ -68,7 +68,7 @@ strong{  font-weight:600; }
 .linkcat ul, .linkcat ul li ul { margin:0; list-style-type: none; }
 .linkcat ul li { margin:0; padding:0; }
 .linkcat ul li  a { padding:2px; margin:0; color: #888; }
-.linkcat ul li  a:hover { color: #feba03; }
+.linkcat ul li  a:hover { color: #feba03;  }
 
 /* WORDPRESS CORE  Images */
 .alignleft { float: left; }
@@ -132,9 +132,9 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
 
     /* FOOTER */
     #footer { padding: 3px 0; font-size: 0.7em; }
-    #diamant { background: url('images/panorama_atelier.jpg') repeat-x -1450px -160px ; padding: 55px 0; }	 	
+    #diamant { background: url('img/panorama_atelier.jpg') repeat-x -1450px -160px ; padding: 55px 0; }	 	
     #diamant_title, #diamant_content, #diamant_bg { 	top: 25px; }
     #diamant_title { margin:8px 0; font-size:0.7em; width:150px; } 
     #diamant_content { margin:20px auto 0 auto; font-size:0.5em; width:150px; }
-    #diamant_bg { background: url('images/overlay_map_small.png') no-repeat top center; width:150px; height:98px;}		
+    #diamant_bg { background: url('img/overlay_map_small.png') no-repeat top center; width:150px; height:98px;}		
 }

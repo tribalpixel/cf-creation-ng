@@ -229,7 +229,8 @@ class cfcreation_admin_tag_cloud {
                     $active_cloud_param = implode(',', $active_cloud);
                     echo '<input type="hidden" value="' . $active_cloud_param . '" name="option_media_tags_cloud">';
                     echo '<hr />';
-
+                    
+                    /* // 2016 removed this option, not realy used
                     $default_option_tag = get_option('option_media_tags_group');
                     echo '<h4>Tag actif par defaut</h4>';
                     echo '<select name="option_media_tags_group">';
@@ -243,7 +244,8 @@ class cfcreation_admin_tag_cloud {
                         //echo '<pre>'; print_r($tag_object); echo '</pre>';	
                     }
                     echo '</select><br style="clear:both;" />';
-
+                    */
+                    
                     submit_button();
 
                     echo '<h4>Tag(s) non-utilis&eacute;(s)</h4>';
@@ -282,9 +284,10 @@ function cfcreation_tag_cloud($args = '') {
             $inactif[] = $tag->term_id;
         }
     }
-    $exclude = implode($inactif);
+    
+    $exclude = implode(',',$inactif);
     $args = array(
-        'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 45,
+        'smallest' => 10, 'largest' => 26, 'unit' => 'pt', 'number' => 45,
         'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
         'exclude' => $exclude, 'include' => '', 'link' => 'view', 'taxonomy' => 'media_tag', 'echo' => 1, 'hide_empty' => 0
     );
@@ -297,15 +300,16 @@ function cfcreation_tag_cloud($args = '') {
 function cfcreation_tag_cloud_colors($tags_data) {
     
     global $color_array_options;
-
+    $body_class = get_body_class();
     foreach ($tags_data as $key => $tag) {
         $tag_option = get_option('cfcreation_media_tag_' . $tag['id']);
-        $color_name = array_search($tag_option['color'], $color_array_options);
-        $tags_data[$key]['class'] =  $tags_data[$key]['class'] ." tag-color-".$color_name;
+        $color = array_search($tag_option['color'], $color_array_options);
+        if(in_array('term-'.$tag['id'], $body_class)) {
+            $tags_data[$key]['class'] =  $tags_data[$key]['class'] ." tag-color-".$color ." active-tag";
+        } 
     }
     return $tags_data;
 }
-
 add_filter('wp_generate_tag_cloud_data', 'cfcreation_tag_cloud_colors');
 
 /*******************************************************************************
@@ -317,7 +321,7 @@ function cfcreation_add_custom_color_styles() {
     
     echo '<style type="text/css" media="screen">'."\n";
     foreach ($color_array_options as $k=>$v) {
-        if($k !== 0) { echo ".tag-color-{$k} { color:{$v}; }\n"; }
+        if($k !== 0) { echo "#tags-cloud a.tag-color-{$k} { color:{$v}; }\n"; }
     }
     echo '</style>'."\n";
     
@@ -333,19 +337,18 @@ function cfcreation_load_styles() {
 
     // get theme infos
     $my_theme = wp_get_theme();
-
+    
     // load foundation stylesheet
-    wp_enqueue_style('cf-creation-normalize', get_stylesheet_directory_uri() . '/css/normalize.css', false, $my_theme->Version, 'all');
-    wp_enqueue_style('cf-creation-foundation', get_stylesheet_directory_uri() . '/css/foundation.min.css', false, $my_theme->Version, 'all');
+    wp_enqueue_style('cf-creation-normalize', get_stylesheet_directory_uri() . '/css/normalize.css', array(), $my_theme->Version, 'all');
+    wp_enqueue_style('cf-creation-foundation', get_stylesheet_directory_uri() . '/css/foundation.min.css', array(), $my_theme->Version, 'all');
 
     // load extras stylesheet
-    wp_enqueue_style('cf-creation-font', 'http://fonts.googleapis.com/css?family=Josefin+Slab:400,600', false, $my_theme->Version, 'all');
+    wp_enqueue_style('cf-creation-font', 'http://fonts.googleapis.com/css?family=Josefin+Slab:400,600', array(), $my_theme->Version, 'all');
 
     // load our main stylesheet.
-    wp_enqueue_style('cf-creation-styles', get_stylesheet_uri(), false, $my_theme->Version, 'all');
-    //wp_enqueue_style('cf-creation-fancybox', get_stylesheet_directory_uri() . '/css/fancybox.css', array('fancybox'), $my_theme->Version, 'all');
-
-    // load jQuery
+    wp_enqueue_style('cf-creation-styles', get_stylesheet_uri(), array(), $my_theme->Version, 'all');
+    
+    // load JS
     wp_enqueue_script('jquery');
 }
 
@@ -370,6 +373,21 @@ if (!function_exists('cfcreation_navigation_menus')) {
     // Hook into the 'init' action
     add_action('init', 'cfcreation_navigation_menus');
 }
+
+/*******************************************************************************
+ *  ADD CLASS TO SPEECIFIC MENU
+ *******************************************************************************/
+function cfcreation_nav_class($classes, $item) {
+    // use id of menu
+    if (in_array('menu-item-52', $classes)) {
+        if (is_tag() || is_archive()) {
+            $classes[] = 'current-menu-item ';
+        }
+    }
+    return $classes;
+}
+
+add_filter('nav_menu_css_class', 'cfcreation_nav_class', 10, 2);
 
 /*******************************************************************************
  *  CUSTOM LOGIN PAGE
