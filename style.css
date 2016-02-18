@@ -4,7 +4,7 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.0.9
+Version: 0.1.0
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -44,11 +44,13 @@ strong{  font-weight:600; }
 #contact-address { font-size:1em; text-align:center; padding:15px 0; margin:0; border-top:1px solid #444444; } 
 #contact-address a, #contact-address p { white-space:nowrap; } 
 
-#diamant { background: url('img/panorama_atelier.jpg') repeat-x 1200px -80px ; padding: 120px 0; margin: 10px 0; } 
-#diamant_title, #diamant_content, #diamant_bg { position: absolute; top:70px; left:20px; } 
+
+#diamant { background: url('img/panorama_atelier.jpg') repeat-x 1200px center ; padding: 120px 0; margin: 10px 0; }
+#diamant_wrapper { position: relative; top:-95px; left:20px; }
+#diamant_title, #diamant_content, #diamant_bg { position: absolute; } 
 #diamant_title { margin:15px auto; z-index:10; color:#feba03; font-size:1.35em; text-align:center; width:300px; } 
 #diamant_content { margin:40px auto 0 auto; z-index:10; color:#feba03; font-size:1em; text-align:center; width:300px; } 
-#diamant_bg { background: url('img/overlay_map.png') no-repeat top center; width:300px; height:195px;}
+#diamant_bg { background: url('img/overlay_map.png') no-repeat top center; width:300px; height:195px; }
 
 #footer { background-color:#eee; padding: 10px 0; text-align: center; } 
 #header_nav, #footer_nav { text-align:center;  margin:0; border-top:1px solid #444444; border-bottom:1px solid #444444; } 
@@ -85,6 +87,8 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
 .menu-item a:hover, .menu-item a:active, #footer_nav a:hover, #footer_nav a:active, .current-menu-item, .current-menu-item a{ color:#feba03; white-space:nowrap; }
 .inline-list { margin: 0 auto; } 
 .inline-list > li { float:none; display:inline-block; margin: 0 auto; padding: 0 30px; } 
+
+.label { color:#000; font-weight: 600; }
 
 /* MEDIA QUERIES*/
 @media only screen and (min-width: 1440px) {}
@@ -133,7 +137,8 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
     /* FOOTER */
     #footer { padding: 3px 0; font-size: 0.7em; }
     #diamant { background: url('img/panorama_atelier.jpg') repeat-x -1450px -160px ; padding: 55px 0; }	 	
-    #diamant_title, #diamant_content, #diamant_bg { 	top: 25px; }
+    #diamant_wrapper { position: relative; top:-75px; left:20px; }
+    #diamant_title, #diamant_content, #diamant_bg { top: 25px; }
     #diamant_title { margin:8px 0; font-size:0.7em; width:150px; } 
     #diamant_content { margin:20px auto 0 auto; font-size:0.5em; width:150px; }
     #diamant_bg { background: url('img/overlay_map_small.png') no-repeat top center; width:150px; height:98px;}		

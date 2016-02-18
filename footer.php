@@ -3,14 +3,16 @@
     <div class="small-12 centered columns">
         <hr />
         <div id="diamant">
-            <div id="diamant_title">Atelier sur rendez-vous</div>
-            <div id="diamant_content">				
-                <?php echo get_theme_mod('cfcreation_tel'); ?><br />
-                <?php echo get_theme_mod('cfcreation_mobile'); ?><br /><br />
-                <a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a><br /><br />
-                <a href="javascript:void(0);" id="open_gmap"> >> google map</a>
-            </div>
-            <div id="diamant_bg"></div> 	
+            <div id="diamant_wrapper">
+                <div id="diamant_title">Atelier sur rendez-vous</div>
+                <div id="diamant_content">				
+                    <?php echo get_theme_mod('cfcreation_tel'); ?><br />
+                    <?php echo get_theme_mod('cfcreation_mobile'); ?><br /><br />
+                    <a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a><br /><br />
+                    <a href="javascript:void(0);" id="open_gmap"> >> google map</a>
+                </div>
+                <div id="diamant_bg"></div>
+            </div>            
         </div>
     </div>
 </div>
@@ -57,14 +59,14 @@
     <div class="row">
         <h2>Liens</h2>
         <ul class="small-block-grid-1 large-block-grid-4">
-            <?php
-            wp_list_bookmarks(array(
-                'category_order' => 'DESC',
-                'title_li' => '',
-                'title_before' => '<h3>',
-                'title_after' => '</h3>',
-            ));
-            ?>
+<?php
+wp_list_bookmarks(array(
+    'category_order' => 'DESC',
+    'title_li' => '',
+    'title_before' => '<h3>',
+    'title_after' => '</h3>',
+));
+?>
         </ul> 		
     </div>
 
@@ -76,8 +78,7 @@
 
 <?php /* END MODAL BOXES */ ?>
 <link rel='stylesheet' id='cf-creation-styles-overrides'  href='<?php echo get_stylesheet_directory_uri(); ?>/css/overrides.css' type='text/css' media='all' />
-<script src="<?php echo get_template_directory_uri(); ?>/js/foundation/foundation.js"></script>
-<script src="<?php echo get_template_directory_uri(); ?>/js/foundation/foundation.reveal.js"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/js/foundation.js"></script>
 <script>
     jQuery(document).foundation();
 </script>

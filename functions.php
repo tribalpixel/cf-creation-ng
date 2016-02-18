@@ -344,7 +344,10 @@ function cfcreation_load_styles() {
     wp_enqueue_style('cf-creation-normalize', get_stylesheet_directory_uri() . '/css/normalize.css', array(), $my_theme->Version, 'all');
     wp_enqueue_style('cf-creation-foundation', get_stylesheet_directory_uri() . '/css/foundation.min.css', array(), $my_theme->Version, 'all');
 
-    // load extras stylesheet
+    // load fancybox css
+    //wp_enqueue_style('cf-creation-fancybox', get_stylesheet_directory_uri() . '/fancybox/fancybox-1.3.7.min.css', array(), $my_theme->Version, 'all');
+    
+    // load fonts
     wp_enqueue_style('cf-creation-font', 'http://fonts.googleapis.com/css?family=Josefin+Slab:400,600', array(), $my_theme->Version, 'all');
 
     // load our main stylesheet.

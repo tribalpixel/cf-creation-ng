@@ -3,17 +3,32 @@
  * Template Name: Travaux
  *
  * @package WordPress
- * @subpackage cf-creation-ng
+ * @subpackage cf-creation2016
  * @since 0.0.1
  */
 ?>
 
 <?php get_header(); ?>
 
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id))
+            return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
 <link rel='stylesheet' id='cf-creation-slick-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/slick/slick.css' type='text/css' media='all' />
 <link rel='stylesheet' id='cf-creation-slick-theme-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/slick/slick-theme.css' type='text/css' media='all' />
+<link rel='stylesheet' id='cf-creation-fancybox-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/fancybox/jquery.fancybox-1.3.7.min.css' type='text/css' media='all' />
 <script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/slick/slick.js'></script>
+<script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/fancybox/jquery.fancybox-1.3.7.min.js'></script>
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/fancybox/jquery.easing.pack.js"></script>
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/fancybox/jquery.mousewheel.pack.js"></script>
+
 <style>
     .slideshow { 
         height:140px; 
@@ -34,10 +49,7 @@
 
     <div class="small-10 small-centered columns">
         <div id="tags-cloud">
-            <?php
-            // show tag cloud
-            cfcreation_tag_cloud();
-            ?>		
+            <?php cfcreation_tag_cloud(); ?>		
         </div>
     </div>
 
@@ -49,7 +61,11 @@
             if (isset($wp_query->query_vars['term'])) {
                 $tag_query = array('media_tag' => $wp_query->query_vars['term']);
             }
-            if( is_page() ) { $limit = 18; } else { $limit = -1; }
+            if (is_page()) {
+                $limit = 18;
+            } else {
+                $limit = -1;
+            }
             $args = array_merge(array('post_type' => 'attachment', 'posts_per_page' => $limit, 'tag_ID' => '11'), $tag_query);
             $attachments = get_posts($args);
             if ($attachments) {
@@ -60,7 +76,7 @@
                     $show_special_tags_array = array();
                     if ($attachment_tags) {
                         foreach ($attachment_tags as $tag) {
-                            //var_dump($tag);
+
                             if ('en-stock' == $tag->slug || 'nouveaute' == $tag->slug) {
                                 $show_special_tags_array[] = '<span class="success label radius">' . $tag->name . '</span>';
                             } else {
@@ -68,25 +84,21 @@
                             }
                         }
                         $show_all_tags_array = array_merge($show_tags_array, $show_special_tags_array);
-                        //var_dump($show_tags_array);
+
                         $show_tags = implode(', ', $show_all_tags_array);
                     }
                     $img_url = urlencode(wp_get_attachment_url($attachment->ID));
-                    //$img_url = 'http://www.cf-creation.ch/wp-content/gallery/travaux/2014_09_mg_4496.jpg'; 
-                    $btn_fb = '<a class="label alert radius btn-facebook" href="https://www.facebook.com/sharer/sharer.php?u=' . $img_url . '&amp;title=' . urlencode($attachment->post_name) . '">partager sur facebook</a>';
-                    //$btn_fb = '<iframe src="//www.facebook.com/plugins/share_button.php?href='.$img_url.'&amp;layout=button_count scrolling="no" frameborder="0" style="border:none; overflow:hidden;" allowTransparency="true"></iframe>';
+                    $btn_fb = '<div class="fb-share-button" data-href="' . $img_url . '" data-layout="button"></div>';
                     echo '<div class="slide">';
-                    echo '<a href="' . wp_get_attachment_url($attachment->ID) . '" rel="gallery">';
+                    echo '<a href="' . wp_get_attachment_url($attachment->ID) . '" rel="gallery" class="image fancybox">';
                     echo wp_get_attachment_image($attachment->ID, 'thumbnail', false, array(
                         'alt' => '<div class="fancy-desc"><div class="fancy-desc-left">' . $show_tags . '</div><div class="fancy-desc-right">' . $btn_fb . '</div></div>',
                         'title' => strip_tags($show_tags),
                     ));
                     echo '</a>';
                     echo '</div>';
-                    //echo "<pre>"; print_r($attachment); echo "</pre>";
                 }
             }
-            /**/
             ?>
         </div>
     </div>
@@ -103,7 +115,7 @@
             slidesToScroll: 6,
             prevArrow: "<img class='slick-prev' src='<?php echo get_template_directory_uri(); ?>/img/back.png'>",
             nextArrow: "<img class='slick-next' src='<?php echo get_template_directory_uri(); ?>/img/next.png'>",
-            infinite: false,
+            infinite: true,
             autoplay: true,
             autoplaySpeed: 10000,
             adaptiveHeight: true,
@@ -133,6 +145,15 @@
                     }
                 }
             ]
+        });
+
+        $(".fancybox").fancybox({
+            'titlePosition': 'inside',
+            'titleFromAlt': true,
+            onComplete: function () {
+                FB.XFBML.parse();
+                console.log($(this))
+            }
         });
 
     });
