@@ -52,6 +52,7 @@
 <?php /* START MODAL BOXES */ ?>
 
 <?php /* LIENS */ ?>
+<!--
 <div id="liens" class="reveal" data-reveal>
     <div class="row">
         <h2>Liens</h2>
@@ -71,12 +72,15 @@
           <span aria-hidden="true">&#215;</span>
         </button>
 </div>
+-->
 
 <?php /* END MODAL BOXES */ ?>
 <link rel='stylesheet' id='cf-creation-styles-overrides'  href='<?php echo get_stylesheet_directory_uri(); ?>/css/overrides.css' type='text/css' media='all' />
 <script src="<?php echo get_template_directory_uri(); ?>/js/foundation/foundation.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/foundation/foundation.reveal.js"></script>
-
+<script>
+    jQuery(document).foundation();
+</script>
 
 <?php wp_footer(); ?>
 </body>

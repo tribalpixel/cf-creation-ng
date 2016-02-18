@@ -26,19 +26,19 @@ $color_array_options = array('-', CUSTOM_COLOR_4, CUSTOM_COLOR_5, CUSTOM_COLOR_6
 /*******************************************************************************
 * THEME FEATURES
 *******************************************************************************/
-if ( ! function_exists('cfcreation_theme_features') ) {
+if (!function_exists('cfcreation_theme_features')) {
 
     // Register Theme Features
-    function cfcreation_theme_features()  {
+    function cfcreation_theme_features() {
 
-            // Add theme support for Post Formats
-            add_theme_support( 'post-formats', array( 'quote', 'gallery', 'video' ) );
-            
-            // add post-formats to post_type 'page'
-            add_post_type_support( 'page', 'post-formats' );
+        // Add theme support for Post Formats
+        add_theme_support('post-formats', array('quote', 'gallery', 'video'));
+
+        // add post-formats to post_type 'page'
+        add_post_type_support('page', 'post-formats');
     }
-    add_action( 'after_setup_theme', 'cfcreation_theme_features' );
 
+    add_action('after_setup_theme', 'cfcreation_theme_features');
 }
 
 
@@ -203,8 +203,10 @@ class cfcreation_admin_tag_cloud {
         } // end if
         ?>
         <style>
-            @media only screen and (min-width: 600px) { .right, .left { width:45%; float:left;  } }
-            .right { border-right: 1px solid silver; padding:0 20px 0 0; margin-right: 20px; }
+            .inline-list li {
+                 display: inline-block;
+                 width: 50%;
+            }
         </style>
         <div class="wrap nosubsub">
             <h1><?php _e('Tag Cloud'); ?></h1>
@@ -261,7 +263,7 @@ class cfcreation_admin_tag_cloud {
                     ?>	
                 </form>
             </div>
-            <div class="left"><h2><?php _e('Preview'); ?></h2><?php cfcreation_tag_cloud(); ?></div>
+            <!-- <div class="left"><h2><?php _e('Preview'); ?></h2><?php cfcreation_tag_cloud(); ?></div> -->
         </div>
         <?php
     }
@@ -297,7 +299,7 @@ function cfcreation_tag_cloud($args = '') {
 /*******************************************************************************
  * ADD CUSTOM CLASS TO TAGS LINK IN wp_tag_cloud()
  *******************************************************************************/
-function cfcreation_tag_cloud_colors($tags_data) {
+function cfcreation_tag_cloud_custom_class($tags_data) {
     
     global $color_array_options;
     $body_class = get_body_class();
@@ -310,12 +312,12 @@ function cfcreation_tag_cloud_colors($tags_data) {
     }
     return $tags_data;
 }
-add_filter('wp_generate_tag_cloud_data', 'cfcreation_tag_cloud_colors');
+add_filter('wp_generate_tag_cloud_data', 'cfcreation_tag_cloud_custom_class');
 
 /*******************************************************************************
  * ADD DYNAMIC CSS TO HTML <head> FOR THE wp_tag_cloud()
  *******************************************************************************/
-function cfcreation_add_custom_color_styles() {
+function cfcreation_add_custom_colors() {
     
     global $color_array_options;
     
@@ -326,7 +328,7 @@ function cfcreation_add_custom_color_styles() {
     echo '</style>'."\n";
     
 }
-add_action('wp_head', 'cfcreation_add_custom_color_styles');
+add_action('wp_head', 'cfcreation_add_custom_colors');
 
 /*******************************************************************************
  *  ADD SCRIPTS AND EXTRA LIBRARIES
