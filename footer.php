@@ -9,7 +9,7 @@
                     <?php echo get_theme_mod('cfcreation_tel'); ?><br />
                     <?php echo get_theme_mod('cfcreation_mobile'); ?><br /><br />
                     <a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a><br /><br />
-                    <a href="javascript:void(0);" id="open_gmap"> >> google map</a>
+                    <a href="javascript:void(0);" data-open="gmap"> >> google map</a>
                 </div>
                 <div id="diamant_bg"></div>
             </div>            
@@ -22,12 +22,12 @@
     <div class="small-12 centered columns">
         <div id="footer_nav">
             <?php //wp_nav_menu(array('theme_location' => 'footer_menu', 'items_wrap' => '<ul id="%1$s" class="%2$s inline-list">%3$s</ul>',)); ?>
-            <ul class="inline-list">
-                <li><a href="#" data-open="contact">Contact</a></li>
-                <li><a href="#" data-open="video">Film d'animation</a></li>
-                <li><a href="#" data-open="biographie">Biographie</a></li>
-                <li><a href="#" data-open="presse">Presse</a></li>
-                <li><a href="#" data-open="liens">Liens</a></li>					
+            <ul class="menu inline-list">
+                <li><a data-open="contact">Contact</a></li>
+                <li><a data-open="video">Film d'animation</a></li>
+                <li><a data-open="biographie">Biographie</a></li>
+                <li><a data-open="presse">Presse</a></li>
+                <li><a data-open="liens">Liens</a></li>					
             </ul>            
         </div>
     </div>
@@ -53,28 +53,120 @@
 
 <?php /* START MODAL BOXES */ ?>
 
+<?php /* GMAP */ ?>
+<div id="gmap" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
+    <div class="row">
+        <div class="flex-video">
+            <iframe width="970" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.ch/maps?q=Bijouterie+CD+cf-cr%C3%A9ation&amp;hl=fr&amp;ie=UTF8&amp;cid=14674245541224973790&amp;gl=CH&amp;t=m&amp;ll=46.516351,6.641922&amp;spn=0.047251,0.16634&amp;z=15&amp;output=embed"></iframe>
+        </div>
+    </div>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&#215;</span>
+    </button>
+</div>
+
+<?php /* CONTACT */ ?>
+<div id="contact" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
+    <div class="row">	
+        <?php
+        $page_id = 38;
+        $page_data = get_page($page_id);
+        echo '<h2>' . apply_filters('the_title', $page_data->post_title) . '</h2>';
+        ?>
+        <div class="small-12 large-8 columns">
+            <?php echo apply_filters('the_content', $page_data->post_content); ?>
+        </div>
+        <div class="small-12 large-4 columns">
+            <h3><?php bloginfo('name'); ?></h3>
+            <p>
+                <strong><?php echo get_theme_mod('cfcreation_name'); ?></strong><br />
+                <?php echo get_theme_mod('cfcreation_infos1'); ?><br />
+                <?php echo get_theme_mod('cfcreation_infos2'); ?><br /><br />
+                <?php echo get_theme_mod('cfcreation_tel'); ?><br />
+                <?php echo get_theme_mod('cfcreation_mobile'); ?><br /><br />
+                <a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a><br />
+            </p>
+        </div>
+    </div>	
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&#215;</span>
+    </button>
+</div>
+
+<?php /* VIDEO */ ?>	
+<div id="video" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
+    <?php
+    $page_data = get_page_by_title('Video');
+    //echo '<h2>'. $page_data->post_title .'</h2>';
+    ?>
+    <div class="flex-video">
+        <?php echo apply_filters('the_content', $page_data->post_content); ?>
+        <?php edit_post_link('Modifier', '', '', $page_data->ID); // link to edit content if user is logged in ?>		
+    </div>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&#215;</span>
+    </button>
+</div>	
+
+<?php /* BIOGRAPHIE */ ?>
+<div id="biographie" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
+    <div class="row">		
+        <?php
+        $page_id = 32;
+        $page_data = get_page($page_id);
+        echo '<h2>' . apply_filters('the_title', $page_data->post_title) . '</h2>';
+        echo get_the_post_thumbnail($page_data->ID, 'full-page');
+        echo apply_filters('the_content', $page_data->post_content);
+        ?>
+        <?php edit_post_link('Modifier', '', '', $page_data->ID); // link to edit content if user is logged in ?>
+    </div>	
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&#215;</span>
+    </button>
+</div>
+
+<?php /* PRESSE */ ?>
+<?php $presse_query = new WP_Query( array('category_name'=>'presse','posts_per_page' => 15) ); if ( $presse_query->have_posts() ) : ?> 	
+<div id="presse" class="reveal" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
+    <div class="row">		
+        <div class="small-12 columns">
+            <h2>Presse</h2>
+            <ul class="small-block-grid-1 large-block-grid-4">
+            <?php while ( $presse_query->have_posts() ) : $presse_query->the_post(); ?>
+                    <li><h3 class="presse-title"><?php the_title(); ?></h3>
+                    <?php if ( has_post_thumbnail() ) { the_post_thumbnail('presse-thumb'); } ?><br />
+                    <?php the_content(); ?><br />
+                    <?php edit_post_link(); // link to edit content if user is logged in ?></li>		
+            <?php endwhile; wp_reset_postdata(); ?>
+            </ul>	
+        </div>
+    </div>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&#215;</span>
+    </button>
+</div>
+<?php endif; ?>
+
 <?php /* LIENS */ ?>
-<!--
-<div id="liens" class="reveal" data-reveal>
+<div id="liens" class="reveal" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
     <div class="row">
         <h2>Liens</h2>
         <ul class="small-block-grid-1 large-block-grid-4">
-<?php
-wp_list_bookmarks(array(
-    'category_order' => 'DESC',
-    'title_li' => '',
-    'title_before' => '<h3>',
-    'title_after' => '</h3>',
-));
-?>
+            <?php
+            wp_list_bookmarks(array(
+                'category_order' => 'DESC',
+                'title_li' => '',
+                'title_before' => '<h3>',
+                'title_after' => '</h3>',
+            ));
+            ?>
         </ul> 		
     </div>
-
-            <button class="close-button" data-close aria-label="Close modal" type="button">
-          <span aria-hidden="true">&#215;</span>
-        </button>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&#215;</span>
+    </button>
 </div>
--->
+
 
 <?php /* END MODAL BOXES */ ?>
 <link rel='stylesheet' id='cf-creation-styles-overrides'  href='<?php echo get_stylesheet_directory_uri(); ?>/css/overrides.css' type='text/css' media='all' />

@@ -4,7 +4,7 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.1.0
+Version: 0.1.1
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -48,8 +48,8 @@ strong{  font-weight:600; }
 #diamant { background: url('img/panorama_atelier.jpg') repeat-x 1200px center ; padding: 120px 0; margin: 10px 0; }
 #diamant_wrapper { position: relative; top:-95px; left:20px; }
 #diamant_title, #diamant_content, #diamant_bg { position: absolute; } 
-#diamant_title { margin:15px auto; z-index:10; color:#feba03; font-size:1.35em; text-align:center; width:300px; } 
-#diamant_content { margin:40px auto 0 auto; z-index:10; color:#feba03; font-size:1em; text-align:center; width:300px; } 
+#diamant_title { margin:15px auto; z-index:4; color:#feba03; font-size:1.35em; text-align:center; width:300px; } 
+#diamant_content { margin:40px auto 0 auto; z-index:4; color:#feba03; font-size:1em; text-align:center; width:300px; } 
 #diamant_bg { background: url('img/overlay_map.png') no-repeat top center; width:300px; height:195px; }
 
 #footer { background-color:#eee; padding: 10px 0; text-align: center; } 

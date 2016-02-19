@@ -69,7 +69,7 @@
             $args = array_merge(array('post_type' => 'attachment', 'posts_per_page' => $limit, 'tag_ID' => '11'), $tag_query);
             $attachments = get_posts($args);
             if ($attachments) {
-                foreach ($attachments as $attachment) {
+                foreach ($attachments as $attachment) {					                   
                     //var_dump($attachment);
                     $attachment_tags = get_the_terms($attachment->ID, 'media_tag');
                     $show_tags_array = array();
