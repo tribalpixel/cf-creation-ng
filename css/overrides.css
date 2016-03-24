@@ -1,7 +1,10 @@
+/* WORDPRESS GALLERY */
+.gallery-item {}
+.gallery-item img { border:none!important; }
+.gallery-icon {}
+.gallery-caption {}
+
 /* SLICK OVERRIDES */
-
-
-
 .slick-prev,
 .slick-next {
     width:39px;
@@ -9,15 +12,15 @@
 }
 
 .slick-prev {
-    left: 0px;
+    left: 1em;
 }
 
 .slick-next {
-    right: 0px;
+    right: 1em;
 }
 
 .slick-list {
-    width:90%;
+    width:90%; /* */
     margin: 0 auto;
 }
 

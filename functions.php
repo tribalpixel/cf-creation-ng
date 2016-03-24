@@ -21,6 +21,12 @@ define("CUSTOM_COLOR_11", "#8a4100");  // brun
 define("CUSTOM_COLOR_12", "#8f04a0");  // violet
 define("CUSTOM_COLOR_13", "#ff5781");  // rose
 
+define("MENU_CONTACT_EN", "Contact");
+define("MENU_FILM_EN", "Animation Film");
+define("MENU_BIO_EN", "Biography");
+define("MENU_PRESSE_EN", "Press");
+define("MENU_LIENS_EN", "Links");
+
 $color_array_options = array('-', CUSTOM_COLOR_4, CUSTOM_COLOR_5, CUSTOM_COLOR_6, CUSTOM_COLOR_7, CUSTOM_COLOR_8, CUSTOM_COLOR_9, CUSTOM_COLOR_10, CUSTOM_COLOR_11, CUSTOM_COLOR_12, CUSTOM_COLOR_13);
 
 /*******************************************************************************
@@ -589,3 +595,21 @@ remove_action('wp_head', 'qtranxf_wp_head_meta_generator');
 
 // Remove editor in wordpress admin
 define('DISALLOW_FILE_EDIT', true);
+
+/*************************************************************************
+ * DEBUG HELPERS
+ *************************************************************************/
+// usage: print_filters_for( 'the_content' ); 
+function print_filters_for( $hook = '' ) {
+    global $wp_filter;
+    
+    if (empty($hook) || !isset($wp_filter[$hook]))
+        return;
+
+    echo '<pre>';
+    print_r($wp_filter[$hook]);
+    echo '</pre>';
+}
+
+
+

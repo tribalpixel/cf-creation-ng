@@ -4,7 +4,7 @@
  *
  * @package WordPress
  * @subpackage cf-creation2016
- * @since 0.0.1
+ * @since 1.0
  */
 ?>
 
@@ -21,13 +21,6 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 
-<link rel='stylesheet' id='cf-creation-slick-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/slick/slick.css' type='text/css' media='all' />
-<link rel='stylesheet' id='cf-creation-slick-theme-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/slick/slick-theme.css' type='text/css' media='all' />
-<link rel='stylesheet' id='cf-creation-fancybox-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/fancybox/jquery.fancybox-1.3.7.min.css' type='text/css' media='all' />
-<script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/slick/slick.js'></script>
-<script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/fancybox/jquery.fancybox-1.3.7.min.js'></script>
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/fancybox/jquery.easing.pack.js"></script>
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/fancybox/jquery.mousewheel.pack.js"></script>
 
 <style>
     .slideshow { 
@@ -66,7 +59,7 @@
             } else {
                 $limit = -1;
             }
-            $args = array_merge(array('post_type' => 'attachment', 'posts_per_page' => $limit, 'tag_ID' => '11'), $tag_query);
+            $args = array_merge(array('post_type' => 'attachment', 'posts_per_page' => $limit, 'category' => '11'), $tag_query);
             $attachments = get_posts($args);
             if ($attachments) {
                 foreach ($attachments as $attachment) {					                   
@@ -120,7 +113,7 @@
             autoplaySpeed: 10000,
             adaptiveHeight: true,
             dots: false,
-            centered: false,
+            centered: true,
             //lazyLoad: 'ondemand',
             responsive: [
                 {
@@ -133,15 +126,15 @@
                 {
                     breakpoint: 600,
                     settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
+                        slidesToShow: 3,
+                        slidesToScroll: 3
                     }
                 },
                 {
                     breakpoint: 480,
                     settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
+                        slidesToShow: 2,
+                        slidesToScroll: 2
                     }
                 }
             ]

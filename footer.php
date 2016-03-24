@@ -1,4 +1,4 @@
-<?php /* FOOTER SLIDE */ ?>
+<?php /* FOOTER */ ?>
 <div class="row">
     <div class="small-12 centered columns">
         <hr />
@@ -22,12 +22,13 @@
     <div class="small-12 centered columns">
         <div id="footer_nav">
             <?php //wp_nav_menu(array('theme_location' => 'footer_menu', 'items_wrap' => '<ul id="%1$s" class="%2$s inline-list">%3$s</ul>',)); ?>
+            <?php $currentLang = qtranxf_getLanguage(); ?>
             <ul class="menu inline-list">
-                <li><a data-open="contact">Contact</a></li>
-                <li><a data-open="video">Film d'animation</a></li>
-                <li><a data-open="biographie">Biographie</a></li>
-                <li><a data-open="presse">Presse</a></li>
-                <li><a data-open="liens">Liens</a></li>					
+                <li><a data-open="contact"><?php echo ($currentLang == 'fr')? 'Contact' : MENU_CONTACT_EN; ?></a></li>
+                <li><a data-open="video"><?php echo ($currentLang == 'fr')? 'Film d\'animation' : MENU_FILM_EN; ?></a></li>
+                <li><a data-open="biographie"><?php echo ($currentLang == 'fr')? 'Biographie' : MENU_BIO_EN; ?></a></li>
+                <li><a data-open="presse"><?php echo ($currentLang == 'fr')? 'Presse' : MENU_PRESSE_EN; ?></a></li>
+                <li><a data-open="liens"><?php echo ($currentLang == 'fr')? 'Liens' : MENU_LIENS_EN; ?></a></li>					
             </ul>            
         </div>
     </div>
@@ -44,7 +45,7 @@
             $cfcreation_fb_show = get_theme_mod('cfcreation_fb_footer');
             // show on page
             if (!empty($cfcreation_fb) && $cfcreation_fb_show == TRUE) {
-                //echo '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode($cfcreation_fb) . '&amp;width=330&amp;height=62&amp;show_faces=false&amp;colorscheme=light&amp;stream=false&amp;show_border=false&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:330px; height:62px;" allowTransparency="true"></iframe>';
+                echo '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode($cfcreation_fb) . '&amp;width=330&amp;height=62&amp;show_faces=false&amp;colorscheme=light&amp;stream=false&amp;show_border=false&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:330px; height:62px;" allowTransparency="true"></iframe>';
             }
             ?>	
         </div>
@@ -110,16 +111,18 @@
 
 <?php /* BIOGRAPHIE */ ?>
 <div id="biographie" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
-    <div class="row">		
+    <div class="row">
+        <div class="small-12 columns">
         <?php
         $page_id = 32;
         $page_data = get_page($page_id);
         echo '<h2>' . apply_filters('the_title', $page_data->post_title) . '</h2>';
-        echo get_the_post_thumbnail($page_data->ID, 'full-page');
+        //echo get_the_post_thumbnail($page_data->ID, 'full-page');
         echo apply_filters('the_content', $page_data->post_content);
         ?>
         <?php edit_post_link('Modifier', '', '', $page_data->ID); // link to edit content if user is logged in ?>
-    </div>	
+        </div>
+    </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&#215;</span>
     </button>
@@ -148,10 +151,10 @@
 <?php endif; ?>
 
 <?php /* LIENS */ ?>
-<div id="liens" class="reveal" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
+<div id="liens" class="reveal" data-reveal data-close-on-click="true" data-animation-in="false" data-animation-out="false" data-options="animation:none">
     <div class="row">
         <h2>Liens</h2>
-        <ul class="small-block-grid-1 large-block-grid-4">
+        <ul class="small-block-grid">
             <?php
             wp_list_bookmarks(array(
                 'category_order' => 'DESC',
@@ -169,11 +172,25 @@
 
 
 <?php /* END MODAL BOXES */ ?>
+<link rel='stylesheet' id='cf-creation-slick-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/slick/slick.css' type='text/css' media='all' />
+<link rel='stylesheet' id='cf-creation-slick-theme-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/slick/slick-theme.css' type='text/css' media='all' />
+<link rel='stylesheet' id='cf-creation-fancybox-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/fancybox/jquery.fancybox-1.3.7.min.css' type='text/css' media='all' />
+<script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/slick/slick.js'></script>
+<script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/fancybox/jquery.fancybox-1.3.7.min.js'></script>
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/fancybox/jquery.easing.pack.js"></script>
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/fancybox/jquery.mousewheel.pack.js"></script>
 <link rel='stylesheet' id='cf-creation-styles-overrides'  href='<?php echo get_stylesheet_directory_uri(); ?>/css/overrides.css' type='text/css' media='all' />
 <script src="<?php echo get_template_directory_uri(); ?>/js/foundation.js"></script>
 <script>
     jQuery(document).foundation();
+    jQuery(".gallery-icon a").fancybox().attr('rel', 'gallery');
 </script>
+
+<?php if(is_home) : ?>
+<style>
+    h2,h3,h4,h5,h6 { text-align: center; }
+</style>
+<?php endif; ?>
 
 <?php wp_footer(); ?>
 </body>
