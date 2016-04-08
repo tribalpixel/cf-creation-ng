@@ -24,11 +24,11 @@
             <?php //wp_nav_menu(array('theme_location' => 'footer_menu', 'items_wrap' => '<ul id="%1$s" class="%2$s inline-list">%3$s</ul>',)); ?>
             <?php $currentLang = qtranxf_getLanguage(); ?>
             <ul class="menu inline-list">
-                <li><a data-open="contact"><?php echo ($currentLang == 'fr')? 'Contact' : MENU_CONTACT_EN; ?></a></li>
-                <li><a data-open="video"><?php echo ($currentLang == 'fr')? 'Film d\'animation' : MENU_FILM_EN; ?></a></li>
-                <li><a data-open="biographie"><?php echo ($currentLang == 'fr')? 'Biographie' : MENU_BIO_EN; ?></a></li>
-                <li><a data-open="presse"><?php echo ($currentLang == 'fr')? 'Presse' : MENU_PRESSE_EN; ?></a></li>
-                <li><a data-open="liens"><?php echo ($currentLang == 'fr')? 'Liens' : MENU_LIENS_EN; ?></a></li>					
+                <li><a data-open="contact"><?php echo ($currentLang == 'fr') ? 'Contact' : MENU_CONTACT_EN; ?></a></li>
+                <li><a data-open="video"><?php echo ($currentLang == 'fr') ? 'Film d\'animation' : MENU_FILM_EN; ?></a></li>
+                <li><a data-open="biographie"><?php echo ($currentLang == 'fr') ? 'Biographie' : MENU_BIO_EN; ?></a></li>
+                <li><a data-open="presse"><?php echo ($currentLang == 'fr') ? 'Presse' : MENU_PRESSE_EN; ?></a></li>
+                <li><a data-open="liens"><?php echo ($currentLang == 'fr') ? 'Liens' : MENU_LIENS_EN; ?></a></li>					
             </ul>            
         </div>
     </div>
@@ -55,7 +55,7 @@
 <?php /* START MODAL BOXES */ ?>
 
 <?php /* GMAP */ ?>
-<div id="gmap" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
+<div id="gmap" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
     <div class="row">
         <div class="flex-video">
             <iframe width="970" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.ch/maps?q=Bijouterie+CD+cf-cr%C3%A9ation&amp;hl=fr&amp;ie=UTF8&amp;cid=14674245541224973790&amp;gl=CH&amp;t=m&amp;ll=46.516351,6.641922&amp;spn=0.047251,0.16634&amp;z=15&amp;output=embed"></iframe>
@@ -67,7 +67,7 @@
 </div>
 
 <?php /* CONTACT */ ?>
-<div id="contact" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
+<div id="contact" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
     <div class="row">	
         <?php
         $page_id = 38;
@@ -95,7 +95,7 @@
 </div>
 
 <?php /* VIDEO */ ?>	
-<div id="video" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
+<div id="video" class=" small reveal large" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
     <?php
     $page_data = get_page_by_title('Video');
     //echo '<h2>'. $page_data->post_title .'</h2>';
@@ -110,17 +110,17 @@
 </div>	
 
 <?php /* BIOGRAPHIE */ ?>
-<div id="biographie" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
+<div id="biographie" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
     <div class="row">
         <div class="small-12 columns">
-        <?php
-        $page_id = 32;
-        $page_data = get_page($page_id);
-        echo '<h2>' . apply_filters('the_title', $page_data->post_title) . '</h2>';
-        //echo get_the_post_thumbnail($page_data->ID, 'full-page');
-        echo apply_filters('the_content', $page_data->post_content);
-        ?>
-        <?php edit_post_link('Modifier', '', '', $page_data->ID); // link to edit content if user is logged in ?>
+            <?php
+            $page_id = 32;
+            $page_data = get_page($page_id);
+            echo '<h2>' . apply_filters('the_title', $page_data->post_title) . '</h2>';
+            //echo get_the_post_thumbnail($page_data->ID, 'full-page');
+            echo apply_filters('the_content', $page_data->post_content);
+            ?>
+            <?php edit_post_link('Modifier', '', '', $page_data->ID); // link to edit content if user is logged in ?>
         </div>
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
@@ -129,41 +129,52 @@
 </div>
 
 <?php /* PRESSE */ ?>
-<?php $presse_query = new WP_Query( array('category_name'=>'presse','posts_per_page' => 15) ); if ( $presse_query->have_posts() ) : ?> 	
-<div id="presse" class="reveal" data-reveal data-close-on-click="true" data-animation-in="scale-in-up" data-animation-out="scale-out-down">
-    <div class="row">		
-        <div class="small-12 columns">
-            <h2>Presse</h2>
-            <ul class="small-block-grid-1 large-block-grid-4">
-            <?php while ( $presse_query->have_posts() ) : $presse_query->the_post(); ?>
-                    <li><h3 class="presse-title"><?php the_title(); ?></h3>
-                    <?php if ( has_post_thumbnail() ) { the_post_thumbnail('presse-thumb'); } ?><br />
-                    <?php the_content(); ?><br />
-                    <?php edit_post_link(); // link to edit content if user is logged in ?></li>		
-            <?php endwhile; wp_reset_postdata(); ?>
-            </ul>	
+    <?php
+    $presse_query = new WP_Query(array('category_name' => 'presse', 'posts_per_page' => -1));
+    if ($presse_query->have_posts()) :
+    ?> 	
+    <div id="presse" class="large reveal" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
+        <div class="row">		
+            <div class="small-12 columns">
+                <h2>Presse</h2>
+                <ul class="row small-up-1 large-up-4">
+                    <?php while ($presse_query->have_posts()) : $presse_query->the_post(); ?>
+                        <?php setup_postdata($presse_query->the_post()); ?>
+                        <li class="columns"><h3 class="presse-title"><?php the_title(); ?></h3>
+                            <?php if (has_post_thumbnail()) {
+                                ?><a href="" target="_blank"><?php
+                                the_post_thumbnail('presse-thumb');
+                                ?></a><?php
+                            } ?><br />
+                        <?php the_content(); ?><br />
+                    <?php //edit_post_link(); // link to edit content if user is logged in  ?></li>		
+                    <?php endwhile;  ?>
+                </ul>	
+            </div>
         </div>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+            <span aria-hidden="true">&#215;</span>
+        </button>
     </div>
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&#215;</span>
-    </button>
-</div>
-<?php endif; ?>
+<?php endif; wp_reset_postdata();?>
 
 <?php /* LIENS */ ?>
-<div id="liens" class="reveal" data-reveal data-close-on-click="true" data-animation-in="false" data-animation-out="false" data-options="animation:none">
+<div id="liens" class="large reveal" data-reveal data-close-on-click="true" data-animation-in="false" data-animation-out="false" data-options="animation:none">
     <div class="row">
-        <h2>Liens</h2>
-        <ul class="small-block-grid">
-            <?php
-            wp_list_bookmarks(array(
-                'category_order' => 'DESC',
-                'title_li' => '',
-                'title_before' => '<h3>',
-                'title_after' => '</h3>',
-            ));
-            ?>
-        </ul> 		
+        <div class="small-12 columns">
+            <h2 class="liens-title">Liens</h2>
+            <ul class="small-up-1 medium-up-2 large-up-4">
+                <?php
+                wp_list_bookmarks(array(
+                    'category_order' => 'DESC',
+                    'title_li' => '',
+                    'title_before' => '<h3 class="liens-title">',
+                    'title_after' => '</h3>',
+                    'class' => 'columns linkcat'
+                ));
+                ?>
+            </ul> 		
+        </div>
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&#215;</span>
@@ -186,10 +197,10 @@
     jQuery(".gallery-icon a").fancybox().attr('rel', 'gallery');
 </script>
 
-<?php if(is_home) : ?>
-<style>
-    h2,h3,h4,h5,h6 { text-align: center; }
-</style>
+<?php if (is_home()) : ?>
+    <style>
+        h2,h3,h4,h5,h6 { text-align: center; }
+    </style>
 <?php endif; ?>
 
 <?php wp_footer(); ?>

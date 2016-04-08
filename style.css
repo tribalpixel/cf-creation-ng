@@ -4,7 +4,7 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.1.1
+Version: 0.1.2
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -12,14 +12,14 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 /*
 fonts reference: Josefin Slab (google fonts)
 color reference:
-        $tags_colors = array(
-            'dark grey' 	=> 	'#444444',
-            'light grey'	=> 	'#434343',
-            'yellow' 		=> 	'#feba03',
-            'green'		=> 	'#a3be0e',
-            'blue' 		=> 	'#0ea7be',
-            'purple' 		=> 	'#8f04a0',
-        );
+    $tags_colors = array (
+        'dark grey' 	=> 	'#444444',
+        'light grey'	=> 	'#434343',
+        'yellow' 		=> 	'#feba03',
+        'green'		=> 	'#a3be0e',
+        'blue' 		=> 	'#0ea7be',
+        'purple' 		=> 	'#8f04a0',
+    );
 */
 
 .full-width { width:100%; }
@@ -31,17 +31,19 @@ h2.title { margin: 0 0 30px 0;  }
 h3 { font-size:1.25em;  font-weight:600;  }  
 h4 { font-size:1em; text-transform:uppercase;  font-weight:600; }  
 h5 {  font-size:0.85em; font-weight:600;  } 
+h6 {  font-size:0.8em; font-weight:600;  } 
 hr { border:none; border-top: 1px solid #444444; margin: 25px 0; }
 fieldset { border: none; padding: 0em; margin:0 0.3em; }
 label{ font-weight:normal; }
 blockquote, blockquote p { color:#feba03; }
 strong{  font-weight:600; }
+a { outline:0; }
 
 #logo { text-align:center; padding:20px 0; } 
 #logo h1 { text-indent: -9999em; line-height:0.001em; height:0.001em; } 
 #content { margin:30px auto 0 auto; }
 #content ul, #content ol { list-style-position: inside; }
-.presse-title { font-size:1em; font-weight:600; }
+#presse ul { list-style: none; }
 #contact-address { font-size:1em; text-align:center; padding:15px 0; margin:0; border-top:1px solid #444444; } 
 #contact-address a, #contact-address p { white-space:nowrap; } 
 
@@ -58,20 +60,20 @@ strong{  font-weight:600; }
 #header_nav a, #footer_nav a { font-size: 1.6em; padding: 20px 0;  }
 #footer iframe { vertical-align: middle; }
 .coypright { vertical-align: middle; height: 70px; margin: 0; padding: 17px 25px; } 
-.fancy-desc { color: #FFF; }
 
 /* TAG CLOUD */	
-#tags-cloud { margin:15px 0; padding: 0 70px; text-align: center; }
+#tags-cloud { margin:15px 0; padding: 0 20px; text-align: center; }
 #tags-cloud a { color: #444444; white-space:nowrap; padding:0 5px; }
 #tags-cloud a.active-tag { color: #feba03; font-weight: 600; }
 
 /* LIENS (page popup) */
-.linkcat { list-style-type: none; }
-.linkcat h5 { color:#444444; font-weight:normal; font-size:1em; }
-.linkcat ul, .linkcat ul li ul { margin:0; list-style-type: none; }
-.linkcat ul li { margin:0; padding:0; }
-.linkcat ul li  a { padding:2px; margin:0; color: #888; }
-.linkcat ul li  a:hover { color: #feba03;  }
+#liens { list-style-type: none; }
+#liens h3 { color:#444444; font-weight:normal; font-size:1em; }
+#liens ul, #liens ul li ul { margin:0; list-style-type: none; }
+#liens ul li, #liens ul li ul li { margin:0; padding:0; }
+#liens ul li a { padding:2px; margin:0; color: #888; }
+#liens ul li a:hover { color: #feba03;  }
+#liens ul li ul { margin-bottom:15px; list-style-type: none; }
 
 /* WORDPRESS CORE  Images */
 .alignleft { float: left; }
@@ -90,6 +92,18 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
 .inline-list > li { float:none; display:inline-block; margin: 0 auto; padding: 0 30px; } 
 
 .label { color:#000; font-weight: 600; }
+
+/* Fix headings for popups */
+#contact h2, #contact h3, #contact h4, #contact h5, #contact h6 { text-align: left; }
+#biographie h2, #biographie h3, #biographie h4, #biographie h5, #biographie h6 { text-align: left; }
+#presse h2, #presse h3, #presse h4, #presse h5, #presse h6 { text-align: left; }
+#liens h2, #liens h3, #liens h4, #liens h5, #liens h6 { text-align: left; }
+
+/*.reveal-modal {
+    height: auto;
+    max-height:100%;
+    overflow:scroll;
+}*/
 
 /* MEDIA QUERIES*/
 @media only screen and (min-width: 1440px) {}

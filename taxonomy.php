@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="">
+    <div class="small-12 small-centered columns">
 
         <div class="slideshow">
             <?php
@@ -80,13 +80,15 @@
 
                         $show_tags = implode(', ', $show_all_tags_array);
                     }
-                    $img_url = urlencode(wp_get_attachment_url($attachment->ID));
+                    $img_url = wp_get_attachment_url($attachment->ID);
+                 
                     $btn_fb = '<div class="fb-share-button" data-href="' . $img_url . '" data-layout="button"></div>';
                     echo '<div class="slide">';
                     echo '<a href="' . wp_get_attachment_url($attachment->ID) . '" rel="gallery" class="image fancybox">';
                     echo wp_get_attachment_image($attachment->ID, 'thumbnail', false, array(
                         'alt' => '<div class="fancy-desc"><div class="fancy-desc-left">' . $show_tags . '</div><div class="fancy-desc-right">' . $btn_fb . '</div></div>',
                         'title' => strip_tags($show_tags),
+                        'class' => 'slideshow-img',
                     ));
                     echo '</a>';
                     echo '</div>';
@@ -108,12 +110,13 @@
             slidesToScroll: 6,
             prevArrow: "<img class='slick-prev' src='<?php echo get_template_directory_uri(); ?>/img/back.png'>",
             nextArrow: "<img class='slick-next' src='<?php echo get_template_directory_uri(); ?>/img/next.png'>",
-            infinite: true,
+            //infinite: true,
             autoplay: true,
             autoplaySpeed: 10000,
-            adaptiveHeight: true,
+            adaptiveHeight: false,
+            variableWidth: true,
             dots: false,
-            centered: true,
+            //centered: true,
             //lazyLoad: 'ondemand',
             responsive: [
                 {
@@ -145,7 +148,7 @@
             'titleFromAlt': true,
             onComplete: function () {
                 FB.XFBML.parse();
-                console.log($(this))
+                //console.log($(this))
             }
         });
 

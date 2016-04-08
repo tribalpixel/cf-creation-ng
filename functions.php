@@ -29,9 +29,9 @@ define("MENU_LIENS_EN", "Links");
 
 $color_array_options = array('-', CUSTOM_COLOR_4, CUSTOM_COLOR_5, CUSTOM_COLOR_6, CUSTOM_COLOR_7, CUSTOM_COLOR_8, CUSTOM_COLOR_9, CUSTOM_COLOR_10, CUSTOM_COLOR_11, CUSTOM_COLOR_12, CUSTOM_COLOR_13);
 
-/*******************************************************************************
-* THEME FEATURES
-*******************************************************************************/
+/* * *****************************************************************************
+ * THEME FEATURES
+ * ***************************************************************************** */
 if (!function_exists('cfcreation_theme_features')) {
 
     // Register Theme Features
@@ -42,16 +42,25 @@ if (!function_exists('cfcreation_theme_features')) {
 
         // add post-formats to post_type 'page'
         add_post_type_support('page', 'post-formats');
+
+        add_theme_support('post-thumbnails');
+        add_image_size('bio-thumb', 460, 250, true);
+        add_image_size('presse-thumb', 250, 250, true);
+        add_image_size('full-page', 970, 250, true);
+
+        // Adds RSS feed links to <head> for posts and comments.
+        add_theme_support('automatic-feed-links');
     }
 
     add_action('after_setup_theme', 'cfcreation_theme_features');
 }
 
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  REGISTER CUSTOM TAXONOMY FOR MEDIAS
- *******************************************************************************/
+ * ***************************************************************************** */
 /* slug is made by qTranslate slug plugin */
+
 function cfcreation_media_tags() {
 
     $rewrite = array(
@@ -74,9 +83,9 @@ function cfcreation_media_tags() {
 
 add_action('init', 'cfcreation_media_tags', 0);
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  REGISTER CATEGORIES FOR MEDIAS
- *******************************************************************************/
+ * ***************************************************************************** */
 
 function cfcreation_register_taxonomy_for_images() {
     register_taxonomy_for_object_type('category', 'attachment');
@@ -84,9 +93,9 @@ function cfcreation_register_taxonomy_for_images() {
 
 add_action('init', 'cfcreation_register_taxonomy_for_images');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  ADD CATEGORIES FILTER FOR MEDIAS
- *******************************************************************************/
+ * ***************************************************************************** */
 
 function cfcreation_add_image_category_filter() {
     $screen = get_current_screen();
@@ -98,9 +107,9 @@ function cfcreation_add_image_category_filter() {
 
 add_action('restrict_manage_posts', 'cfcreation_add_image_category_filter');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  ADD SORTABLE CUSTOM TAG COLUMN TO MEDIA ADMIN PAGE
- *******************************************************************************/
+ * ***************************************************************************** */
 
 // Register the column as sortable & sort by name
 function cfcreation_media_tag_column_sortable($cols) {
@@ -115,9 +124,9 @@ function cfcreation_media_tag_columns() {
 
 add_action('admin_init', 'cfcreation_media_tag_columns');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  ADD ADMIN SETTINGS FOR CUSTOM TAG CLOUD
- *******************************************************************************/
+ * ***************************************************************************** */
 
 class cfcreation_admin_tag_cloud {
 
@@ -210,8 +219,8 @@ class cfcreation_admin_tag_cloud {
         ?>
         <style>
             .inline-list li {
-                 display: inline-block;
-                 width: 50%;
+                display: inline-block;
+                width: 50%;
             }
         </style>
         <div class="wrap nosubsub">
@@ -237,23 +246,23 @@ class cfcreation_admin_tag_cloud {
                     $active_cloud_param = implode(',', $active_cloud);
                     echo '<input type="hidden" value="' . $active_cloud_param . '" name="option_media_tags_cloud">';
                     echo '<hr />';
-                    
+
                     /* // 2016 removed this option, not realy used
-                    $default_option_tag = get_option('option_media_tags_group');
-                    echo '<h4>Tag actif par defaut</h4>';
-                    echo '<select name="option_media_tags_group">';
-                    echo '<option value="###">-</option>';
-                    foreach ($tax as $tag_object) {
-                        echo '<option value="' . $tag_object->slug . '"';
-                        if ($default_option_tag == $tag_object->slug) {
-                            echo ' selected="selected"';
-                        }
-                        echo '>' . ucfirst($tag_object->name) . '</option>';
-                        //echo '<pre>'; print_r($tag_object); echo '</pre>';	
-                    }
-                    echo '</select><br style="clear:both;" />';
-                    */
-                    
+                      $default_option_tag = get_option('option_media_tags_group');
+                      echo '<h4>Tag actif par defaut</h4>';
+                      echo '<select name="option_media_tags_group">';
+                      echo '<option value="###">-</option>';
+                      foreach ($tax as $tag_object) {
+                      echo '<option value="' . $tag_object->slug . '"';
+                      if ($default_option_tag == $tag_object->slug) {
+                      echo ' selected="selected"';
+                      }
+                      echo '>' . ucfirst($tag_object->name) . '</option>';
+                      //echo '<pre>'; print_r($tag_object); echo '</pre>';
+                      }
+                      echo '</select><br style="clear:both;" />';
+                     */
+
                     submit_button();
 
                     echo '<h4>Tag(s) non-utilis&eacute;(s)</h4>';
@@ -278,9 +287,9 @@ class cfcreation_admin_tag_cloud {
 
 new cfcreation_admin_tag_cloud();
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  CUSTOM TAG CLOUD, BASED ON wp_tag_cloud()
- *******************************************************************************/
+ * ***************************************************************************** */
 
 function cfcreation_tag_cloud($args = '') {
 
@@ -292,83 +301,87 @@ function cfcreation_tag_cloud($args = '') {
             $inactif[] = $tag->term_id;
         }
     }
-    
-    $exclude = implode(',',$inactif);
+
+    $exclude = implode(',', $inactif);
     $args = array(
-        'smallest' => 10, 'largest' => 26, 'unit' => 'pt', 'number' => 45,
+        'smallest' => 1, 'largest' => 2.5, 'unit' => 'em', 'number' => 999,
         'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
         'exclude' => $exclude, 'include' => '', 'link' => 'view', 'taxonomy' => 'media_tag', 'echo' => 1, 'hide_empty' => 0
     );
     return wp_tag_cloud($args);
 }
 
-/*******************************************************************************
+/* * *****************************************************************************
  * ADD CUSTOM CLASS TO TAGS LINK IN wp_tag_cloud()
- *******************************************************************************/
+ * ***************************************************************************** */
+
 function cfcreation_tag_cloud_custom_class($tags_data) {
-    
+
     global $color_array_options;
     $body_class = get_body_class();
     foreach ($tags_data as $key => $tag) {
         $tag_option = get_option('cfcreation_media_tag_' . $tag['id']);
         $color = array_search($tag_option['color'], $color_array_options);
-        if(in_array('term-'.$tag['id'], $body_class)) {
-            $tags_data[$key]['class'] =  $tags_data[$key]['class'] ." tag-color-".$color ." active-tag";
-        } 
+        if (in_array('term-' . $tag['id'], $body_class)) {
+            $tags_data[$key]['class'] = $tags_data[$key]['class'] . " tag-color-" . $color . " active-tag";
+        }
     }
     return $tags_data;
 }
+
 add_filter('wp_generate_tag_cloud_data', 'cfcreation_tag_cloud_custom_class');
 
-/*******************************************************************************
+/* * *****************************************************************************
  * ADD DYNAMIC CSS TO HTML <head> FOR THE wp_tag_cloud()
- *******************************************************************************/
+ * ***************************************************************************** */
+
 function cfcreation_add_custom_colors() {
-    
+
     global $color_array_options;
-    
-    echo '<style type="text/css" media="screen">'."\n";
-    foreach ($color_array_options as $k=>$v) {
-        if($k !== 0) { echo "#tags-cloud a.tag-color-{$k} { color:{$v}; }\n"; }
+
+    echo '<style type="text/css" media="screen">' . "\n";
+    foreach ($color_array_options as $k => $v) {
+        if ($k !== 0) {
+            echo "#tags-cloud a.tag-color-{$k} { color:{$v}; }\n";
+        }
     }
-    echo '</style>'."\n";
-    
+    echo '</style>' . "\n";
 }
+
 add_action('wp_head', 'cfcreation_add_custom_colors');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  ADD SCRIPTS AND EXTRA LIBRARIES
  *  http://codex.wordpress.org/Function_Reference/wp_enqueue_script  
- *******************************************************************************/
+ * ***************************************************************************** */
 
 function cfcreation_load_styles() {
 
     // get theme infos
     $my_theme = wp_get_theme();
-    
+
     // load foundation stylesheet
     wp_enqueue_style('cf-creation-normalize', get_stylesheet_directory_uri() . '/css/normalize.css', array(), $my_theme->Version, 'all');
     wp_enqueue_style('cf-creation-foundation', get_stylesheet_directory_uri() . '/css/foundation.min.css', array(), $my_theme->Version, 'all');
 
     // load fancybox css
     //wp_enqueue_style('cf-creation-fancybox', get_stylesheet_directory_uri() . '/fancybox/fancybox-1.3.7.min.css', array(), $my_theme->Version, 'all');
-    
     // load fonts
     wp_enqueue_style('cf-creation-font', 'http://fonts.googleapis.com/css?family=Josefin+Slab:400,600', array(), $my_theme->Version, 'all');
 
     // load our main stylesheet.
     wp_enqueue_style('cf-creation-styles', get_stylesheet_uri(), array(), $my_theme->Version, 'all');
-    
+
     // load JS
     wp_enqueue_script('jquery');
 }
 
 add_action('wp_enqueue_scripts', 'cfcreation_load_styles');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  REGISTER MENUS
  *  http://generatewp.com/nav-menus/  
- *******************************************************************************/
+ * ***************************************************************************** */
 if (!function_exists('cfcreation_navigation_menus')) {
 
     // Register Navigation Menus
@@ -385,9 +398,10 @@ if (!function_exists('cfcreation_navigation_menus')) {
     add_action('init', 'cfcreation_navigation_menus');
 }
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  ADD CLASS TO SPEECIFIC MENU
- *******************************************************************************/
+ * ***************************************************************************** */
+
 function cfcreation_nav_class($classes, $item) {
     // use id of menu
     if (in_array('menu-item-52', $classes)) {
@@ -400,9 +414,9 @@ function cfcreation_nav_class($classes, $item) {
 
 add_filter('nav_menu_css_class', 'cfcreation_nav_class', 10, 2);
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  CUSTOM LOGIN PAGE
- *******************************************************************************/
+ * ***************************************************************************** */
 
 /** Enqueues scripts and styles to change default login page */
 function cfcreation_login_stylesheet() {
@@ -425,9 +439,9 @@ function cfcreation_login_logo_url_title() {
 
 add_filter('login_headertitle', 'cfcreation_login_logo_url_title');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  THEME CUSTOMIZER
- *******************************************************************************/
+ * ***************************************************************************** */
 
 /**
  * Add Options for the Theme Customizer.
@@ -543,35 +557,37 @@ add_action('customize_register', 'cfcreation_customize_register');
  */
 function cfcreation_custom_admin_color_palette() {
     wp_admin_css_color(
-        'cfcreation-colors', __('CF-Création'), get_stylesheet_directory_uri() . '/admin-style.css', array('#222222', '#333333', '#feba03', '#ff5c00')
+            'cfcreation-colors', __('CF-Création'), get_stylesheet_directory_uri() . '/admin-style.css', array('#222222', '#333333', '#feba03', '#ff5c00')
     );
 }
 
 //add_action('admin_init', 'cfcreation_custom_admin_color_palette');
 
-/*************************************************************************
+/* * ***********************************************************************
  * ADMIN UI TWEAKS
- ************************************************************************/
+ * ********************************************************************** */
 // show link manager to WP
 add_filter('pre_option_link_manager_enabled', '__return_true');
 
 // Remove unwanted menu
 // !!! only remove menu from admin UI, but page is still reachable by url
 function cfcreation_remove_menus() {
-    remove_menu_page( 'edit-comments.php' );    // Comments
+    remove_menu_page('edit-comments.php');    // Comments
 }
-add_action( 'admin_menu', 'cfcreation_remove_menus' );
+
+add_action('admin_menu', 'cfcreation_remove_menus');
 
 // Modifying TinyMCE editor to remove unused items.
-function cfcreation_custom_tiny_mce($init){
+function cfcreation_custom_tiny_mce($init) {
     $init['block_formats'] = 'Paragraph=p;Header 3=h3;Header 4=h4;Header 5=h5;Header 6=h6';
     return $init;
-  }
+}
+
 add_filter('tiny_mce_before_init', 'cfcreation_custom_tiny_mce');
 
-/*************************************************************************
+/* * ***********************************************************************
  * ADD EDITOR CAPABILITY -> MANAGE THEME
- *************************************************************************/
+ * *********************************************************************** */
 add_action('admin_init', 'cfcreation_allow_editor');
 
 function cfcreation_allow_editor() {
@@ -579,9 +595,9 @@ function cfcreation_allow_editor() {
     $role->add_cap('edit_theme_options'); // Let them manage our theme
 }
 
-/*************************************************************************
+/* * ***********************************************************************
  * SECURITY & ANTI-HACK & CLEANING WP TRICKS 
- *************************************************************************/
+ * *********************************************************************** */
 
 // Remove fucking emoji nobody use
 remove_action('wp_head', 'print_emoji_detection_script', 7);
@@ -596,13 +612,14 @@ remove_action('wp_head', 'qtranxf_wp_head_meta_generator');
 // Remove editor in wordpress admin
 define('DISALLOW_FILE_EDIT', true);
 
-/*************************************************************************
+/* * ***********************************************************************
  * DEBUG HELPERS
- *************************************************************************/
+ * *********************************************************************** */
+
 // usage: print_filters_for( 'the_content' ); 
-function print_filters_for( $hook = '' ) {
+function print_filters_for($hook = '') {
     global $wp_filter;
-    
+
     if (empty($hook) || !isset($wp_filter[$hook]))
         return;
 
@@ -610,6 +627,3 @@ function print_filters_for( $hook = '' ) {
     print_r($wp_filter[$hook]);
     echo '</pre>';
 }
-
-
-
