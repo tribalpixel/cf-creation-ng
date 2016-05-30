@@ -135,7 +135,7 @@ class cfcreation_admin_tag_cloud {
     }
 
     function add_settings_page() {
-        add_media_page(__('Tag Cloud'), __('Tag Cloud'), 'manage_options', 'tagcloud-settings', array(&$this, 'tag_cloud_settings'));
+        add_media_page(__('Tag Cloud'), __('Tag Cloud'), 'manage_categories', 'tagcloud-settings', array(&$this, 'tag_cloud_settings'));
     }
 
     function build_select($select_id, $options_array, $option_type, $selected_value = "-", $color = FALSE) {
