@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Travaux
+ * Template Name: Collections
  *
  * @package WordPress
  * @subpackage cf-creation2016
@@ -42,10 +42,7 @@
 
     <div class="small-10 small-centered columns">
         <div id="tags-cloud">
-            <?php if( is_tax( "media_tag" ) || is_page( 'travaux' )) { cfcreation_tag_cloud(); } else { cfcreation_collection_cloud(); } 
-            //echo "<hr>". is_tax('collection_tag') . "</hr>";
-            //echo "<hr>". is_tax('media_tag') . "</hr>";
-            ?>		
+            <?php cfcreation_collection_cloud(); ?>		
         </div>
     </div>
 
@@ -56,14 +53,8 @@
             
             // Catch tag query if any
             $tag_query = array(); 
-            if( is_tax( "media_tag" ) || is_page( 'travaux' ) ) { 
-               if (isset($wp_query->query_vars['term'])) { $tag_query = array('media_tag' => $wp_query->query_vars['term']); }
-            } else {
-               if (isset($wp_query->query_vars['term'])) { $tag_query = array('collection_tag' => $wp_query->query_vars['term']); }
-               else { $tag_query = array('tax_query' => array('taxonomy' => 'collection_tag')); }
-            }
-            
-            
+            if (isset($wp_query->query_vars['term'])) { $tag_query = array('collection_tag' => $wp_query->query_vars['term']); }
+       
             // Limite  le nb d'image sur la page initiale, illimité pour les tags
             if (is_page()) { $limit = 6; } else { $limit = -1; }
             

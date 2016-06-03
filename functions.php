@@ -5,6 +5,20 @@
 // use #qtransLangSwLM?type=AL&title=none&colon=hidden&current=hidden for custom language switcher in menu
 // http://richardsweeney.com/add-a-category-to-media-items-in-wordpress/
 
+/*
+TODO: Filigranne automatique sur chaque images
+FIX: translated tags in picture popup
+FIX: Responsive CSS, fixes for typo sizes
+TODO: Make tags/collection tags searchable in admin
+*/
+
+/*
+Version: 0.1.3
+ADD: Collections in page, use custom attachment taxonomy
+FIX: qTranslate config.json for extra taxonomy
+FIX: custom class for menu when in works/collections
+*/
+
 define('CFCNG_DEBUG', false);
 
 define("CUSTOM_COLOR_1", "#7b7b7b");  // gris logo
@@ -29,9 +43,9 @@ define("MENU_LIENS_EN", "Links");
 
 $color_array_options = array('-', CUSTOM_COLOR_4, CUSTOM_COLOR_5, CUSTOM_COLOR_6, CUSTOM_COLOR_7, CUSTOM_COLOR_8, CUSTOM_COLOR_9, CUSTOM_COLOR_10, CUSTOM_COLOR_11, CUSTOM_COLOR_12, CUSTOM_COLOR_13);
 
-/* * *****************************************************************************
+/*******************************************************************************
  * THEME FEATURES
- * ***************************************************************************** */
+ *******************************************************************************/
 if (!function_exists('cfcreation_theme_features')) {
 
     // Register Theme Features
@@ -41,7 +55,7 @@ if (!function_exists('cfcreation_theme_features')) {
         add_theme_support('post-formats', array('quote', 'gallery', 'video'));
 
         // add post-formats to post_type 'page'
-        add_post_type_support('page', 'post-formats');
+        //add_post_type_support('page', 'post-formats');
 
         add_theme_support('post-thumbnails');
         add_image_size('bio-thumb', 460, 250, true);
@@ -56,9 +70,9 @@ if (!function_exists('cfcreation_theme_features')) {
 }
 
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  REGISTER CUSTOM TAXONOMY FOR MEDIAS
- * ***************************************************************************** */
+ *******************************************************************************/
 /* slug is made by qTranslate slug plugin */
 
 function cfcreation_media_tags() {
@@ -83,9 +97,36 @@ function cfcreation_media_tags() {
 
 add_action('init', 'cfcreation_media_tags', 0);
 
-/* * *****************************************************************************
+function cfcreation_collection_tags() {
+    $labels = array(
+        'name'          => _x( 'Collections', 'Taxonomy General Name', 'cfcreation' ),
+        'singular_name' => _x( 'Collection', 'Taxonomy Singular Name', 'cfcreation' ),
+        'menu_name'     => __( 'Collections', 'cfcreation' ),
+    );   
+    $rewrite = array(
+        //'slug' => __('travaux','tax_slug','cfcreation'),
+        'with_front' => true,
+        'hierarchical' => false,
+    );
+    $args = array(
+        'labels' => $labels,
+        'hierarchical' => false,
+        'public' => true,
+        'show_ui' => true,
+        'show_admin_column' => true,
+        'show_in_nav_menus' => true,
+        'show_tagcloud' => true,
+        'rewrite' => $rewrite,
+        'update_count_callback' => '_update_generic_term_count',
+    );
+    register_taxonomy('collection_tag', array('attachment'), $args);
+}
+
+add_action('init', 'cfcreation_collection_tags', 0);
+
+/*******************************************************************************
  *  REGISTER CATEGORIES FOR MEDIAS
- * ***************************************************************************** */
+ *******************************************************************************/
 
 function cfcreation_register_taxonomy_for_images() {
     register_taxonomy_for_object_type('category', 'attachment');
@@ -93,9 +134,9 @@ function cfcreation_register_taxonomy_for_images() {
 
 add_action('init', 'cfcreation_register_taxonomy_for_images');
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  ADD CATEGORIES FILTER FOR MEDIAS
- * ***************************************************************************** */
+ *******************************************************************************/
 
 function cfcreation_add_image_category_filter() {
     $screen = get_current_screen();
@@ -107,9 +148,9 @@ function cfcreation_add_image_category_filter() {
 
 add_action('restrict_manage_posts', 'cfcreation_add_image_category_filter');
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  ADD SORTABLE CUSTOM TAG COLUMN TO MEDIA ADMIN PAGE
- * ***************************************************************************** */
+ *******************************************************************************/
 
 // Register the column as sortable & sort by name
 function cfcreation_media_tag_column_sortable($cols) {
@@ -124,9 +165,9 @@ function cfcreation_media_tag_columns() {
 
 add_action('admin_init', 'cfcreation_media_tag_columns');
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  ADD ADMIN SETTINGS FOR CUSTOM TAG CLOUD
- * ***************************************************************************** */
+ *******************************************************************************/
 
 class cfcreation_admin_tag_cloud {
 
@@ -287,11 +328,11 @@ class cfcreation_admin_tag_cloud {
 
 new cfcreation_admin_tag_cloud();
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  CUSTOM TAG CLOUD, BASED ON wp_tag_cloud()
- * ***************************************************************************** */
+ *******************************************************************************/
 
-function cfcreation_tag_cloud($args = '') {
+function cfcreation_tag_cloud() {
 
     $tax = get_terms('media_tag');
     $inactif = array();
@@ -306,14 +347,24 @@ function cfcreation_tag_cloud($args = '') {
     $args = array(
         'smallest' => 1, 'largest' => 2.5, 'unit' => 'em', 'number' => 999,
         'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
-        'exclude' => $exclude, 'include' => '', 'link' => 'view', 'taxonomy' => 'media_tag', 'echo' => 1, 'hide_empty' => 0
+        'exclude' => $exclude, 'include' => '', 'link' => 'view', 'taxonomy' => 'media_tag', 'echo' => 1, 'hide_empty' => 1
     );
     return wp_tag_cloud($args);
 }
 
-/* * *****************************************************************************
+function cfcreation_collection_cloud() {
+    
+    $args = array(
+        'smallest' => 1, 'largest' => 2.5, 'unit' => 'em', 'number' => 999,
+        'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
+        'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'collection_tag', 'echo' => 1, 'hide_empty' => 1
+    );
+    return wp_tag_cloud($args);   
+}
+
+/*******************************************************************************
  * ADD CUSTOM CLASS TO TAGS LINK IN wp_tag_cloud()
- * ***************************************************************************** */
+ *******************************************************************************/
 
 function cfcreation_tag_cloud_custom_class($tags_data) {
 
@@ -331,9 +382,9 @@ function cfcreation_tag_cloud_custom_class($tags_data) {
 
 add_filter('wp_generate_tag_cloud_data', 'cfcreation_tag_cloud_custom_class');
 
-/* * *****************************************************************************
+/*******************************************************************************
  * ADD DYNAMIC CSS TO HTML <head> FOR THE wp_tag_cloud()
- * ***************************************************************************** */
+ *******************************************************************************/
 
 function cfcreation_add_custom_colors() {
 
@@ -350,10 +401,10 @@ function cfcreation_add_custom_colors() {
 
 add_action('wp_head', 'cfcreation_add_custom_colors');
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  ADD SCRIPTS AND EXTRA LIBRARIES
  *  http://codex.wordpress.org/Function_Reference/wp_enqueue_script  
- * ***************************************************************************** */
+ *******************************************************************************/
 
 function cfcreation_load_styles() {
 
@@ -378,17 +429,17 @@ function cfcreation_load_styles() {
 
 add_action('wp_enqueue_scripts', 'cfcreation_load_styles');
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  REGISTER MENUS
  *  http://generatewp.com/nav-menus/  
- * ***************************************************************************** */
+ *******************************************************************************/
 if (!function_exists('cfcreation_navigation_menus')) {
 
     // Register Navigation Menus
     function cfcreation_navigation_menus() {
         $locations = array(
             'header_menu' => 'Custom Header Menu',
-            'footer_menu' => 'Custom Footer Menu',
+            //'footer_menu' => 'Custom Footer Menu',
         );
 
         register_nav_menus($locations);
@@ -398,25 +449,30 @@ if (!function_exists('cfcreation_navigation_menus')) {
     add_action('init', 'cfcreation_navigation_menus');
 }
 
-/* * *****************************************************************************
- *  ADD CLASS TO SPEECIFIC MENU
- * ***************************************************************************** */
-
+/*******************************************************************************
+ *  ADD CLASS TO SPECIFIC MENU
+ *******************************************************************************/
 function cfcreation_nav_class($classes, $item) {
     // use id of menu
-    if (in_array('menu-item-52', $classes)) {
-        if (is_tag() || is_archive()) {
+    if (is_tax('media_tag')) {
+        if (in_array('menu-item-52', $classes)) {
             $classes[] = 'current-menu-item ';
         }
     }
+    if (is_tax('collection_tag')) {
+        if (in_array('menu-item-582', $classes)) {
+            $classes[] = 'current-menu-item ';
+        }
+    }    
+    
     return $classes;
 }
 
 add_filter('nav_menu_css_class', 'cfcreation_nav_class', 10, 2);
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  CUSTOM LOGIN PAGE
- * ***************************************************************************** */
+ *******************************************************************************/
 
 /** Enqueues scripts and styles to change default login page */
 function cfcreation_login_stylesheet() {
@@ -439,9 +495,9 @@ function cfcreation_login_logo_url_title() {
 
 add_filter('login_headertitle', 'cfcreation_login_logo_url_title');
 
-/* * *****************************************************************************
+/*******************************************************************************
  *  THEME CUSTOMIZER
- * ***************************************************************************** */
+ *******************************************************************************/
 
 /**
  * Add Options for the Theme Customizer.

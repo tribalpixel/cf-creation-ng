@@ -1,0 +1,26 @@
+{
+    "admin-config": {
+        "edit-tags": {
+            "preg_delimiter": "#",
+            "pages": {
+                "edit-tags.php": "^(?!.*action=edit).*$"
+            },
+            "forms": {
+                "edittag": {
+                    "fields": {
+                        "name": [],
+                        "description": [],
+                        "parent": {
+                            "encode": "display"
+                        }
+                    }
+                }
+            },
+            "js-exec": {
+                "edit-tag-exec": {
+                    "src": "./admin/js/edit-tag-exec.min.js"
+                }
+            }
+        }
+    }
+}
