@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // http://code.tutsplus.com/articles/applying-categories-tags-and-custom-taxonomies-to-media-attachments--wp-32319
 // http://wordpress.stackexchange.com/questions/29858/adding-category-tag-taxonomy-support-to-images-media
 // http://wordpress.stackexchange.com/questions/76720/how-to-use-taxonomies-on-attachments-with-the-new-media-library
@@ -7,12 +7,17 @@
 
 /*
 TODO: Filigranne automatique sur chaque images
-FIX: translated tags in picture popup
 FIX: Responsive CSS, fixes for typo sizes
-TODO: Make tags/collection tags searchable in admin
+FIX: Loading of images for slideshow
 */
 
 /*
+ 
+Version: 0.1.4
+FIX: Limited homepage posts to 1 category
+FIX: translated tags in picture popup
+ADD: Make tags/collection tags searchable in admin media
+
 Version: 0.1.3
 ADD: Collections in page, use custom attachment taxonomy
 FIX: qTranslate config.json for extra taxonomy
@@ -58,9 +63,9 @@ if (!function_exists('cfcreation_theme_features')) {
         //add_post_type_support('page', 'post-formats');
 
         add_theme_support('post-thumbnails');
-        add_image_size('bio-thumb', 460, 250, true);
-        add_image_size('presse-thumb', 250, 250, true);
-        add_image_size('full-page', 970, 250, true);
+        //add_image_size('bio-thumb', 460, 250, true);
+        //add_image_size('presse-thumb', 250, 250, true);
+        //add_image_size('full-page', 970, 250, true);
 
         // Adds RSS feed links to <head> for posts and comments.
         add_theme_support('automatic-feed-links');
@@ -155,6 +160,7 @@ add_action('restrict_manage_posts', 'cfcreation_add_image_category_filter');
 // Register the column as sortable & sort by name
 function cfcreation_media_tag_column_sortable($cols) {
     $cols["taxonomy-media_tag"] = "name";
+   // $cols["taxonomy-collection_tag"] = "name";
     return $cols;
 }
 
@@ -470,6 +476,19 @@ function cfcreation_nav_class($classes, $item) {
 
 add_filter('nav_menu_css_class', 'cfcreation_nav_class', 10, 2);
 
+/*************************************************************************
+ * HOMEPAGE LIMIT POST TO 1 CATEGORY
+ *************************************************************************/
+function cfcreation_home_page_pots($query) {
+  if ( !is_admin() && $query->is_main_query() ) {
+    if ($query->is_home) {
+      $query->set( 'cat', get_cat_ID('Homepage'));
+    }
+  }
+}
+
+add_action('pre_get_posts','cfcreation_home_page_pots');
+
 /*******************************************************************************
  *  CUSTOM LOGIN PAGE
  *******************************************************************************/
@@ -668,18 +687,77 @@ remove_action('wp_head', 'qtranxf_wp_head_meta_generator');
 // Remove editor in wordpress admin
 define('DISALLOW_FILE_EDIT', true);
 
-/* * ***********************************************************************
- * DEBUG HELPERS
- * *********************************************************************** */
 
-// usage: print_filters_for( 'the_content' ); 
-function print_filters_for($hook = '') {
-    global $wp_filter;
+/*******************************************************************************
+ *  Alter search query in admin medias: JOIN
+ *  http://stackoverflow.com/questions/20401351/how-to-the-get-the-wordpress-media-search-to-inlcude-tags
+ ******************************************************************************/
+function cfcreation_attachments_join( $join, $query ) {
+    global $wpdb;
 
-    if (empty($hook) || !isset($wp_filter[$hook]))
-        return;
+    //if we are not on admin or the current search is not on attachment return
+    if(!is_admin() || (!isset($query->query['post_type']) || $query->query['post_type'] != 'attachment')) 
+        return $join;
 
-    echo '<pre>';
-    print_r($wp_filter[$hook]);
-    echo '</pre>';
+    //  if current query is the main query and a search...
+    if( is_main_query() && is_search() )
+    {
+        $join .= "
+        LEFT JOIN
+        {$wpdb->term_relationships} ON {$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id
+        LEFT JOIN
+        {$wpdb->term_taxonomy} ON {$wpdb->term_taxonomy}.term_taxonomy_id = {$wpdb->term_relationships}.term_taxonomy_id
+        LEFT JOIN
+        {$wpdb->terms} ON {$wpdb->terms}.term_id = {$wpdb->term_taxonomy}.term_id ";
+    }
+
+    return $join;
 }
+//add_filter( 'posts_join', 'cfcreation_attachments_join', 10, 2 );
+
+/*******************************************************************************
+ *  Alter search query in admin medias: WHERE
+ ******************************************************************************/
+function cfcreation_attachments_where( $where, $query ) {
+    global $wpdb;
+
+    //if we are not on admin or the current search is not on attachment return
+    if(!is_admin() || (!isset($query->query['post_type']) || $query->query['post_type'] != 'attachment'))
+        return $where;
+
+    //  if current query is the main query and a search...
+    if( is_main_query() && is_search() )
+    {
+        //  explictly search post_tag taxonomies
+        $where .= " OR ( 
+                        ( {$wpdb->term_taxonomy}.taxonomy IN('media_tag') AND {$wpdb->terms}.name LIKE '%" . esc_sql( get_query_var('s') ) . "%' )
+                       )";
+
+    }
+
+    return $where;
+}
+//add_filter( 'posts_where', 'cfcreation_attachments_where', 10, 2 );
+
+/*******************************************************************************
+ *  Alter search query in admin: GROUPBY
+ ******************************************************************************/
+function cfcreation_attachments_groupby( $groupby, $query ) {
+
+    global $wpdb;
+
+    //if we are not on admin or the current search is not on attachment return
+    if(!is_admin() || (!isset($query->query['post_type']) || $query->query['post_type'] != 'attachment'))
+        return $groupby;
+
+    //  if current query is the main query and a search...
+    if( is_main_query() && is_search() )
+    {
+        //  assign the GROUPBY
+        $groupby = "{$wpdb->posts}.ID";
+    }
+
+    return $groupby;
+
+}
+//add_filter( 'posts_groupby', 'cfcreation_attachments_groupby', 10, 2 );

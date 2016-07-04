@@ -50,6 +50,7 @@
 
        
             <?php
+            $current_lang = qtranxf_getLanguage();
             
             // Catch tag query if any
             $tag_query = array(); 
@@ -58,14 +59,23 @@
             // Limite  le nb d'image sur la page initiale, illimité pour les tags
             if (is_page()) { $limit = 6; } else { $limit = -1; }
             
+            if(is_page()) {
+                $collection_tags = get_terms('collection_tag');
+                $include = array();
+                foreach ($collection_tags as $t) {
+                    array_push($include, $t->slug);
+                }
+                $include_tags = implode(', ', $include); 
+                $tag_query = array('collection_tag' => $include_tags);
+            }
             $args = array_merge(array('post_type' => 'attachment', 'posts_per_page' => $limit, 'category' => '11'), $tag_query);
-            //var_dump($args);
+            //var_dump($include_tags);
             $attachments = get_posts($args);
             //var_dump($attachments);
             ?> 
             <div class="slideshow">
             <?php
-            if ($attachments) {
+            if ($attachments) {               
                 foreach ($attachments as $attachment) {					                   
                     //var_dump($attachment);
                     $attachment_tags = get_the_terms($attachment->ID, 'media_tag');
@@ -73,15 +83,13 @@
                     $show_special_tags_array = array();
                     if ($attachment_tags) {
                         foreach ($attachment_tags as $tag) {
-
                             if ('en-stock' == $tag->slug || 'nouveaute' == $tag->slug) {
-                                $show_special_tags_array[] = '<span class="success label radius">' . $tag->name . '</span>';
+                                $show_special_tags_array[] = '<span class="success label radius">' .  qtranxf_use($current_lang,$tag->name,false) . '</span>';
                             } else {
-                                $show_tags_array[] = '<span class="label radius">' . $tag->name . '</span>';
+                                $show_tags_array[] = '<span class="label radius">' .  qtranxf_use($current_lang,$tag->name,false) . '</span>';
                             }
                         }
                         $show_all_tags_array = array_merge($show_tags_array, $show_special_tags_array);
-
                         $show_tags = implode(', ', $show_all_tags_array);
                     } else { $show_tags = ''; }
                     $img_url = wp_get_attachment_url($attachment->ID);

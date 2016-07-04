@@ -106,6 +106,7 @@
                     echo '</a>';
                     echo '</div>';
                 }
+                wp_reset_postdata();
             }
             ?>
         </div>
