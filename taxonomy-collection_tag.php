@@ -47,66 +47,66 @@
     </div>
 
     <div class="small-12 small-centered columns">
+  
+        <?php
+        $current_lang = qtranxf_getLanguage();
+        $default = get_option('cfcreation_collection_tag_default');
 
-       
-            <?php
-            $current_lang = qtranxf_getLanguage();
-            
-            // Catch tag query if any
-            $tag_query = array(); 
-            if (isset($wp_query->query_vars['term'])) { $tag_query = array('collection_tag' => $wp_query->query_vars['term']); }
-       
-            // Limite  le nb d'image sur la page initiale, illimité pour les tags
-            if (is_page()) { $limit = 6; } else { $limit = -1; }
-            
-            if(is_page()) {
-                $collection_tags = get_terms('collection_tag');
-                $include = array();
-                foreach ($collection_tags as $t) {
-                    array_push($include, $t->slug);
-                }
-                $include_tags = implode(', ', $include); 
-                $tag_query = array('collection_tag' => $include_tags);
+        // Catch tag query if any
+        $tag_query = array(); 
+        if (isset($wp_query->query_vars['term'])) { $tag_query = array('collection_tag' => $wp_query->query_vars['term']); } else { if($default != -1) { $tag_query = array('media_tag' => $default); } }
+
+        // Limite  le nb d'image sur la page initiale, illimité pour les tags
+        if (is_page()) { $limit = 6; } else { $limit = -1; }
+
+        if(is_page()) {
+            $collection_tags = get_terms('collection_tag');
+            $include = array();
+            foreach ($collection_tags as $t) {
+                array_push($include, $t->slug);
             }
-            $args = array_merge(array('post_type' => 'attachment', 'posts_per_page' => $limit, 'category' => '11'), $tag_query);
-            //var_dump($include_tags);
-            $attachments = get_posts($args);
-            //var_dump($attachments);
-            ?> 
-            <div class="slideshow">
-            <?php
-            if ($attachments) {               
-                foreach ($attachments as $attachment) {					                   
-                    //var_dump($attachment);
-                    $attachment_tags = get_the_terms($attachment->ID, 'media_tag');
-                    $show_tags_array = array();
-                    $show_special_tags_array = array();
-                    if ($attachment_tags) {
-                        foreach ($attachment_tags as $tag) {
-                            if ('en-stock' == $tag->slug || 'nouveaute' == $tag->slug) {
-                                $show_special_tags_array[] = '<span class="success label radius">' .  qtranxf_use($current_lang,$tag->name,false) . '</span>';
-                            } else {
-                                $show_tags_array[] = '<span class="label radius">' .  qtranxf_use($current_lang,$tag->name,false) . '</span>';
-                            }
+            $include_tags = implode(', ', $include); 
+            $tag_query = array('collection_tag' => $include_tags);
+        }
+        $args = array_merge(array('post_type' => 'attachment', 'posts_per_page' => $limit, 'category' => '11'), $tag_query);
+        //var_dump($include_tags);
+        $attachments = get_posts($args);
+        //var_dump($attachments);
+        ?> 
+        <div class="slideshow">
+        <?php
+        if ($attachments) {               
+            foreach ($attachments as $attachment) {					                   
+                //var_dump($attachment);
+                $attachment_tags = get_the_terms($attachment->ID, 'media_tag');
+                $show_tags_array = array();
+                $show_special_tags_array = array();
+                if ($attachment_tags) {
+                    foreach ($attachment_tags as $tag) {
+                        if ('en-stock' == $tag->slug || 'nouveaute' == $tag->slug) {
+                            $show_special_tags_array[] = '<span class="success label radius">' .  qtranxf_use($current_lang,$tag->name,false) . '</span>';
+                        } else {
+                            $show_tags_array[] = '<span class="label radius">' .  qtranxf_use($current_lang,$tag->name,false) . '</span>';
                         }
-                        $show_all_tags_array = array_merge($show_tags_array, $show_special_tags_array);
-                        $show_tags = implode(', ', $show_all_tags_array);
-                    } else { $show_tags = ''; }
-                    $img_url = wp_get_attachment_url($attachment->ID);
-                 
-                    $btn_fb = '<div class="fb-share-button" data-href="' . $img_url . '" data-layout="button"></div>';
-                    echo '<div class="slide">';
-                    echo '<a href="' . wp_get_attachment_url($attachment->ID) . '" rel="gallery" class="image fancybox">';
-                    echo wp_get_attachment_image($attachment->ID, 'thumbnail', false, array(
-                        'alt' => '<div class="fancy-desc"><div class="fancy-desc-left">' . $show_tags . '</div><div class="fancy-desc-right">' . $btn_fb . '</div></div>',
-                        'title' => strip_tags($show_tags),
-                        'class' => 'slideshow-img',
-                    ));
-                    echo '</a>';
-                    echo '</div>';
-                }
+                    }
+                    $show_all_tags_array = array_merge($show_tags_array, $show_special_tags_array);
+                    $show_tags = implode(', ', $show_all_tags_array);
+                } else { $show_tags = ''; }
+                $img_url = wp_get_attachment_url($attachment->ID);
+
+                $btn_fb = '<div class="fb-share-button" data-href="' . $img_url . '" data-layout="button"></div>';
+                echo '<div class="slide">';
+                echo '<a href="' . wp_get_attachment_url($attachment->ID) . '" rel="gallery" class="image fancybox">';
+                echo wp_get_attachment_image($attachment->ID, 'thumbnail', false, array(
+                    'alt' => '<div class="fancy-desc"><div class="fancy-desc-left">' . $show_tags . '</div><div class="fancy-desc-right">' . $btn_fb . '</div></div>',
+                    'title' => strip_tags($show_tags),
+                    'class' => 'slideshow-img',
+                ));
+                echo '</a>';
+                echo '</div>';
             }
-            ?>
+        }
+        ?>
         </div>
     </div>
 

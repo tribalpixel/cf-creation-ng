@@ -50,20 +50,23 @@
     </div>
 
     <div class="small-12 small-centered columns">
-
-       
+      
             <?php
+            
+            $default = get_option('cfcreation_media_tag_default');
             
             // Catch tag query if any
             $tag_query = array(); 
             if( is_tax( "media_tag" ) || is_page( 'travaux' ) ) { 
-               if (isset($wp_query->query_vars['term'])) { $tag_query = array('media_tag' => $wp_query->query_vars['term']); }
-            } else {
+               if (isset($wp_query->query_vars['term'])) { $tag_query = array('media_tag' => $wp_query->query_vars['term']); } else { if($default != -1) { $tag_query = array('media_tag' => $default); } }
+            } 
+            /*
+            else {
                if (isset($wp_query->query_vars['term'])) { $tag_query = array('collection_tag' => $wp_query->query_vars['term']); }
                else { $tag_query = array('tax_query' => array('taxonomy' => 'collection_tag')); }
             }
-            
-            
+            */
+                    
             // Limite  le nb d'image sur la page initiale, illimité pour les tags
             if (is_page()) { $limit = 6; } else { $limit = -1; }
             
