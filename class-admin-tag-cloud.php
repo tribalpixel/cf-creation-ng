@@ -25,16 +25,14 @@ class adminTagCloud {
         return $this;
     }
 
-    public function get_attachment_total($term_id) {
-        $args = "taxonomy={$this->taxonomy}&post_type=attachment&tag_ID={$term_id}";
+    public function get_attachment_total($term) {
+        $args = "posts_per_page=-1&post_status=any&post_type=attachment&{$this->taxonomy}={$term}";
         $count = new WP_Query($args);
-        //return get_term_children($term_id, $this->taxonomy);
-        return $count->post_count;
-        //return $args;
+        return count($count->get_posts());
     }
 
     public function add_settings_page() {
-        add_media_page(__($this->title), __('Options ' . $this->title), 'manage_categories', $this->taxonomy . '-settings', array(&$this, 'tag_cloud_settings'));
+        add_media_page(__($this->title), __('Options ' . $this->title ), 'manage_categories', $this->taxonomy . '-settings', array(&$this, 'tag_cloud_settings'));
     }
 
     public function build_select($select_id, $options_array, $option_type, $selected_value = "-", $color = FALSE) {
@@ -99,6 +97,7 @@ class adminTagCloud {
                         $actif[] = array(
                             'id' => $tag->term_id,
                             'name' => $tag->name,
+                            'slug' => $tag->slug,
                             'select_group' => $this->build_select($tag->term_id, $group_array_options, 'group', 'actif'),
                             'select_color' => $this->build_select($tag->term_id, $color_array_options, 'color', $options['color'], true),
                         );
@@ -110,6 +109,7 @@ class adminTagCloud {
                         $inactif[] = array(
                             'id' => $tag->term_id,
                             'name' => $tag->name,
+                            'slug' => $tag->slug,
                             'select_group' => $this->build_select($tag->term_id, $group_array_options, 'group'),
                         );
                         break;
@@ -137,7 +137,7 @@ class adminTagCloud {
                     echo '<ul class="inline-list">';
                     if (!empty($actif)) {
                         foreach ($actif as $tag_options) {
-                            echo '<li><strong>' . ucfirst($tag_options['name']) . ' (' . var_dump($this->get_attachment_total($tag_options['id'])) . ') : </strong>' . $tag_options['select_group'] . ' ' . $tag_options['select_color'] . '</li>';
+                            echo '<li><strong>' . ucfirst($tag_options['name']) . ' (' . $this->get_attachment_total($tag_options['slug']) . ') : </strong>' . $tag_options['select_group'] . ' ' . $tag_options['select_color'] . '</li>';
                         }
                     } else {
                         echo '<li>Aucun</li>';
@@ -146,16 +146,19 @@ class adminTagCloud {
 
                     echo '<input type="hidden" value="' . $active_cloud_param . '" name="option_' . $this->taxonomy . '_cloud">';
                     echo '<hr />';
-
+                    
                     echo '<h4>Tag actif par defaut</h4>';
                     echo '<select name="option_' . $this->taxonomy . '_default">';
                     echo '<option value="-1">-</option>';
                     foreach ($tax as $tag_object) {
-                        echo '<option value="' . $tag_object->slug . '"';
-                        if ($default_option_tag == $tag_object->slug) {
-                            echo ' selected="selected"';
+                        //var_dump(in_array($tag_object->id, $active_cloud));
+                        if(in_array($tag_object->term_id, $active_cloud)) {
+                            echo '<option value="' . $tag_object->slug . '"';
+                            if ($default_option_tag == $tag_object->slug) {
+                                echo ' selected="selected"';
+                            }
+                            echo '>' . ucfirst($tag_object->name) . '</option>';
                         }
-                        echo '>' . ucfirst($tag_object->name) . '</option>';
                     }
                     echo '</select><br style="clear:both;" />';
 
@@ -164,7 +167,7 @@ class adminTagCloud {
                     echo '<h4>Tag(s) non-utilis&eacute;(s)</h4>';
                     echo '<ul class="inline-list">';
                     foreach ($inactif as $tag_options) {
-                        echo '<li><strong>' . ucfirst($tag_options['name']) . ' : </strong>' . $tag_options['select_group'] . '</li>';
+                        echo '<li><strong>' . ucfirst($tag_options['name']) . ' (' . $this->get_attachment_total($tag_options['slug']) . ') : </strong>' . $tag_options['select_group'] . '</li>';
                         echo '<input type="hidden" value="-" name="update_' . $this->taxonomy . '_group[' . $tag_options['id'] . '][color]">';
                     }
                     echo '</ul>';

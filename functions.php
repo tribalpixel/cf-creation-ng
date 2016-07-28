@@ -7,36 +7,41 @@
 
 /*
 
-FIX: Responsive CSS, fixes for typo sizes
-FIX: Loading of images for slideshow
-FIX: Make tags/collection tags searchable in admin media
-FIX: Press category do not use feature image anymore, image placed directly in content
-FIX: Check all popup pages
-FIX: Show collections tag on lightbox
-ADD: Show count of images linked with tags/collection in admin
-ADD: Settings page for collections
-ADD: Facebook posts on homepage
-FIX: Configure SEO plugin, google sitemap
-*/
+  ADD: Facebook posts on homepage
+
+  FIX: Loading of images for slideshow
+  FIX: Check all popup pages
+  FIX: Responsive CSS, fixes for typo sizes
+  FIX: Configure SEO plugin, google sitemap
+
+  BUG: Make tags/collection tags searchable in admin media
+  BUG: When tag is default, tag_cloud item is not active/highligted
+ 
+ */
 
 /*
 
-Version: 0.1.5
-ADD: Filigranne automatique sur chaque images -> EasyWatermark plugin
-FIX: Remove featured image from theme, not used anymore
-ADD: Default tag options for tag cloud -> works/collections
-ADD: Tag cloud options for collections
- 
-Version: 0.1.4
-FIX: Limited homepage posts to 1 category
-FIX: translated tags in picture popup
-ADD: Make tags/collection tags searchable in admin media
+  Version: 0.1.6
+  FIX: Pages Work/Collections now act with same pattern -> options in admin
+  FIX: Show collections tag on lightbox
+  ADD: Show count of images linked with tags/collection in admin
 
-Version: 0.1.3
-ADD: Collections in page, use custom attachment taxonomy
-FIX: qTranslate config.json for extra taxonomy
-FIX: custom class for menu when in works/collections
-*/
+  Version: 0.1.5
+  ADD: Filigranne automatique sur chaque images -> EasyWatermark plugin
+  FIX: Remove featured image from theme, not used anymore, image placed directly in content
+  ADD: Default tag options for tag cloud -> works/collections
+  ADD: Settings page for collections
+
+  Version: 0.1.4
+  FIX: Limited homepage posts to 1 category
+  FIX: translated tags in picture popup
+  ADD: Make tags/collection tags searchable in admin media
+
+  Version: 0.1.3
+  ADD: Collections in page, use custom attachment taxonomy
+  FIX: qTranslate config.json for extra taxonomy
+  FIX: custom class for menu when in works/collections
+ */
 
 define('CFCNG_DEBUG', false);
 
@@ -62,9 +67,9 @@ define("MENU_LIENS_EN", "Links");
 
 $color_array_options = array('-', CUSTOM_COLOR_4, CUSTOM_COLOR_5, CUSTOM_COLOR_6, CUSTOM_COLOR_7, CUSTOM_COLOR_8, CUSTOM_COLOR_9, CUSTOM_COLOR_10, CUSTOM_COLOR_11, CUSTOM_COLOR_12, CUSTOM_COLOR_13);
 
-/*******************************************************************************
+/* * *****************************************************************************
  * THEME FEATURES
- *******************************************************************************/
+ * ***************************************************************************** */
 if (!function_exists('cfcreation_theme_features')) {
 
     // Register Theme Features
@@ -75,12 +80,10 @@ if (!function_exists('cfcreation_theme_features')) {
 
         // add post-formats to post_type 'page'
         //add_post_type_support('page', 'post-formats');
-
         //add_theme_support('post-thumbnails');
         //add_image_size('bio-thumb', 460, 250, true);
         //add_image_size('presse-thumb', 250, 250, true);
         //add_image_size('full-page', 970, 250, true);
-
         // Adds RSS feed links to <head> for posts and comments.
         add_theme_support('automatic-feed-links');
     }
@@ -89,19 +92,26 @@ if (!function_exists('cfcreation_theme_features')) {
 }
 
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  REGISTER CUSTOM TAXONOMY FOR MEDIAS
- *******************************************************************************/
+ * ***************************************************************************** */
 /* slug is made by qTranslate slug plugin */
 
 function cfcreation_media_tags() {
-
+    
+    $labels = array(
+        'name' => _x('Tags', 'Taxonomy General Name', 'cfcreation'),
+        'singular_name' => _x('Tag', 'Taxonomy Singular Name', 'cfcreation'),
+        'menu_name' => __('Tags', 'cfcreation'),
+    );
+    
     $rewrite = array(
         //'slug' => __('travaux','tax_slug','cfcreation'),
         'with_front' => true,
         'hierarchical' => false,
     );
     $args = array(
+        'labels' => $labels,
         'hierarchical' => false,
         'public' => true,
         'show_ui' => true,
@@ -118,10 +128,10 @@ add_action('init', 'cfcreation_media_tags', 0);
 
 function cfcreation_collection_tags() {
     $labels = array(
-        'name'          => _x( 'Collections', 'Taxonomy General Name', 'cfcreation' ),
-        'singular_name' => _x( 'Collection', 'Taxonomy Singular Name', 'cfcreation' ),
-        'menu_name'     => __( 'Collections', 'cfcreation' ),
-    );   
+        'name' => _x('Collections', 'Taxonomy General Name', 'cfcreation'),
+        'singular_name' => _x('Collection', 'Taxonomy Singular Name', 'cfcreation'),
+        'menu_name' => __('Collections', 'cfcreation'),
+    );
     $rewrite = array(
         //'slug' => __('travaux','tax_slug','cfcreation'),
         'with_front' => true,
@@ -143,9 +153,9 @@ function cfcreation_collection_tags() {
 
 add_action('init', 'cfcreation_collection_tags', 0);
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  REGISTER CATEGORIES FOR MEDIAS
- *******************************************************************************/
+ * ***************************************************************************** */
 
 function cfcreation_register_taxonomy_for_images() {
     register_taxonomy_for_object_type('category', 'attachment');
@@ -153,9 +163,9 @@ function cfcreation_register_taxonomy_for_images() {
 
 add_action('init', 'cfcreation_register_taxonomy_for_images');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  ADD CATEGORIES FILTER FOR MEDIAS
- *******************************************************************************/
+ * ***************************************************************************** */
 
 function cfcreation_add_image_category_filter() {
     $screen = get_current_screen();
@@ -167,14 +177,14 @@ function cfcreation_add_image_category_filter() {
 
 add_action('restrict_manage_posts', 'cfcreation_add_image_category_filter');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  ADD SORTABLE CUSTOM TAG COLUMN TO MEDIA ADMIN PAGE
- *******************************************************************************/
+ * ***************************************************************************** */
 
 // Register the column as sortable & sort by name
 function cfcreation_media_tag_column_sortable($cols) {
     $cols["taxonomy-media_tag"] = "name";
-   // $cols["taxonomy-collection_tag"] = "name";
+    // $cols["taxonomy-collection_tag"] = "name";
     return $cols;
 }
 
@@ -185,29 +195,28 @@ function cfcreation_media_tag_columns() {
 
 add_action('admin_init', 'cfcreation_media_tag_columns');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  ADD ADMIN SETTINGS FOR CUSTOM TAG CLOUD
- *******************************************************************************/
+ * ***************************************************************************** */
 
 require_once 'class-admin-tag-cloud.php';
-
-$collectionOptions = new adminTagCloud();
-$collectionOptions->setTaxonomy('collection_tag')->setTitle('Collections');
 
 $tagOptions = new adminTagCloud();
 $tagOptions->setTaxonomy('media_tag')->setTitle('Tags');
 
+$collectionOptions = new adminTagCloud();
+$collectionOptions->setTaxonomy('collection_tag')->setTitle('Collections');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  CUSTOM TAG CLOUD, BASED ON wp_tag_cloud()
- *******************************************************************************/
+ * ***************************************************************************** */
 
-function cfcreation_tag_cloud() {
+function cfcreation_tag_cloud($taxonomy = "media_tag") {
 
-    $tax = get_terms('media_tag');
+    $tax = get_terms($taxonomy);
     $inactif = array();
     foreach ($tax as $tag) {
-        $tag_options = get_option('cfcreation_media_tag_' . $tag->term_id);
+        $tag_options = get_option("cfcreation_{$taxonomy}_" . $tag->term_id);
         if ($tag_options['group'] === 'inactif' || $tag_options['group'] === '') {
             $inactif[] = $tag->term_id;
         }
@@ -217,31 +226,21 @@ function cfcreation_tag_cloud() {
     $args = array(
         'smallest' => 1, 'largest' => 2.5, 'unit' => 'em', 'number' => 999,
         'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
-        'exclude' => $exclude, 'include' => '', 'link' => 'view', 'taxonomy' => 'media_tag', 'echo' => 1, 'hide_empty' => 1
+        'exclude' => $exclude, 'include' => '', 'link' => 'view', 'taxonomy' => $taxonomy, 'echo' => 1, 'hide_empty' => 1
     );
     return wp_tag_cloud($args);
 }
 
-function cfcreation_collection_cloud() {
-    
-    $args = array(
-        'smallest' => 1, 'largest' => 2.5, 'unit' => 'em', 'number' => 999,
-        'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
-        'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'collection_tag', 'echo' => 1, 'hide_empty' => 1
-    );
-    return wp_tag_cloud($args);   
-}
-
-/*******************************************************************************
+/* * *****************************************************************************
  * ADD CUSTOM CLASS TO TAGS LINK IN wp_tag_cloud()
- *******************************************************************************/
+ * ***************************************************************************** */
 
 function cfcreation_tag_cloud_custom_class($tags_data) {
 
     global $color_array_options;
     $body_class = get_body_class();
     foreach ($tags_data as $key => $tag) {
-        if(is_page('travaux') || is_tax('media_tag') ) {
+        if (is_page('travaux') || is_tax('media_tag')) {
             $tag_option = get_option('cfcreation_media_tag_' . $tag['id']);
         } else {
             $tag_option = get_option('cfcreation_collection_tag_' . $tag['id']);
@@ -257,9 +256,9 @@ function cfcreation_tag_cloud_custom_class($tags_data) {
 
 add_filter('wp_generate_tag_cloud_data', 'cfcreation_tag_cloud_custom_class');
 
-/*******************************************************************************
+/* * *****************************************************************************
  * ADD DYNAMIC CSS TO HTML <head> FOR THE wp_tag_cloud()
- *******************************************************************************/
+ * ***************************************************************************** */
 
 function cfcreation_add_custom_colors() {
 
@@ -276,10 +275,46 @@ function cfcreation_add_custom_colors() {
 
 add_action('wp_head', 'cfcreation_add_custom_colors');
 
-/*******************************************************************************
+/**
+ * 
+ */
+function cfcreation_show_tags($attachmentID, $current_lang) {
+
+    $attachment_tags = get_the_terms($attachmentID, 'media_tag');
+    $attachment_tags_collection = get_the_terms($attachmentID, 'collection_tag');
+
+    $show_tags_array = array();
+    $show_special_tags_array = array();
+    
+    if ($attachment_tags) {
+        foreach ($attachment_tags as $tag) {
+            if ('en-stock' == $tag->slug || 'nouveaute' == $tag->slug) {
+                $show_special_tags_array[] = '<span class="success label radius">' . qtranxf_use($current_lang, $tag->name, false) . '</span>';
+            } else {
+                $show_tags_array[] = '<span class="secondary label radius">' . qtranxf_use($current_lang, $tag->name, false) . '</span>';
+            }
+        }
+    }
+    if ($attachment_tags_collection) {
+        foreach ($attachment_tags_collection as $tag_collection) {
+            if ('en-stock' == $tag_collection->slug || 'nouveaute' == $tag_collection->slug) {
+                $show_special_tags_array[] = '<span class="success label radius">' . qtranxf_use($current_lang, $tag_collection->name, false) . '</span>';
+            } else {
+                $show_tags_array[] = '<span class="label radius">' . qtranxf_use($current_lang, $tag_collection->name, false) . '</span>';
+            }
+        }
+    }
+
+    $show_all_tags_array = array_merge($show_tags_array, $show_special_tags_array);
+    $show_tags = implode(' ', $show_all_tags_array);
+   
+    return $show_tags;
+}
+
+/* * *****************************************************************************
  *  ADD SCRIPTS AND EXTRA LIBRARIES
  *  http://codex.wordpress.org/Function_Reference/wp_enqueue_script  
- *******************************************************************************/
+ * ***************************************************************************** */
 
 function cfcreation_load_styles() {
 
@@ -304,17 +339,17 @@ function cfcreation_load_styles() {
 
 add_action('wp_enqueue_scripts', 'cfcreation_load_styles');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  REGISTER MENUS
  *  http://generatewp.com/nav-menus/  
- *******************************************************************************/
+ * ***************************************************************************** */
 if (!function_exists('cfcreation_navigation_menus')) {
 
     // Register Navigation Menus
     function cfcreation_navigation_menus() {
         $locations = array(
             'header_menu' => 'Custom Header Menu',
-            //'footer_menu' => 'Custom Footer Menu',
+                //'footer_menu' => 'Custom Footer Menu',
         );
 
         register_nav_menus($locations);
@@ -324,9 +359,10 @@ if (!function_exists('cfcreation_navigation_menus')) {
     add_action('init', 'cfcreation_navigation_menus');
 }
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  ADD CLASS TO SPECIFIC MENU
- *******************************************************************************/
+ * ***************************************************************************** */
+
 function cfcreation_nav_class($classes, $item) {
     // use id of menu
     if (is_tax('media_tag')) {
@@ -338,29 +374,30 @@ function cfcreation_nav_class($classes, $item) {
         if (in_array('menu-item-582', $classes)) {
             $classes[] = 'current-menu-item ';
         }
-    }    
-    
+    }
+
     return $classes;
 }
 
 add_filter('nav_menu_css_class', 'cfcreation_nav_class', 10, 2);
 
-/*************************************************************************
+/* * ***********************************************************************
  * HOMEPAGE LIMIT POST TO 1 CATEGORY
- *************************************************************************/
+ * *********************************************************************** */
+
 function cfcreation_home_page_pots($query) {
-  if ( !is_admin() && $query->is_main_query() ) {
-    if ($query->is_home) {
-      $query->set( 'cat', get_cat_ID('Homepage'));
+    if (!is_admin() && $query->is_main_query()) {
+        if ($query->is_home) {
+            $query->set('cat', get_cat_ID('Homepage'));
+        }
     }
-  }
 }
 
-add_action('pre_get_posts','cfcreation_home_page_pots');
+add_action('pre_get_posts', 'cfcreation_home_page_pots');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  CUSTOM LOGIN PAGE
- *******************************************************************************/
+ * ***************************************************************************** */
 
 /** Enqueues scripts and styles to change default login page */
 function cfcreation_login_stylesheet() {
@@ -383,9 +420,9 @@ function cfcreation_login_logo_url_title() {
 
 add_filter('login_headertitle', 'cfcreation_login_logo_url_title');
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  THEME CUSTOMIZER
- *******************************************************************************/
+ * ***************************************************************************** */
 
 /**
  * Add Options for the Theme Customizer.
@@ -557,20 +594,20 @@ remove_action('wp_head', 'qtranxf_wp_head_meta_generator');
 define('DISALLOW_FILE_EDIT', true);
 
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  Alter search query in admin medias: JOIN
  *  http://stackoverflow.com/questions/20401351/how-to-the-get-the-wordpress-media-search-to-inlcude-tags
- ******************************************************************************/
-function cfcreation_attachments_join( $join, $query ) {
+ * **************************************************************************** */
+
+function cfcreation_attachments_join($join, $query) {
     global $wpdb;
 
     //if we are not on admin or the current search is not on attachment return
-    if(!is_admin() || (!isset($query->query['post_type']) || $query->query['post_type'] != 'attachment')) 
+    if (!is_admin() || (!isset($query->query['post_type']) || $query->query['post_type'] != 'attachment'))
         return $join;
 
     //  if current query is the main query and a search...
-    if( is_main_query() && is_search() )
-    {
+    if (is_main_query() && is_search()) {
         $join .= "
         LEFT JOIN
         {$wpdb->term_relationships} ON {$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id
@@ -582,51 +619,50 @@ function cfcreation_attachments_join( $join, $query ) {
 
     return $join;
 }
+
 //add_filter( 'posts_join', 'cfcreation_attachments_join', 10, 2 );
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  Alter search query in admin medias: WHERE
- ******************************************************************************/
-function cfcreation_attachments_where( $where, $query ) {
+ * **************************************************************************** */
+function cfcreation_attachments_where($where, $query) {
     global $wpdb;
 
     //if we are not on admin or the current search is not on attachment return
-    if(!is_admin() || (!isset($query->query['post_type']) || $query->query['post_type'] != 'attachment'))
+    if (!is_admin() || (!isset($query->query['post_type']) || $query->query['post_type'] != 'attachment'))
         return $where;
 
     //  if current query is the main query and a search...
-    if( is_main_query() && is_search() )
-    {
+    if (is_main_query() && is_search()) {
         //  explictly search post_tag taxonomies
         $where .= " OR ( 
-                        ( {$wpdb->term_taxonomy}.taxonomy IN('media_tag') AND {$wpdb->terms}.name LIKE '%" . esc_sql( get_query_var('s') ) . "%' )
+                        ( {$wpdb->term_taxonomy}.taxonomy IN('media_tag') AND {$wpdb->terms}.name LIKE '%" . esc_sql(get_query_var('s')) . "%' )
                        )";
-
     }
 
     return $where;
 }
+
 //add_filter( 'posts_where', 'cfcreation_attachments_where', 10, 2 );
 
-/*******************************************************************************
+/* * *****************************************************************************
  *  Alter search query in admin: GROUPBY
- ******************************************************************************/
-function cfcreation_attachments_groupby( $groupby, $query ) {
+ * **************************************************************************** */
+function cfcreation_attachments_groupby($groupby, $query) {
 
     global $wpdb;
 
     //if we are not on admin or the current search is not on attachment return
-    if(!is_admin() || (!isset($query->query['post_type']) || $query->query['post_type'] != 'attachment'))
+    if (!is_admin() || (!isset($query->query['post_type']) || $query->query['post_type'] != 'attachment'))
         return $groupby;
 
     //  if current query is the main query and a search...
-    if( is_main_query() && is_search() )
-    {
+    if (is_main_query() && is_search()) {
         //  assign the GROUPBY
         $groupby = "{$wpdb->posts}.ID";
     }
 
     return $groupby;
-
 }
+
 //add_filter( 'posts_groupby', 'cfcreation_attachments_groupby', 10, 2 );

@@ -42,7 +42,7 @@
 
     <div class="small-10 small-centered columns">
         <div id="tags-cloud">
-            <?php cfcreation_collection_cloud(); ?>		
+            <?php cfcreation_tag_cloud('collection_tag'); ?>		
         </div>
     </div>
 
@@ -72,28 +72,16 @@
         //var_dump($include_tags);
         $attachments = get_posts($args);
         //var_dump($attachments);
+      
         ?> 
         <div class="slideshow">
         <?php
         if ($attachments) {               
             foreach ($attachments as $attachment) {					                   
-                //var_dump($attachment);
-                $attachment_tags = get_the_terms($attachment->ID, 'media_tag');
-                $show_tags_array = array();
-                $show_special_tags_array = array();
-                if ($attachment_tags) {
-                    foreach ($attachment_tags as $tag) {
-                        if ('en-stock' == $tag->slug || 'nouveaute' == $tag->slug) {
-                            $show_special_tags_array[] = '<span class="success label radius">' .  qtranxf_use($current_lang,$tag->name,false) . '</span>';
-                        } else {
-                            $show_tags_array[] = '<span class="label radius">' .  qtranxf_use($current_lang,$tag->name,false) . '</span>';
-                        }
-                    }
-                    $show_all_tags_array = array_merge($show_tags_array, $show_special_tags_array);
-                    $show_tags = implode(', ', $show_all_tags_array);
-                } else { $show_tags = ''; }
-                $img_url = wp_get_attachment_url($attachment->ID);
 
+                $img_url = wp_get_attachment_url($attachment->ID);
+                $show_tags = cfcreation_show_tags($attachment->ID, $current_lang);
+                
                 $btn_fb = '<div class="fb-share-button" data-href="' . $img_url . '" data-layout="button"></div>';
                 echo '<div class="slide">';
                 echo '<a href="' . wp_get_attachment_url($attachment->ID) . '" rel="gallery" class="image fancybox">';
