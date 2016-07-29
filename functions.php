@@ -6,9 +6,13 @@
 // http://richardsweeney.com/add-a-category-to-media-items-in-wordpress/
 
 /*
+  TODOS
+  ---------------------------------
 
-  ADD: Facebook posts on homepage
-
+  ADD: credits to tribalpixel in footer
+ 
+  UPDATE: Foundation FROM 6.1.2 TO 6.x.x
+  UPDATE: Foudation grid to Flex grid for layout
   FIX: Loading of images for slideshow
   FIX: Check all popup pages
   FIX: Responsive CSS, fixes for typo sizes
@@ -20,6 +24,11 @@
  */
 
 /*
+
+  Version: 0.1.7
+  UPDATE: slick.js FROM 1.5.9 TO 1.6.0
+  ADD: Facebook posts on homepage via plugin
+  SUPPORT: Tribalpixel Facebook Page plugin, theme use shortcodes
 
   Version: 0.1.6
   FIX: Pages Work/Collections now act with same pattern -> options in admin
