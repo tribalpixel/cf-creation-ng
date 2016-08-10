@@ -23,20 +23,7 @@
 
 
 <style>
-    .slideshow { 
-        height:140px; 
-        overflow: hidden; 
-        background: #FFF url('<?php echo get_template_directory_uri(); ?>/img/loading.gif') center center no-repeat;/**/
-    } 
-    .slideshow .slide {
-        display: none;
-    }
-    .slideshow.slick-initialized {
-        background:none;
-    }          
-    .slideshow.slick-initialized .slide {
-        display: block;
-    }     
+    
 </style>
 <div class="row" id="content">
 

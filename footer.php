@@ -183,15 +183,12 @@
 
 
 <?php /* END MODAL BOXES */ ?>
-<link rel='stylesheet' id='cf-creation-slick-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/slick/slick.css' type='text/css' media='all' />
-<link rel='stylesheet' id='cf-creation-slick-theme-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/slick/slick-theme.css' type='text/css' media='all' />
-<link rel='stylesheet' id='cf-creation-fancybox-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/fancybox/jquery.fancybox-1.3.7.min.css' type='text/css' media='all' />
 <script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/slick/slick.js'></script>
 <script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/fancybox/jquery.fancybox-1.3.7.min.js'></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/fancybox/jquery.easing.pack.js"></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/fancybox/jquery.mousewheel.pack.js"></script>
 <link rel='stylesheet' id='cf-creation-styles-overrides'  href='<?php echo get_stylesheet_directory_uri(); ?>/css/overrides.css' type='text/css' media='all' />
-<script src="<?php echo get_template_directory_uri(); ?>/js/foundation.js"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/js/foundation.min.js"></script>
 <script>
     jQuery(document).foundation();
     jQuery(".gallery-icon a").fancybox().attr('rel', 'gallery');

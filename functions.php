@@ -24,37 +24,40 @@
  */
 
 /*
-  Version: 0.1.8
-  BUG-FIX: When tag is default, tag_cloud item is not active/highligted
-  UPDATE: When default tag/collection is set in admin, it's reflect now in Gallerie landing page
-  FIX: Slideshow bug when looping picture $('.slideshow').slick({params})
-  FIX: Check all popup pages
+Version: 0.1.9
+    UPDATE: Foundation FROM 6.1.2 TO 6.2.3 (standard grid)
 
-  Version: 0.1.7
-  UPDATE: slick.js FROM 1.5.9 TO 1.6.0
-  ADD: Facebook posts on homepage via plugin
-  SUPPORT: Tribalpixel Facebook Page plugin, theme use shortcodes
+Version: 0.1.8
+    BUG-FIX: When tag is default, tag_cloud item is not active/highligted
+    UPDATE: When default tag/collection is set in admin, it's reflect now in Gallerie landing page
+    FIX: Slideshow bug when looping picture $('.slideshow').slick({params})
+    FIX: Check all popup pages
 
-  Version: 0.1.6
-  FIX: Pages Work/Collections now act with same pattern -> options in admin
-  FIX: Show collections tag on lightbox
-  ADD: Show count of images linked with tags/collection in admin
+Version: 0.1.7
+    UPDATE: slick.js FROM 1.5.9 TO 1.6.0
+    ADD: Facebook posts on homepage via plugin
+    SUPPORT: Tribalpixel Facebook Page plugin, theme use shortcodes
 
-  Version: 0.1.5
-  ADD: Filigranne automatique sur chaque images -> EasyWatermark plugin
-  FIX: Remove featured image from theme, not used anymore, image placed directly in content
-  ADD: Default tag options for tag cloud -> works/collections
-  ADD: Settings page for collections
+Version: 0.1.6
+    FIX: Pages Work/Collections now act with same pattern -> options in admin
+    FIX: Show collections tag on lightbox
+    ADD: Show count of images linked with tags/collection in admin
 
-  Version: 0.1.4
-  FIX: Limited homepage posts to 1 category
-  FIX: translated tags in picture popup
-  ADD: Make tags/collection tags searchable in admin media
+Version: 0.1.5
+    ADD: Filigranne automatique sur chaque images -> EasyWatermark plugin
+    FIX: Remove featured image from theme, not used anymore, image placed directly in content
+    ADD: Default tag options for tag cloud -> works/collections
+    ADD: Settings page for collections
 
-  Version: 0.1.3
-  ADD: Collections in page, use custom attachment taxonomy
-  FIX: qTranslate config.json for extra taxonomy
-  FIX: custom class for menu when in works/collections
+Version: 0.1.4
+    FIX: Limited homepage posts to 1 category
+    FIX: translated tags in picture popup
+    ADD: Make tags/collection tags searchable in admin media
+
+Version: 0.1.3
+    ADD: Collections in page, use custom attachment taxonomy
+    FIX: qTranslate config.json for extra taxonomy
+    FIX: custom class for menu when in works/collections
  */
 
 define('CFCNG_DEBUG', false);
@@ -346,8 +349,6 @@ function cfcreation_load_styles() {
     wp_enqueue_style('cf-creation-normalize', get_stylesheet_directory_uri() . '/css/normalize.css', array(), $my_theme->Version, 'all');
     wp_enqueue_style('cf-creation-foundation', get_stylesheet_directory_uri() . '/css/foundation.min.css', array(), $my_theme->Version, 'all');
 
-    // load fancybox css
-    //wp_enqueue_style('cf-creation-fancybox', get_stylesheet_directory_uri() . '/fancybox/fancybox-1.3.7.min.css', array(), $my_theme->Version, 'all');
     // load fonts
     wp_enqueue_style('cf-creation-font', 'http://fonts.googleapis.com/css?family=Josefin+Slab:400,600', array(), $my_theme->Version, 'all');
 

@@ -9,6 +9,10 @@
         <link rel="shortcut icon" href="<?php echo site_url(); ?>/favicon.ico">
         <link rel="apple-touch-icon" href="<?php echo site_url(); ?>/apple-touch-icon.png">        
         
+        <link rel='stylesheet' id='cf-creation-slick-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/slick/slick.css' type='text/css' media='all' />
+        <link rel='stylesheet' id='cf-creation-slick-theme-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/slick/slick-theme.css' type='text/css' media='all' />
+        <link rel='stylesheet' id='cf-creation-fancybox-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/fancybox/jquery.fancybox-1.3.7.min.css' type='text/css' media='all' />
+
         <?php wp_head(); ?>
         
     </head>

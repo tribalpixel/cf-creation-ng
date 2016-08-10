@@ -4,7 +4,7 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.1.8
+Version: 0.1.9
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -94,7 +94,7 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
 .menu-item, .menu-item a, #footer_nav a { color:#444444; } 
 .menu-item a:hover, .menu-item a:active, #footer_nav a:hover, #footer_nav a:active, .current-menu-item, .current-menu-item a{ color:#feba03; white-space:nowrap; }
 .inline-list { margin: 0 auto; } 
-.inline-list > li { float:none; display:inline-block; margin: 0 auto; padding: 0 30px; } 
+.inline-list > li { float:none; display:inline-block; margin: 0 auto; padding: 0.75em; } 
 
 .label { color:#000; font-weight: 600; }
 
@@ -104,11 +104,22 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
 #presse h2, #presse h3, #presse h4, #presse h5, #presse h6 { text-align: left; }
 #liens h2, #liens h3, #liens h4, #liens h5, #liens h6 { text-align: left; }
 
-/*.reveal-modal {
-    height: auto;
-    max-height:100%;
-    overflow:scroll;
-}*/
+.slideshow { 
+    height:150px; 
+    overflow: hidden; 
+    background: #FFF url(' img/loading.gif') center center no-repeat;/**/
+} 
+.slideshow .slide {
+    display: none;
+}
+.slideshow.slick-initialized {
+    background:none;
+    transition: 1s;
+}          
+.slideshow.slick-initialized .slide {
+    display: block;
+
+} 
 
 /* MEDIA QUERIES*/
 @media only screen and (min-width: 1440px) {}
@@ -128,7 +139,7 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
     #header_nav, #footer_nav {  margin:0; } 
     #header_nav a, #footer_nav a { font-size: 1.2em; padding: 10px 0;} 
     #contact-address {  max-width:99%;  margin:0px;font-size:0.55em; padding:5px 0; }	
-    .inline-list > li { padding: 0 15px; } 
+    .inline-list > li { padding: 0.5em; } 
 
 }
 
@@ -153,7 +164,7 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
     #tags-cloud { margin:5px 0 0 0; padding: 0 10px; text-align: center;} 
     #tags-cloud a { color:#444444; white-space:nowrap; padding:0 2px; font-size:smaller; } 
 
-    .inline-list > li { padding: 0 5px; } 	
+    .inline-list > li { padding: 0.25em; } 	
 
     /* FOOTER */
     #footer { padding: 3px 0; font-size: 0.7em; }
