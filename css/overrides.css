@@ -26,7 +26,7 @@
 .slick-next {
     width:39px;
     height: 60px;
-    z-index: 999;
+    /*z-index: 999;*/
 }
 
 .slick-prev {

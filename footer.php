@@ -48,6 +48,9 @@
                 echo '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode($cfcreation_fb) . '&amp;width=330&amp;height=62&amp;show_faces=false&amp;colorscheme=light&amp;stream=false&amp;show_border=false&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:330px; height:62px;" allowTransparency="true"></iframe>';
             }
             ?>	
+        <div>
+            <span class="copyright">site realisé par <a href="http://www.tribalpixel.ch" target="_blank">Tribalpixel aka Ludovic Bortolotti</a></span>
+        </div>
         </div>
     </div>
 </div>	
@@ -130,25 +133,22 @@
 
 <?php /* PRESSE */ ?>
     <?php
-    $presse_query = new WP_Query(array('category_name' => 'presse', 'posts_per_page' => -1));
+    $presse_query = new WP_Query(array('category_name' => 'presse', 'posts_per_page' => -1 ));
+    
     if ($presse_query->have_posts()) :
+        
     ?> 	
     <div id="presse" class="large reveal" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
         <div class="row">		
             <div class="small-12 columns">
                 <h2>Presse</h2>
                 <ul class="row small-up-1 large-up-4">
-                    <?php while ($presse_query->have_posts()) : $presse_query->the_post(); ?>
-                        <?php setup_postdata($presse_query->the_post()); ?>
+                    <?php while ($presse_query->have_posts()) : $presse_query->the_post(); ?>                   
+                        <?php //setup_postdata($presse_query->the_post()); ?>
                         <li class="columns"><h3 class="presse-title"><?php the_title(); ?></h3>
-                            <?php if (has_post_thumbnail()) {
-                                ?><a href="" target="_blank"><?php
-                                the_post_thumbnail('presse-thumb');
-                                ?></a><?php
-                            } ?><br />
                         <?php the_content(); ?><br />
                     <?php //edit_post_link(); // link to edit content if user is logged in  ?></li>		
-                    <?php endwhile;  ?>
+                    <?php endwhile; wp_reset_postdata(); ?>
                 </ul>	
             </div>
         </div>

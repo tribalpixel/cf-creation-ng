@@ -4,7 +4,7 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.1.7
+Version: 0.1.8
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@ color reference:
 .full-width { width:100%; }
 /*.button,.alert-box, .label, .label a { font-family: Arial, sans-serif; }*/
 
-*, body, h1, h2, h3, h4, h5, h6 { font-family: 'Josefin Slab', serif; color:#444444; font-weight:400; line-height:1; /*text-align: center;*/}
+*, body, h1, h2, h3, h4, h5, h6 { font-family: 'Josefin Slab', serif; color:#444444; font-weight:400; line-height:1;  /*text-align: center;*/}
 h2 { font-size:1.8em;  font-weight:600; }  
 h2.title { margin: 0 0 30px 0;  }
 h3 { font-size:1.25em;  font-weight:600;  }  
@@ -38,6 +38,7 @@ label{ font-weight:normal; }
 blockquote, blockquote p { color:#feba03; }
 strong{  font-weight:600; }
 a { outline:0; }
+.page, .archive, .reveal { background-color:#FFF; }
 
 #logo { text-align:center; padding:20px 0; } 
 #logo h1 { text-indent: -9999em; line-height:0.001em; height:0.001em; } 

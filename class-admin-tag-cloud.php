@@ -129,6 +129,12 @@ class adminTagCloud {
         <div class="wrap nosubsub">
             <h1><?php _e('Options ' . $this->title); ?></h1>
             <hr />
+    <div class="small-10 small-centered columns">
+        <div id="tags-cloud">
+            <?php cfcreation_tag_cloud('collection_tag'); ?>		
+        </div>
+    </div>
+            <hr />
             <div class="right">
                 <h2><?php echo _e('Settings'); ?></h2>
                 <form method="post" action=""> 

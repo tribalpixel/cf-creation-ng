@@ -42,51 +42,45 @@
 
     <div class="small-10 small-centered columns">
         <div id="tags-cloud">
-            <?php
-            if (is_tax("media_tag") || is_page('travaux')) {
-                cfcreation_tag_cloud();
-            } else {
-                cfcreation_collection_cloud();
-            }
-            //echo "<hr>". is_tax('collection_tag') . "</hr>";
-            //echo "<hr>". is_tax('media_tag') . "</hr>";
-            ?>		
+            <?php cfcreation_tag_cloud(); ?>		
         </div>
     </div>
 
     <div class="small-12 small-centered columns">
 
         <?php
-        $default = get_option('cfcreation_media_tag_default');
         $current_lang = qtranxf_getLanguage();
-        
+        $default = get_option('cfcreation_media_tag_default');
+
         // Catch tag query if any
         $tag_query = array();
-        if (is_tax("media_tag") || is_page('travaux')) {
-            if (isset($wp_query->query_vars['term'])) {
-                $tag_query = array('media_tag' => $wp_query->query_vars['term']);
-            } else {
-                if ($default != -1) {
-                    $tag_query = array('media_tag' => $default);
-                }
+        if (isset($wp_query->query_vars['term'])) {
+            $tag_query = array('media_tag' => $wp_query->query_vars['term']);
+        } else {
+            if ($default != -1) {
+                $tag_query = array('media_tag' => $default);
             }
         }
-        /*
-          else {
-          if (isset($wp_query->query_vars['term'])) { $tag_query = array('collection_tag' => $wp_query->query_vars['term']); }
-          else { $tag_query = array('tax_query' => array('taxonomy' => 'collection_tag')); }
-          }
-         */
 
         // Limite  le nb d'image sur la page initiale, illimité pour les tags
-        if (is_page()) {
-            $limit = 6;
-        } else {
-            $limit = -1;
-        }
+        $limit = -1;
 
+        if (is_page()) {
+            if ($default != -1) {
+                $include_tags = $default;
+            } else {
+                $collection_tags = get_terms('media_tag');
+                $include = array();
+                foreach ($collection_tags as $t) {
+                    array_push($include, $t->slug);
+                }
+                $include_tags = implode(', ', $include);
+                $limit = 18;
+            }
+            $tag_query = array('media_tag' => $include_tags);
+        }
         $args = array_merge(array('post_type' => 'attachment', 'posts_per_page' => $limit, 'category' => '11'), $tag_query);
-        //var_dump($args);
+        //var_dump($include_tags);
         $attachments = get_posts($args);
         //var_dump($attachments);
         ?> 
@@ -127,11 +121,11 @@
             slidesToScroll: 6,
             prevArrow: "<img class='slick-prev' src='<?php echo get_template_directory_uri(); ?>/img/back.png'>",
             nextArrow: "<img class='slick-next' src='<?php echo get_template_directory_uri(); ?>/img/next.png'>",
-            //infinite: true,
+            infinite: true,
             autoplay: true,
             autoplaySpeed: 10000,
-            adaptiveHeight: false,
-            variableWidth: true,
+            //adaptiveHeight: false,
+            //variableWidth: true,
             dots: false,
             //centered: true,
             //lazyLoad: 'ondemand',

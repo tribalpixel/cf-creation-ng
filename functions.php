@@ -10,20 +10,25 @@
   ---------------------------------
 
   ADD: credits to tribalpixel in footer
- 
+
   UPDATE: Foundation FROM 6.1.2 TO 6.x.x
   UPDATE: Foudation grid to Flex grid for layout
   FIX: Loading of images for slideshow
-  FIX: Check all popup pages
+
   FIX: Responsive CSS, fixes for typo sizes
   FIX: Configure SEO plugin, google sitemap
 
   BUG: Make tags/collection tags searchable in admin media
-  BUG: When tag is default, tag_cloud item is not active/highligted
- 
+
+
  */
 
 /*
+  Version: 0.1.8
+  BUG-FIX: When tag is default, tag_cloud item is not active/highligted
+  UPDATE: When default tag/collection is set in admin, it's reflect now in Gallerie landing page
+  FIX: Slideshow bug when looping picture $('.slideshow').slick({params})
+  FIX: Check all popup pages
 
   Version: 0.1.7
   UPDATE: slick.js FROM 1.5.9 TO 1.6.0
@@ -76,9 +81,9 @@ define("MENU_LIENS_EN", "Links");
 
 $color_array_options = array('-', CUSTOM_COLOR_4, CUSTOM_COLOR_5, CUSTOM_COLOR_6, CUSTOM_COLOR_7, CUSTOM_COLOR_8, CUSTOM_COLOR_9, CUSTOM_COLOR_10, CUSTOM_COLOR_11, CUSTOM_COLOR_12, CUSTOM_COLOR_13);
 
-/* * *****************************************************************************
+/* -----------------------------------------------------------------------------
  * THEME FEATURES
- * ***************************************************************************** */
+ * ----------------------------------------------------------------------------- */
 if (!function_exists('cfcreation_theme_features')) {
 
     // Register Theme Features
@@ -89,7 +94,7 @@ if (!function_exists('cfcreation_theme_features')) {
 
         // add post-formats to post_type 'page'
         //add_post_type_support('page', 'post-formats');
-        //add_theme_support('post-thumbnails');
+        add_theme_support('post-thumbnails');
         //add_image_size('bio-thumb', 460, 250, true);
         //add_image_size('presse-thumb', 250, 250, true);
         //add_image_size('full-page', 970, 250, true);
@@ -101,19 +106,19 @@ if (!function_exists('cfcreation_theme_features')) {
 }
 
 
-/* * *****************************************************************************
- *  REGISTER CUSTOM TAXONOMY FOR MEDIAS
- * ***************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * REGISTER CUSTOM TAXONOMY FOR MEDIAS
+ * ----------------------------------------------------------------------------- */
 /* slug is made by qTranslate slug plugin */
 
 function cfcreation_media_tags() {
-    
+
     $labels = array(
         'name' => _x('Tags', 'Taxonomy General Name', 'cfcreation'),
         'singular_name' => _x('Tag', 'Taxonomy Singular Name', 'cfcreation'),
         'menu_name' => __('Tags', 'cfcreation'),
     );
-    
+
     $rewrite = array(
         //'slug' => __('travaux','tax_slug','cfcreation'),
         'with_front' => true,
@@ -162,9 +167,9 @@ function cfcreation_collection_tags() {
 
 add_action('init', 'cfcreation_collection_tags', 0);
 
-/* * *****************************************************************************
- *  REGISTER CATEGORIES FOR MEDIAS
- * ***************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * REGISTER CATEGORIES FOR MEDIAS
+ * ----------------------------------------------------------------------------- */
 
 function cfcreation_register_taxonomy_for_images() {
     register_taxonomy_for_object_type('category', 'attachment');
@@ -172,9 +177,9 @@ function cfcreation_register_taxonomy_for_images() {
 
 add_action('init', 'cfcreation_register_taxonomy_for_images');
 
-/* * *****************************************************************************
- *  ADD CATEGORIES FILTER FOR MEDIAS
- * ***************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * ADD CATEGORIES FILTER FOR MEDIAS
+ * ----------------------------------------------------------------------------- */
 
 function cfcreation_add_image_category_filter() {
     $screen = get_current_screen();
@@ -186,9 +191,9 @@ function cfcreation_add_image_category_filter() {
 
 add_action('restrict_manage_posts', 'cfcreation_add_image_category_filter');
 
-/* * *****************************************************************************
- *  ADD SORTABLE CUSTOM TAG COLUMN TO MEDIA ADMIN PAGE
- * ***************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * ADD SORTABLE CUSTOM TAG COLUMN TO MEDIA ADMIN PAGE
+ * ----------------------------------------------------------------------------- */
 
 // Register the column as sortable & sort by name
 function cfcreation_media_tag_column_sortable($cols) {
@@ -204,9 +209,9 @@ function cfcreation_media_tag_columns() {
 
 add_action('admin_init', 'cfcreation_media_tag_columns');
 
-/* * *****************************************************************************
- *  ADD ADMIN SETTINGS FOR CUSTOM TAG CLOUD
- * ***************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * ADD ADMIN SETTINGS FOR CUSTOM TAG CLOUD
+ * ----------------------------------------------------------------------------- */
 
 require_once 'class-admin-tag-cloud.php';
 
@@ -216,9 +221,9 @@ $tagOptions->setTaxonomy('media_tag')->setTitle('Tags');
 $collectionOptions = new adminTagCloud();
 $collectionOptions->setTaxonomy('collection_tag')->setTitle('Collections');
 
-/* * *****************************************************************************
- *  CUSTOM TAG CLOUD, BASED ON wp_tag_cloud()
- * ***************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * CUSTOM TAG CLOUD, BASED ON wp_tag_cloud()
+ * ----------------------------------------------------------------------------- */
 
 function cfcreation_tag_cloud($taxonomy = "media_tag") {
 
@@ -240,34 +245,41 @@ function cfcreation_tag_cloud($taxonomy = "media_tag") {
     return wp_tag_cloud($args);
 }
 
-/* * *****************************************************************************
+/* -----------------------------------------------------------------------------
  * ADD CUSTOM CLASS TO TAGS LINK IN wp_tag_cloud()
- * ***************************************************************************** */
+ * ----------------------------------------------------------------------------- */
 
 function cfcreation_tag_cloud_custom_class($tags_data) {
 
     global $color_array_options;
     $body_class = get_body_class();
+    $default_active = NULL;
     foreach ($tags_data as $key => $tag) {
         if (is_page('travaux') || is_tax('media_tag')) {
             $tag_option = get_option('cfcreation_media_tag_' . $tag['id']);
+            if (is_page()) {
+                $default_active = get_option('cfcreation_media_tag_default');
+            }
         } else {
             $tag_option = get_option('cfcreation_collection_tag_' . $tag['id']);
+            if (is_page()) {
+                $default_active = get_option('cfcreation_collection_tag_default');
+            }
         }
         $color = array_search($tag_option['color'], $color_array_options);
-        if (in_array('term-' . $tag['id'], $body_class)) {
+        if (in_array('term-' . $tag['id'], $body_class) || $tag['slug'] == $default_active) {
             $tags_data[$key]['class'] = $tags_data[$key]['class'] . " tag-color-" . $color . " active-tag";
         }
     }
-    //var_dump($tags_data);
+    //var_dump($tags_data );
     return $tags_data;
 }
 
 add_filter('wp_generate_tag_cloud_data', 'cfcreation_tag_cloud_custom_class');
 
-/* * *****************************************************************************
+/* -----------------------------------------------------------------------------
  * ADD DYNAMIC CSS TO HTML <head> FOR THE wp_tag_cloud()
- * ***************************************************************************** */
+ * ----------------------------------------------------------------------------- */
 
 function cfcreation_add_custom_colors() {
 
@@ -294,7 +306,7 @@ function cfcreation_show_tags($attachmentID, $current_lang) {
 
     $show_tags_array = array();
     $show_special_tags_array = array();
-    
+
     if ($attachment_tags) {
         foreach ($attachment_tags as $tag) {
             if ('en-stock' == $tag->slug || 'nouveaute' == $tag->slug) {
@@ -316,14 +328,14 @@ function cfcreation_show_tags($attachmentID, $current_lang) {
 
     $show_all_tags_array = array_merge($show_tags_array, $show_special_tags_array);
     $show_tags = implode(' ', $show_all_tags_array);
-   
+
     return $show_tags;
 }
 
-/* * *****************************************************************************
- *  ADD SCRIPTS AND EXTRA LIBRARIES
- *  http://codex.wordpress.org/Function_Reference/wp_enqueue_script  
- * ***************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * ADD SCRIPTS AND EXTRA LIBRARIES
+ * http://codex.wordpress.org/Function_Reference/wp_enqueue_script  
+ * ----------------------------------------------------------------------------- */
 
 function cfcreation_load_styles() {
 
@@ -348,10 +360,10 @@ function cfcreation_load_styles() {
 
 add_action('wp_enqueue_scripts', 'cfcreation_load_styles');
 
-/* * *****************************************************************************
- *  REGISTER MENUS
- *  http://generatewp.com/nav-menus/  
- * ***************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * REGISTER MENUS
+ * http://generatewp.com/nav-menus/  
+ * ----------------------------------------------------------------------------- */
 if (!function_exists('cfcreation_navigation_menus')) {
 
     // Register Navigation Menus
@@ -368,9 +380,9 @@ if (!function_exists('cfcreation_navigation_menus')) {
     add_action('init', 'cfcreation_navigation_menus');
 }
 
-/* * *****************************************************************************
- *  ADD CLASS TO SPECIFIC MENU
- * ***************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * ADD CLASS TO SPECIFIC MENU
+ * ----------------------------------------------------------------------------- */
 
 function cfcreation_nav_class($classes, $item) {
     // use id of menu
@@ -390,9 +402,9 @@ function cfcreation_nav_class($classes, $item) {
 
 add_filter('nav_menu_css_class', 'cfcreation_nav_class', 10, 2);
 
-/* * ***********************************************************************
+/* -----------------------------------------------------------------------------
  * HOMEPAGE LIMIT POST TO 1 CATEGORY
- * *********************************************************************** */
+ * ----------------------------------------------------------------------------- */
 
 function cfcreation_home_page_pots($query) {
     if (!is_admin() && $query->is_main_query()) {
@@ -404,9 +416,9 @@ function cfcreation_home_page_pots($query) {
 
 add_action('pre_get_posts', 'cfcreation_home_page_pots');
 
-/* * *****************************************************************************
- *  CUSTOM LOGIN PAGE
- * ***************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * CUSTOM LOGIN PAGE
+ * ----------------------------------------------------------------------------- */
 
 /** Enqueues scripts and styles to change default login page */
 function cfcreation_login_stylesheet() {
@@ -429,9 +441,9 @@ function cfcreation_login_logo_url_title() {
 
 add_filter('login_headertitle', 'cfcreation_login_logo_url_title');
 
-/* * *****************************************************************************
- *  THEME CUSTOMIZER
- * ***************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * THEME CUSTOMIZER
+ * ----------------------------------------------------------------------------- */
 
 /**
  * Add Options for the Theme Customizer.
@@ -553,9 +565,9 @@ function cfcreation_custom_admin_color_palette() {
 
 //add_action('admin_init', 'cfcreation_custom_admin_color_palette');
 
-/* * ***********************************************************************
+/* -----------------------------------------------------------------------------
  * ADMIN UI TWEAKS
- * ********************************************************************** */
+ * ----------------------------------------------------------------------------- */
 // show link manager to WP
 add_filter('pre_option_link_manager_enabled', '__return_true');
 
@@ -575,9 +587,9 @@ function cfcreation_custom_tiny_mce($init) {
 
 add_filter('tiny_mce_before_init', 'cfcreation_custom_tiny_mce');
 
-/* * ***********************************************************************
+/* -----------------------------------------------------------------------------
  * ADD EDITOR CAPABILITY -> MANAGE THEME
- * *********************************************************************** */
+ * ----------------------------------------------------------------------------- */
 add_action('admin_init', 'cfcreation_allow_editor');
 
 function cfcreation_allow_editor() {
@@ -585,9 +597,9 @@ function cfcreation_allow_editor() {
     $role->add_cap('edit_theme_options'); // Let them manage our theme
 }
 
-/* * ***********************************************************************
+/* -----------------------------------------------------------------------------
  * SECURITY & ANTI-HACK & CLEANING WP TRICKS 
- * *********************************************************************** */
+ * ----------------------------------------------------------------------------- */
 
 // Remove fucking emoji nobody use
 remove_action('wp_head', 'print_emoji_detection_script', 7);
@@ -603,10 +615,10 @@ remove_action('wp_head', 'qtranxf_wp_head_meta_generator');
 define('DISALLOW_FILE_EDIT', true);
 
 
-/* * *****************************************************************************
- *  Alter search query in admin medias: JOIN
- *  http://stackoverflow.com/questions/20401351/how-to-the-get-the-wordpress-media-search-to-inlcude-tags
- * **************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * Alter search query in admin medias: JOIN
+ * http://stackoverflow.com/questions/20401351/how-to-the-get-the-wordpress-media-search-to-inlcude-tags
+ * ----------------------------------------------------------------------------- */
 
 function cfcreation_attachments_join($join, $query) {
     global $wpdb;
@@ -631,9 +643,9 @@ function cfcreation_attachments_join($join, $query) {
 
 //add_filter( 'posts_join', 'cfcreation_attachments_join', 10, 2 );
 
-/* * *****************************************************************************
- *  Alter search query in admin medias: WHERE
- * **************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * Alter search query in admin medias: WHERE
+ * ----------------------------------------------------------------------------- */
 function cfcreation_attachments_where($where, $query) {
     global $wpdb;
 
@@ -654,9 +666,9 @@ function cfcreation_attachments_where($where, $query) {
 
 //add_filter( 'posts_where', 'cfcreation_attachments_where', 10, 2 );
 
-/* * *****************************************************************************
- *  Alter search query in admin: GROUPBY
- * **************************************************************************** */
+/* -----------------------------------------------------------------------------
+ * Alter search query in admin: GROUPBY
+ * ----------------------------------------------------------------------------- */
 function cfcreation_attachments_groupby($groupby, $query) {
 
     global $wpdb;

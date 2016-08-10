@@ -47,54 +47,64 @@
     </div>
 
     <div class="small-12 small-centered columns">
-  
+
         <?php
         $current_lang = qtranxf_getLanguage();
         $default = get_option('cfcreation_collection_tag_default');
 
         // Catch tag query if any
-        $tag_query = array(); 
-        if (isset($wp_query->query_vars['term'])) { $tag_query = array('collection_tag' => $wp_query->query_vars['term']); } else { if($default != -1) { $tag_query = array('media_tag' => $default); } }
+        $tag_query = array();
+        if (isset($wp_query->query_vars['term'])) {
+            $tag_query = array('collection_tag' => $wp_query->query_vars['term']);
+        } else {
+            if ($default != -1) {
+                $tag_query = array('collection_tag' => $default);
+            }
+        }
 
         // Limite  le nb d'image sur la page initiale, illimité pour les tags
-        if (is_page()) { $limit = 6; } else { $limit = -1; }
+        $limit = -1;
 
-        if(is_page()) {
-            $collection_tags = get_terms('collection_tag');
-            $include = array();
-            foreach ($collection_tags as $t) {
-                array_push($include, $t->slug);
+        if (is_page()) {
+            if ($default != -1) {
+                $include_tags = $default;
+            } else {
+                $collection_tags = get_terms('collection_tag');
+                $include = array();
+                foreach ($collection_tags as $t) {
+                    array_push($include, $t->slug);
+                }
+                $include_tags = implode(', ', $include);
+                $limit = 18;
             }
-            $include_tags = implode(', ', $include); 
             $tag_query = array('collection_tag' => $include_tags);
         }
         $args = array_merge(array('post_type' => 'attachment', 'posts_per_page' => $limit, 'category' => '11'), $tag_query);
         //var_dump($include_tags);
         $attachments = get_posts($args);
         //var_dump($attachments);
-      
         ?> 
         <div class="slideshow">
-        <?php
-        if ($attachments) {               
-            foreach ($attachments as $attachment) {					                   
+            <?php
+            if ($attachments) {
+                foreach ($attachments as $attachment) {
 
-                $img_url = wp_get_attachment_url($attachment->ID);
-                $show_tags = cfcreation_show_tags($attachment->ID, $current_lang);
-                
-                $btn_fb = '<div class="fb-share-button" data-href="' . $img_url . '" data-layout="button"></div>';
-                echo '<div class="slide">';
-                echo '<a href="' . wp_get_attachment_url($attachment->ID) . '" rel="gallery" class="image fancybox">';
-                echo wp_get_attachment_image($attachment->ID, 'thumbnail', false, array(
-                    'alt' => '<div class="fancy-desc"><div class="fancy-desc-left">' . $show_tags . '</div><div class="fancy-desc-right">' . $btn_fb . '</div></div>',
-                    'title' => strip_tags($show_tags),
-                    'class' => 'slideshow-img',
-                ));
-                echo '</a>';
-                echo '</div>';
+                    $img_url = wp_get_attachment_url($attachment->ID);
+                    $show_tags = cfcreation_show_tags($attachment->ID, $current_lang);
+
+                    $btn_fb = '<div class="fb-share-button" data-href="' . $img_url . '" data-layout="button"></div>';
+                    echo '<div class="slide">';
+                    echo '<a href="' . wp_get_attachment_url($attachment->ID) . '" rel="gallery" class="image fancybox">';
+                    echo wp_get_attachment_image($attachment->ID, 'thumbnail', false, array(
+                        'alt' => '<div class="fancy-desc"><div class="fancy-desc-left">' . $show_tags . '</div><div class="fancy-desc-right">' . $btn_fb . '</div></div>',
+                        'title' => strip_tags($show_tags),
+                        'class' => 'slideshow-img',
+                    ));
+                    echo '</a>';
+                    echo '</div>';
+                }
             }
-        }
-        ?>
+            ?>
         </div>
     </div>
 
@@ -110,11 +120,11 @@
             slidesToScroll: 6,
             prevArrow: "<img class='slick-prev' src='<?php echo get_template_directory_uri(); ?>/img/back.png'>",
             nextArrow: "<img class='slick-next' src='<?php echo get_template_directory_uri(); ?>/img/next.png'>",
-            //infinite: true,
+            infinite: true,
             autoplay: true,
             autoplaySpeed: 10000,
-            adaptiveHeight: false,
-            variableWidth: true,
+            //adaptiveHeight: false,
+            //variableWidth: true,
             dots: false,
             //centered: true,
             //lazyLoad: 'ondemand',
