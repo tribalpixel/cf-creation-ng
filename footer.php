@@ -48,10 +48,10 @@
                 echo '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode($cfcreation_fb) . '&amp;width=330&amp;height=62&amp;show_faces=false&amp;colorscheme=light&amp;stream=false&amp;show_border=false&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:330px; height:62px;" allowTransparency="true"></iframe>';
             }
             ?>	
-        <div>
-            <span class="copyright">site realisé par <a href="http://www.tribalpixel.ch" target="_blank">Tribalpixel aka Ludovic Bortolotti</a></span>
         </div>
-        </div>
+            <div class="webdev">
+                 Site realisé par <a href="http://www.tribalpixel.ch" target="_blank">/[tribalpixel]\</a>
+            </div>        
     </div>
 </div>	
 
@@ -132,11 +132,10 @@
 </div>
 
 <?php /* PRESSE */ ?>
-    <?php
-    $presse_query = new WP_Query(array('category_name' => 'presse', 'posts_per_page' => -1 ));
-    
-    if ($presse_query->have_posts()) :
-        
+<?php
+$presse_query = new WP_Query(array('category_name' => 'presse', 'posts_per_page' => -1));
+
+if ($presse_query->have_posts()) :
     ?> 	
     <div id="presse" class="large reveal" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
         <div class="row">		
@@ -146,9 +145,11 @@
                     <?php while ($presse_query->have_posts()) : $presse_query->the_post(); ?>                   
                         <?php //setup_postdata($presse_query->the_post()); ?>
                         <li class="columns"><h3 class="presse-title"><?php the_title(); ?></h3>
-                        <?php the_content(); ?><br />
-                    <?php //edit_post_link(); // link to edit content if user is logged in  ?></li>		
-                    <?php endwhile; wp_reset_postdata(); ?>
+                            <?php the_content(); ?><br />
+                            <?php //edit_post_link(); // link to edit content if user is logged in  ?></li>		
+                    <?php endwhile;
+                    wp_reset_postdata();
+                    ?>
                 </ul>	
             </div>
         </div>
@@ -156,7 +157,9 @@
             <span aria-hidden="true">&#215;</span>
         </button>
     </div>
-<?php endif; wp_reset_postdata();?>
+<?php endif;
+wp_reset_postdata();
+?>
 
 <?php /* LIENS */ ?>
 <div id="liens" class="large reveal" data-reveal data-close-on-click="true" data-animation-in="false" data-animation-out="false" data-options="animation:none">
@@ -199,6 +202,15 @@
         h2,h3,h4,h5,h6 { text-align: center; }
     </style>
 <?php endif; ?>
+
+<?php if (is_home()): ?><?php endif; ?>
+    <script>
+        jQuery(document).ready(function ($) {
+            $('.hidden_on_load').foundation('toggle');
+            $('.loader').remove();
+        });
+    </script>
+
 
 <?php wp_footer(); ?>
 </body>

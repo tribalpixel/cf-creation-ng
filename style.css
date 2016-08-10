@@ -4,7 +4,7 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.1.9
+Version: 0.1.9b
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -25,7 +25,7 @@ color reference:
 .full-width { width:100%; }
 /*.button,.alert-box, .label, .label a { font-family: Arial, sans-serif; }*/
 
-*, body, h1, h2, h3, h4, h5, h6 { font-family: 'Josefin Slab', serif; color:#444444; font-weight:400; line-height:1;  /*text-align: center;*/}
+*, body, h1, h2, h3, h4, h5, h6 { font-family: 'Josefin Slab', serif; color:#444444; font-weight:400; line-height:1;  /*text-align: center;*/ transition-duration: .5s; }
 h2 { font-size:1.8em;  font-weight:600; }  
 h2.title { margin: 0 0 30px 0;  }
 h3 { font-size:1.25em;  font-weight:600;  }  
@@ -42,10 +42,12 @@ a { outline:0; }
 
 #logo { text-align:center; padding:20px 0; } 
 #logo h1 { text-indent: -9999em; line-height:0.001em; height:0.001em; } 
-#content { margin:30px auto 0 auto; }
+#content { margin:20px auto 0 auto; }
 #content ul, #content ol { list-style-position: inside; }
 #presse ul { list-style: none; }
-#contact-address { font-size:1em; text-align:center; padding:15px 0; margin:0; border-top:1px solid #444444; } 
+#contact-address { font-size:1.25em; text-align:center; padding:0.5em 0; margin:0; border-top:1px solid #444444; } 
+#contact-address > li { border-right: 1px solid #444; padding:0 0.5em 0 0; }
+#contact-address > li:last-child { border-right: none; }
 #contact-address a, #contact-address p { white-space:nowrap; } 
 
 
@@ -58,14 +60,14 @@ a { outline:0; }
 
 #footer { background-color:#eee; padding: 10px 0; text-align: center; } 
 #header_nav, #footer_nav { text-align:center;  margin:0; border-top:1px solid #444444; border-bottom:1px solid #444444; } 
-#header_nav a, #footer_nav a { font-size: 1.6em; padding: 20px 0;  }
+#header_nav a, #footer_nav a { font-size: 1.75em; padding: 0;  }
 #footer iframe { vertical-align: middle; }
 .coypright { vertical-align: middle; height: 70px; margin: 0; padding: 17px 25px; } 
 
 iframe { padding: auto; margin: 15px; }
 
 /* TAG CLOUD */	
-#tags-cloud { margin:15px 0; padding: 0 20px; text-align: center; }
+#tags-cloud { margin:0 0 15px 0; padding: 0 20px; text-align: center; }
 #tags-cloud a { color: #444444; white-space:nowrap; padding:0 5px; }
 #tags-cloud a.active-tag { color: #feba03; font-weight: 600; }
 
@@ -93,8 +95,8 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
 .tags-nav a { color: #444444; }
 .menu-item, .menu-item a, #footer_nav a { color:#444444; } 
 .menu-item a:hover, .menu-item a:active, #footer_nav a:hover, #footer_nav a:active, .current-menu-item, .current-menu-item a{ color:#feba03; white-space:nowrap; }
-.inline-list { margin: 0 auto; } 
-.inline-list > li { float:none; display:inline-block; margin: 0 auto; padding: 0.75em; } 
+.inline-list { margin: 0.5em auto; } 
+.inline-list > li { float:none; display:inline-block; margin: 0 auto; }
 
 .label { color:#000; font-weight: 600; }
 
@@ -121,9 +123,41 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
 
 } 
 
-/* MEDIA QUERIES*/
-@media only screen and (min-width: 1440px) {}
+.hidden_on_load {display:none;}
+.loader { background: #FFF url(' img/loading.gif') center center no-repeat;/**/ }
 
+.webdev { text-align:center; margin:10px auto; font-family: monospace;  }
+.webdev a { text-decoration: underline; color:#333; font-weight:bold; }
+.webdev a:hover, .webdev a:active { color: #feba03; text-decoration: none }
+.menu { padding:0.75em 0; }
+
+
+/* MEDIA QUERIES*/
+
+/* Small only */
+@media screen and (max-width: 39.9375em) {
+    #header_nav a, #footer_nav a {  font-size: 1em; }   
+    #contact-address {  font-size:1em;  }	  
+    .inline-list > li { font-size: small; } 
+    #tags-cloud { margin:5px 0 0 0; padding: 0 10px; text-align: center; font-size:smaller;} 
+    #tags-cloud a { color:#444444; white-space:nowrap; padding:0 2px; font-size:smaller; } 
+}
+
+/* Medium and up */
+@media screen and (min-width: 40em) {}
+
+/* Medium only */
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {}
+
+/* Large and up */
+@media screen and (min-width: 64em) {}
+
+/* Large only */
+@media screen and (min-width: 64em) and (max-width: 74.9375em) {}
+
+
+
+/*
 @media only screen and (max-width: 1280px) {
     .reveal-modal .close-reveal-modal {
         font-size: 5.375em !important;
@@ -137,7 +171,7 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
 @media only screen and (max-width: 1024px) {
 
     #header_nav, #footer_nav {  margin:0; } 
-    #header_nav a, #footer_nav a { font-size: 1.2em; padding: 10px 0;} 
+    #header_nav a, #footer_nav a { font-size: 1.2em;} 
     #contact-address {  max-width:99%;  margin:0px;font-size:0.55em; padding:5px 0; }	
     .inline-list > li { padding: 0.5em; } 
 
@@ -155,18 +189,18 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
     hr { margin: 10px 0; }
 
     #header_nav, #footer_nav { margin:0; } 
-    #header_nav a, #footer_nav a {  font-size: 0.9em; padding: 5px 0; } 
+    #header_nav a, #footer_nav a {  font-size: 0.9em; } 
     #header_nav div, #footer_nav div, #footer div { text-align:center; } 
     #contact-address {  max-width:99%; -webkit-transition-duration: .5s; margin:0px;font-size:0.45em; padding:5px 0; }	
-    #content { margin:10px auto 0 auto; }
+    #content { margin:8px auto 0 auto; }
 
-    /* TAG CLOUD */	
+     TAG CLOUD 	
     #tags-cloud { margin:5px 0 0 0; padding: 0 10px; text-align: center;} 
     #tags-cloud a { color:#444444; white-space:nowrap; padding:0 2px; font-size:smaller; } 
 
     .inline-list > li { padding: 0.25em; } 	
 
-    /* FOOTER */
+     FOOTER 
     #footer { padding: 3px 0; font-size: 0.7em; }
     #diamant { background: url('img/panorama_atelier.jpg') repeat-x -1450px -160px ; padding: 55px 0; }	 	
     #diamant_wrapper { position: relative; top:-75px; left:20px; }
@@ -174,4 +208,4 @@ img.aligncenter { margin-top: 6px; margin-bottom: 12px; }
     #diamant_title { margin:8px 0; font-size:0.7em; width:150px; } 
     #diamant_content { margin:20px auto 0 auto; font-size:0.5em; width:150px; }
     #diamant_bg { background: url('img/overlay_map_small.png') no-repeat top center; width:150px; height:98px;}		
-}
+}*/

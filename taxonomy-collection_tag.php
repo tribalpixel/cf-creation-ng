@@ -25,15 +25,15 @@
 <style>
     
 </style>
-<div class="row" id="content">
+<div class="row align-center" id="content">
 
-    <div class="small-10 small-centered columns">
+    <div class="small-10 columns">
         <div id="tags-cloud">
             <?php cfcreation_tag_cloud('collection_tag'); ?>		
         </div>
     </div>
 
-    <div class="small-12 small-centered columns">
+    <div class="small-12 columns">
 
         <?php
         $current_lang = qtranxf_getLanguage();
@@ -114,7 +114,7 @@
             //variableWidth: true,
             dots: false,
             //centered: true,
-            //lazyLoad: 'ondemand',
+            lazyLoad: false,
             responsive: [
                 {
                     breakpoint: 1024,

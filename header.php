@@ -33,20 +33,20 @@
 
         <?php /* ADDRESS */ ?>	
         <div class="row">
-            <div class="small-12 columns">		
-                <div id="contact-address">
-                    <?php echo get_theme_mod('cfcreation_name'); ?> &nbsp;|&nbsp;
-                    <?php echo get_theme_mod('cfcreation_infos1'); ?>&nbsp;|&nbsp;
-                    <?php echo get_theme_mod('cfcreation_infos2'); ?>&nbsp;|&nbsp;
-                    <?php echo get_theme_mod('cfcreation_mobile'); ?>&nbsp;|&nbsp;
-                    <a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a>						  
-                </div>			
+            <div class="small-12 columns">
+                <ul id="contact-address" class="inline-list">
+                    <li class="show-for-medium"><?php echo get_theme_mod('cfcreation_name'); ?></li>
+                    <li class="show-for-large"><?php echo get_theme_mod('cfcreation_infos1'); ?></li>
+                    <li class="show-for-large"><?php echo get_theme_mod('cfcreation_infos2'); ?></li>
+                    <li><?php echo get_theme_mod('cfcreation_mobile'); ?></li>
+                    <li><a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a></li>						  
+                </ul>
             </div>
         </div>
 
         <?php /* NAV */ ?>	
-        <div class="row">
-            <div class="small-12 centered columns">
+        <div class="row align-center">
+            <div class="small-12 columns">
                 <div id="header_nav">
                     <?php wp_nav_menu(array('theme_location' => 'header_menu', 'items_wrap' => '<ul id="%1$s" class="%2$s inline-list">%3$s</ul>',)); ?>
                 </div>

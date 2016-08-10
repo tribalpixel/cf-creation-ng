@@ -1,7 +1,6 @@
-<p><a data-toggle="panel-<?php the_ID(); ?>">Toggle Panel</a></p>
-<div class="callout large primary" data-toggler data-animate="hinge-in-from-top" id="panel-<?php the_ID(); ?>">
+<div class="loader">&nbsp;</div>
+<div class="callout large primary hidden_on_load" data-toggler data-animate="hinge-in-from-top">
 <?php the_title('<h4>','</h4>'); ?>
 <?php the_content(); ?>
 </div>
-
 <hr />

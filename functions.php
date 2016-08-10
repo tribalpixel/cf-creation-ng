@@ -6,24 +6,30 @@
 // http://richardsweeney.com/add-a-category-to-media-items-in-wordpress/
 
 /*
-  TODOS
-  ---------------------------------
+TODOS
+---------------------------------
 
-  ADD: credits to tribalpixel in footer
+ADD: credits to tribalpixel in footer
 
-  UPDATE: Foundation FROM 6.1.2 TO 6.x.x
-  UPDATE: Foudation grid to Flex grid for layout
-  FIX: Loading of images for slideshow
+UPDATE: Foundation FROM 6.1.2 TO 6.x.x
+UPDATE: Foudation grid to Flex grid for layout
+FIX: Loading of images for slideshow
 
-  FIX: Responsive CSS, fixes for typo sizes
-  FIX: Configure SEO plugin, google sitemap
 
-  BUG: Make tags/collection tags searchable in admin media
+FIX: Configure SEO plugin, google sitemap
+
+BUG: Make tags/collection tags searchable in admin media
 
 
  */
 
 /*
+
+Version: 0.1.9b
+    UPDATE: Foundation FROM 6.2.3 (standard grid) To 6.2.3 (full + flex grid)
+    FIX: Responsive CSS, fixes for typo sizes
+    ADD: Animation on post loading in homepage (foundation motion-ui/toggle)
+ 
 Version: 0.1.9
     UPDATE: Foundation FROM 6.1.2 TO 6.2.3 (standard grid)
 

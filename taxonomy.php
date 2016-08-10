@@ -22,31 +22,15 @@
     }(document, 'script', 'facebook-jssdk'));</script>
 
 
-<style>
-    .slideshow { 
-        height:140px; 
-        overflow: hidden; 
-        background: #FFF url('<?php echo get_template_directory_uri(); ?>/img/loading.gif') center center no-repeat;/**/
-    } 
-    .slideshow .slide {
-        display: none;
-    }
-    .slideshow.slick-initialized {
-        background:none;
-    }          
-    .slideshow.slick-initialized .slide {
-        display: block;
-    }     
-</style>
-<div class="row" id="content">
+<div class="row align-center" id="content">
 
-    <div class="small-10 small-centered columns">
+    <div class="small-10 columns">
         <div id="tags-cloud">
             <?php cfcreation_tag_cloud(); ?>		
         </div>
     </div>
 
-    <div class="small-12 small-centered columns">
+    <div class="small-12 columns">
 
         <?php
         $current_lang = qtranxf_getLanguage();
