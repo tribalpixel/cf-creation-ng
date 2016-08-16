@@ -9,26 +9,23 @@
 TODOS
 ---------------------------------
 
-ADD: credits to tribalpixel in footer
-
-UPDATE: Foundation FROM 6.1.2 TO 6.x.x
-UPDATE: Foudation grid to Flex grid for layout
-FIX: Loading of images for slideshow
-
-
 FIX: Configure SEO plugin, google sitemap
-
 BUG: Make tags/collection tags searchable in admin media
-
 
  */
 
 /*
 
+Version: 0.2.0
+    UPDATE: Rewrite all Css with Sass reformatted html for flex boxes => better code and responsive
+    ADD: Option in theme for change animations of modal boxes
+    ADD: credits to tribalpixel in footer
+    FIX: Loading of images for slideshow
+
 Version: 0.1.9b
     UPDATE: Foundation FROM 6.2.3 (standard grid) To 6.2.3 (full + flex grid)
     FIX: Responsive CSS, fixes for typo sizes
-    ADD: Animation on post loading in homepage (foundation motion-ui/toggle)
+    ADD: Animation on post loading (foundation motion-ui/toggle)
  
 Version: 0.1.9
     UPDATE: Foundation FROM 6.1.2 TO 6.2.3 (standard grid)
@@ -247,7 +244,7 @@ function cfcreation_tag_cloud($taxonomy = "media_tag") {
 
     $exclude = implode(',', $inactif);
     $args = array(
-        'smallest' => 1, 'largest' => 2.5, 'unit' => 'em', 'number' => 999,
+        'smallest' => 1, 'largest' => 2, 'unit' => 'em', 'number' => 999,
         'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
         'exclude' => $exclude, 'include' => '', 'link' => 'view', 'taxonomy' => $taxonomy, 'echo' => 1, 'hide_empty' => 1
     );
@@ -297,7 +294,7 @@ function cfcreation_add_custom_colors() {
     echo '<style type="text/css" media="screen">' . "\n";
     foreach ($color_array_options as $k => $v) {
         if ($k !== 0) {
-            echo "#tags-cloud a.tag-color-{$k} { color:{$v}; }\n";
+            echo ".tags-cloud a.tag-color-{$k} { color:{$v}; }\n";
         }
     }
     echo '</style>' . "\n";
@@ -366,6 +363,59 @@ function cfcreation_load_styles() {
 }
 
 add_action('wp_enqueue_scripts', 'cfcreation_load_styles');
+
+function cfcreation_slideshow_js(){
+?>
+<script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/slick/slick.js'></script>
+<script>
+    jQuery(document).ready(function ($) {
+
+        $('.slideshow').slick({
+            slidesToShow: 6,
+            slidesToScroll: 6,
+            prevArrow: "<img class='slick-prev' src='<?php echo get_template_directory_uri(); ?>/img/back.png'>",
+            nextArrow: "<img class='slick-next' src='<?php echo get_template_directory_uri(); ?>/img/next.png'>",
+            infinite: false,
+            autoplay: true,
+            autoplaySpeed: 10000,
+            dots: false,
+            lazyLoad: 'progressive',
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 4,
+                    }
+                },
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2
+                    }
+                }
+            ]
+        });
+
+        $(".fancybox").fancybox({
+            'titlePosition': 'inside',
+            'titleFromAlt': true,
+            onComplete: function () {
+                FB.XFBML.parse();
+            }
+        });
+    });
+</script>
+<?php
+}
 
 /* -----------------------------------------------------------------------------
  * REGISTER MENUS
@@ -456,9 +506,12 @@ add_filter('login_headertitle', 'cfcreation_login_logo_url_title');
  * Add Options for the Theme Customizer.
  */
 function cfcreation_customize_register($wp_customize) {
-
+       
     // remove default section
     $wp_customize->remove_section('static_front_page');
+    $wp_customize->remove_section('background_image');
+    $wp_customize->remove_section('header_image');
+    $wp_customize->remove_section('colors');
     $wp_customize->remove_section('nav');
 
     /* INFOS SECTION */
@@ -548,14 +601,62 @@ function cfcreation_customize_register($wp_customize) {
         'settings' => 'cfcreation_fb_footer',
     )));
 
-    /* HOME NEWS & SLIDESHOW SECTION */
+    /* MODAL ANIMATION SECTION */
     // add section options
-    $wp_customize->add_section('cfcreation_slideshow_section', array(
-        'title' => 'Page d\'accueil',
-        'priority' => 20,
+    $wp_customize->add_section('cfcreation_modal_section', array(
+        'title' => 'Modal Animations',
+        'priority' => 40,
     ));
-
-    //echo '<pre>'; print_r($wp_customize); echo '</pre>';
+    // add settings
+    $wp_customize->add_setting('cfcreation_modal_in', array('default' => 'fade-in'));
+    $wp_customize->add_setting('cfcreation_modal_out', array('default' => 'fade-out'));
+    $wp_customize->add_setting('cfcreation_modal_in_page', array('default' => 'fade-in'));
+    // add select field for animation IN
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'cfcreation_modal_in_control', array(
+        'label' => 'Animation IN',
+        'section' => 'cfcreation_modal_section',
+        'settings' => 'cfcreation_modal_in',
+        'type' => 'select',
+        'choices' => array (
+            'fade-in'           => 'Fade In', 
+            'slide-in-down'     => 'Slide In Down', 
+            'slide-in-up'       => 'Slide In Up', 
+            'slide-in-right'    => 'Slide In Right', 
+            'slide-in-left'     => 'Slide In Left',
+            'hinge-in-from-middle-x'     => 'Hinge In X',
+            'hinge-in-from-middle-y'     => 'Hinge In Y'
+        )
+    )));   
+    // add select field for animation OUT
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'cfcreation_modal_out_control', array(
+        'label' => 'Animation OUT',
+        'section' => 'cfcreation_modal_section',
+        'settings' => 'cfcreation_modal_out',
+        'type' => 'select',
+        'choices' => array (
+            'fade-in'           => 'Fade Out', 
+            'slide-out-down'    => 'Slide Out Down', 
+            'slide-out-up'      => 'Slide Out Up', 
+            'slide-out-right'   => 'Slide Out Right', 
+            'slide-out-left'    => 'Slide Out Left',
+            'hinge-out-from-middle-x'     => 'Hinge Out X',
+            'hinge-out-from-middle-y'     => 'Hinge Out Y'            
+        )        
+    )));      
+    // add select field for animation IN PAGE (POSTS/PAGE)
+    $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'cfcreation_modal_in_page_control', array(
+        'label' => 'Animation Page (Posts/Page)',
+        'section' => 'cfcreation_modal_section',
+        'settings' => 'cfcreation_modal_in_page',
+        'type' => 'select',
+        'choices' => array (
+            'fade-in'           => 'Fade In', 
+            'hinge-in-from-middle-x'    => 'Hinge In X',
+            'hinge-in-from-middle-y'    => 'Hinge In Y',
+            'hinge-in-from-top'         => 'Hinge In From Top',
+            'hinge-in-from-bottom'      => 'Hinge From Bottom',
+        )
+    )));     
 }
 
 add_action('customize_register', 'cfcreation_customize_register');

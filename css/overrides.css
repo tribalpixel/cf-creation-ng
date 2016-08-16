@@ -4,38 +4,24 @@
 .gallery-icon {}
 .gallery-caption {}
 
-.slideshow{ height:auto; }
+/*.slideshow{ height:auto; }*/
 
-.slick-slider .slick-list {
+/*.slick-slider .slick-list {
     transform: none;
     margin: 0 45px 0 45px;
-    /*overflow: hidden;*/
-    /*width:95%;*/
+    overflow: hidden;
+    width:95%;
 
-    /*border: 1px solid green;*/  
+    border: 1px solid green;  
 }
 .slick-slide{ 
     width:140px; 
     margin: 0 5px;     
-    /*border: 1px solid red;*/ 
-}
+    border: 1px solid red; 
+}*/
 
 
-/* SLICK OVERRIDES */
-.slick-prev,
-.slick-next {
-    width:39px;
-    height: 60px;
-    /*z-index: 999;*/
-}
 
-.slick-prev {
-    left: 3em;
-}
-
-.slick-next {
-    right: 3em;
-}
 
 
 /* FANCYBOX OVERRIDES */

@@ -1,29 +1,27 @@
-<?php /* FOOTER */ ?>
-<div class="row">
-    <div class="small-12 centered columns">
-        <hr />
-        <div id="diamant">
-            <div id="diamant_wrapper">
-                <div id="diamant_title">Atelier sur rendez-vous</div>
-                <div id="diamant_content">				
+<?php /* DIAMANT */ ?>
+<div class="row align-center">
+    <div class="columns">
+        <div class="diamant">
+            <div class="diamant_wrapper">
+                <h4>Atelier sur rendez-vous</h4>
+                <div>				
                     <?php echo get_theme_mod('cfcreation_tel'); ?><br />
                     <?php echo get_theme_mod('cfcreation_mobile'); ?><br /><br />
                     <a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a><br /><br />
-                    <a href="javascript:void(0);" data-open="gmap"> >> google map</a>
-                </div>
-                <div id="diamant_bg"></div>
+                    <a href="javascript:void(0);" data-open="gmap"><img src="<?php echo get_template_directory_uri(); ?>/img/loc_icon.png" alt="google_map_link" title="Google Map" /></a>
+                </div>                
             </div>            
         </div>
     </div>
 </div>
-
+                    
+                    
 <?php /* NAV */ ?>	
-<div class="row">
-    <div class="small-12 centered columns">
-        <div id="footer_nav">
-            <?php //wp_nav_menu(array('theme_location' => 'footer_menu', 'items_wrap' => '<ul id="%1$s" class="%2$s inline-list">%3$s</ul>',)); ?>
+<div class="row align-center">
+    <div class="columns">
+        <div class="nav">
             <?php $currentLang = qtranxf_getLanguage(); ?>
-            <ul class="menu inline-list">
+            <ul class="inline-list">
                 <li><a data-open="contact"><?php echo ($currentLang == 'fr') ? 'Contact' : MENU_CONTACT_EN; ?></a></li>
                 <li><a data-open="video"><?php echo ($currentLang == 'fr') ? 'Film d\'animation' : MENU_FILM_EN; ?></a></li>
                 <li><a data-open="biographie"><?php echo ($currentLang == 'fr') ? 'Biographie' : MENU_BIO_EN; ?></a></li>
@@ -32,12 +30,23 @@
             </ul>            
         </div>
     </div>
-</div>  
+</div> 
 
-<?php /* COPYRIGHT */ ?>
-<div class="row">
-    <div class="small-12 centered columns">
-        <div id="footer">	
+<?php /* SPONSORS BANNER */ ?>	
+<div class="row align-center">
+    <div class="columns">
+        <div class="sponsor hidden_on_load" data-toggler data-animate="<?php echo get_theme_mod('cfcreation_modal_in_page'); ?>">
+            <div class="loader">&nbsp;</div>
+            <a href="http://www.maxhavelaar.ch/or" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/img/fairtrade_maxhavelaar_webbanner_large_f_2015.png" alt="fairetrade_maxhavelaar_webbanner" title="Fairetrade Maxhavelaar" /></a>
+        <hr>
+        </div>
+    </div>
+</div>          
+
+<?php /* FOOTER */ ?>
+<div class="row align-center">
+    <div class="columns">
+        <div class="footer">	
             <span class="coypright"><?php bloginfo('name'); ?> &copy; 2005-<?php echo date('Y'); ?> / <?php echo get_theme_mod('cfcreation_name'); ?></span>
             <?php
             // get theme options
@@ -45,60 +54,64 @@
             $cfcreation_fb_show = get_theme_mod('cfcreation_fb_footer');
             // show on page
             if (!empty($cfcreation_fb) && $cfcreation_fb_show == TRUE) {
-                echo '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode($cfcreation_fb) . '&amp;width=330&amp;height=62&amp;show_faces=false&amp;colorscheme=light&amp;stream=false&amp;show_border=false&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:330px; height:62px;" allowTransparency="true"></iframe>';
+                //echo '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode($cfcreation_fb) . '&amp;width=330&amp;height=62&amp;show_faces=false&amp;colorscheme=light&amp;stream=false&amp;show_border=false&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:330px; height:62px;" allowTransparency="true"></iframe>';
             }
             ?>	
         </div>
+        <hr>
             <div class="webdev">
                  Site realisé par <a href="http://www.tribalpixel.ch" target="_blank">/[tribalpixel]\</a>
             </div>        
     </div>
 </div>	
 
-<?php /* START MODAL BOXES */ ?>
+<?php 
+/* START MODAL BOXES */ 
+$modal_in = get_theme_mod('cfcreation_modal_in');
+$modal_out = get_theme_mod('cfcreation_modal_out');
+?>
 
 <?php /* GMAP */ ?>
-<div id="gmap" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
+<div id="gmap" class="large reveal" data-reveal>
     <div class="row">
         <div class="flex-video">
             <iframe width="970" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.ch/maps?q=Bijouterie+CD+cf-cr%C3%A9ation&amp;hl=fr&amp;ie=UTF8&amp;cid=14674245541224973790&amp;gl=CH&amp;t=m&amp;ll=46.516351,6.641922&amp;spn=0.047251,0.16634&amp;z=15&amp;output=embed"></iframe>
         </div>
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&#215;</span>
+        <span aria-hidden="true">&nbsp;&#215;&nbsp;</span>
     </button>
 </div>
 
 <?php /* CONTACT */ ?>
-<div id="contact" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
-    <div class="row">	
-        <?php
-        $page_id = 38;
-        $page_data = get_page($page_id);
-        echo '<h2>' . apply_filters('the_title', $page_data->post_title) . '</h2>';
-        ?>
-        <div class="small-12 large-8 columns">
-            <?php echo apply_filters('the_content', $page_data->post_content); ?>
-        </div>
-        <div class="small-12 large-4 columns">
-            <h3><?php bloginfo('name'); ?></h3>
-            <p>
-                <strong><?php echo get_theme_mod('cfcreation_name'); ?></strong><br />
-                <?php echo get_theme_mod('cfcreation_infos1'); ?><br />
-                <?php echo get_theme_mod('cfcreation_infos2'); ?><br /><br />
-                <?php echo get_theme_mod('cfcreation_tel'); ?><br />
-                <?php echo get_theme_mod('cfcreation_mobile'); ?><br /><br />
-                <a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a><br />
-            </p>
+<div id="contact" class="reveal" data-reveal>
+    <div class="row align-center">	
+        <?php $page_id = 38; $page_data = get_page($page_id); ?>
+        <div class="columns">
+            <?php 
+            echo '<h2>' . apply_filters('the_title', $page_data->post_title) . '</h2>';
+            echo apply_filters('the_content', $page_data->post_content); 
+            ?>
+            <div>
+                <h3><?php bloginfo('name'); ?></h3>
+                <p>
+                    <strong><?php echo get_theme_mod('cfcreation_name'); ?></strong><br />
+                    <?php echo get_theme_mod('cfcreation_infos1'); ?><br />
+                    <?php echo get_theme_mod('cfcreation_infos2'); ?><br /><br />
+                    <?php echo get_theme_mod('cfcreation_tel'); ?><br />
+                    <?php echo get_theme_mod('cfcreation_mobile'); ?><br /><br />
+                    <a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a><br />
+                </p>
+            </div>
         </div>
     </div>	
     <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&#215;</span>
+        <span aria-hidden="true">&nbsp;&#215;&nbsp;</span>
     </button>
 </div>
 
 <?php /* VIDEO */ ?>	
-<div id="video" class=" small reveal large" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
+<div id="video" class="large reveal" data-reveal>
     <?php
     $page_data = get_page_by_title('Video');
     //echo '<h2>'. $page_data->post_title .'</h2>';
@@ -108,14 +121,14 @@
         <?php edit_post_link('Modifier', '', '', $page_data->ID); // link to edit content if user is logged in ?>		
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&#215;</span>
+        <span aria-hidden="true">&nbsp;&#215;&nbsp;</span>
     </button>
 </div>	
 
 <?php /* BIOGRAPHIE */ ?>
-<div id="biographie" class="reveal large" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
-    <div class="row">
-        <div class="small-12 columns">
+<div id="biographie" class="large reveal" data-reveal>
+    <div class="row align-center">
+        <div class="columns">
             <?php
             $page_id = 32;
             $page_data = get_page($page_id);
@@ -127,7 +140,7 @@
         </div>
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&#215;</span>
+        <span aria-hidden="true">&nbsp;&#215;&nbsp;</span>
     </button>
 </div>
 
@@ -137,14 +150,14 @@ $presse_query = new WP_Query(array('category_name' => 'presse', 'posts_per_page'
 
 if ($presse_query->have_posts()) :
     ?> 	
-    <div id="presse" class="large reveal" data-reveal data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out">
-        <div class="row">		
-            <div class="small-12 columns">
+    <div id="presse" class="reveal" data-reveal>
+        <div class="row align-center">		
+            <div class="columns">
                 <h2>Presse</h2>
-                <ul class="row small-up-1 large-up-4">
+                <ul class="no-bullet presse">
                     <?php while ($presse_query->have_posts()) : $presse_query->the_post(); ?>                   
                         <?php //setup_postdata($presse_query->the_post()); ?>
-                        <li class="columns"><h3 class="presse-title"><?php the_title(); ?></h3>
+                        <li><h3><?php the_title(); ?></h3>
                             <?php the_content(); ?><br />
                             <?php //edit_post_link(); // link to edit content if user is logged in  ?></li>		
                     <?php endwhile;
@@ -154,39 +167,38 @@ if ($presse_query->have_posts()) :
             </div>
         </div>
         <button class="close-button" data-close aria-label="Close modal" type="button">
-            <span aria-hidden="true">&#215;</span>
+            <span aria-hidden="true">&nbsp;&#215;&nbsp;</span>
         </button>
     </div>
 <?php endif;
 wp_reset_postdata();
 ?>
 
-<?php /* LIENS */ ?>
-<div id="liens" class="large reveal" data-reveal data-close-on-click="true" data-animation-in="false" data-animation-out="false" data-options="animation:none">
-    <div class="row">
-        <div class="small-12 columns">
-            <h2 class="liens-title">Liens</h2>
-            <ul class="small-up-1 medium-up-2 large-up-4">
+<?php /* LINKS */ ?>
+<div id="liens" class="reveal" data-reveal>
+    <div class="row align-center">
+        <div class="columns">
+            <h2>Liens</h2>
+            <ul class="inline-list links">
                 <?php
                 wp_list_bookmarks(array(
-                    'category_order' => 'DESC',
+                    'category_order' => 'ASC',
                     'title_li' => '',
-                    'title_before' => '<h3 class="liens-title">',
+                    'title_before' => '<h3>',
                     'title_after' => '</h3>',
-                    'class' => 'columns linkcat'
+                    'class' => 'linkcat'
                 ));
                 ?>
             </ul> 		
         </div>
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&#215;</span>
+        <span aria-hidden="true">&nbsp;&#215;&nbsp;</span>
     </button>
 </div>
 
 
 <?php /* END MODAL BOXES */ ?>
-<script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/slick/slick.js'></script>
 <script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/fancybox/jquery.fancybox-1.3.7.min.js'></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/fancybox/jquery.easing.pack.js"></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/fancybox/jquery.mousewheel.pack.js"></script>
@@ -197,20 +209,26 @@ wp_reset_postdata();
     jQuery(".gallery-icon a").fancybox().attr('rel', 'gallery');
 </script>
 
-<?php if (is_home()) : ?>
-    <style>
-        h2,h3,h4,h5,h6 { text-align: center; }
-    </style>
-<?php endif; ?>
+<?php
+//echo('<hr> page: ');
+//var_dump( is_page() );
+//echo('<hr> travaux: ');
+//var_dump( is_page('travaux') );
+//echo('<hr> collections: ');
+//var_dump ( is_page(580) );
+//echo('<hr>');
+?>
+<?php // if ( !is_page(array('travaux', 'collections')) ): ?>
+<?php if ( !is_tax() && !( is_page('travaux') || is_page(580) ) ): ?>
 
-<?php if (is_home()): ?><?php endif; ?>
+<!-- TEST -->
     <script>
         jQuery(document).ready(function ($) {
             $('.hidden_on_load').foundation('toggle');
             $('.loader').remove();
         });
     </script>
-
+<?php endif; ?>
 
 <?php wp_footer(); ?>
 </body>

@@ -8,10 +8,48 @@
  */
 ?>
 
+<?php
+$tax = "media_tag";
+$current_lang = qtranxf_getLanguage();
+$default = get_option("cfcreation_{$tax}_default");
+
+// Catch tag query if any
+$tag_query = array();
+if (isset($wp_query->query_vars['term'])) {
+    $tag_query = array($tax => $wp_query->query_vars['term']);
+} else {
+    if ($default != -1) {
+        $tag_query = array($tax => $default);
+    }
+}
+
+// Limite  le nb d'image, illimité pour les tags
+$limit = -1;
+
+if (is_page()) {
+    if ($default != -1) {
+        $include_tags = $default;
+    } else {
+        $collection_tags = get_terms($tax);
+        $include = array();
+        foreach ($collection_tags as $t) {
+            array_push($include, $t->slug);
+        }
+        $include_tags = implode(', ', $include);
+        $limit = 18;
+    }
+    $tag_query = array($tax => $include_tags);
+}
+$args = array_merge(array('post_type' => 'attachment', 'posts_per_page' => $limit, 'category' => '11'), $tag_query);
+$attachments = get_posts($args);
+?> 
+
 <?php get_header(); ?>
 
+<?php /* FB SDK for share button in faceybox */ ?>
 <div id="fb-root"></div>
-<script>(function (d, s, id) {
+<script>
+    (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id))
             return;
@@ -19,55 +57,19 @@
         js.id = id;
         js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5";
         fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 
-
-<div class="row align-center" id="content">
+<div class="row align-center">
 
     <div class="small-10 columns">
-        <div id="tags-cloud">
-            <?php cfcreation_tag_cloud(); ?>		
+        <div class="tags-cloud">
+            <?php cfcreation_tag_cloud($tax); ?>		
         </div>
     </div>
 
-    <div class="small-12 columns">
+    <div class="small-12 columns arrows">
 
-        <?php
-        $current_lang = qtranxf_getLanguage();
-        $default = get_option('cfcreation_media_tag_default');
-
-        // Catch tag query if any
-        $tag_query = array();
-        if (isset($wp_query->query_vars['term'])) {
-            $tag_query = array('media_tag' => $wp_query->query_vars['term']);
-        } else {
-            if ($default != -1) {
-                $tag_query = array('media_tag' => $default);
-            }
-        }
-
-        // Limite  le nb d'image sur la page initiale, illimité pour les tags
-        $limit = -1;
-
-        if (is_page()) {
-            if ($default != -1) {
-                $include_tags = $default;
-            } else {
-                $collection_tags = get_terms('media_tag');
-                $include = array();
-                foreach ($collection_tags as $t) {
-                    array_push($include, $t->slug);
-                }
-                $include_tags = implode(', ', $include);
-                $limit = 18;
-            }
-            $tag_query = array('media_tag' => $include_tags);
-        }
-        $args = array_merge(array('post_type' => 'attachment', 'posts_per_page' => $limit, 'category' => '11'), $tag_query);
-        //var_dump($include_tags);
-        $attachments = get_posts($args);
-        //var_dump($attachments);
-        ?> 
         <div class="slideshow">
             <?php
             if ($attachments) {
@@ -87,70 +89,14 @@
                     echo '</a>';
                     echo '</div>';
                 }
-                wp_reset_postdata();
             }
             ?>
         </div>
+        <hr>
     </div>
 
 </div>
 
-<script>
-    jQuery(document).ready(function ($) {
-//jQuery(function($) {
-
-
-        $('.slideshow').slick({
-            slidesToShow: 6,
-            slidesToScroll: 6,
-            prevArrow: "<img class='slick-prev' src='<?php echo get_template_directory_uri(); ?>/img/back.png'>",
-            nextArrow: "<img class='slick-next' src='<?php echo get_template_directory_uri(); ?>/img/next.png'>",
-            infinite: true,
-            autoplay: true,
-            autoplaySpeed: 10000,
-            //adaptiveHeight: false,
-            //variableWidth: true,
-            dots: false,
-            //centered: true,
-            //lazyLoad: 'ondemand',
-            responsive: [
-                {
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 4,
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2
-                    }
-                }
-            ]
-        });
-
-        $(".fancybox").fancybox({
-            'titlePosition': 'inside',
-            'titleFromAlt': true,
-            onComplete: function () {
-                FB.XFBML.parse();
-                //console.log($(this))
-            }
-        });
-
-    });
-
-</script>
-
-
+<?php cfcreation_slideshow_js(); ?>
 
 <?php get_footer(); ?>
