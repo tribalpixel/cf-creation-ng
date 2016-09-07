@@ -10,7 +10,6 @@
 
 <?php
 $tax = "collection_tag";
-$current_lang = qtranxf_getLanguage();
 $default = get_option("cfcreation_{$tax}_default");
 
 // Catch tag query if any
@@ -45,20 +44,6 @@ $attachments = get_posts($args);
 ?> 
 
 <?php get_header(); ?>
-
-<?php /* FB SDK for share button in faceybox */ ?>
-<div id="fb-root"></div>
-<script>
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id))
-            return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
 
 <div class="row align-center">
 

@@ -18,7 +18,25 @@
     </head>
 	
     <body <?php body_class(); ?>>  
+        <?php 
+        $current_lang = qtranxf_getLanguage(); 
+        ($current_lang == "fr") ? $sdk_lang = 'fr_FR' : $sdk_lang = 'en_UK'; 
+        ?>
         
+        <?php /* FB SDK for share button in faceybox */ ?>
+        <div id="fb-root"></div>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id))
+                    return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/<?php echo $sdk_lang; ?>/sdk.js#xfbml=1&version=v2.5";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+
 	<?php if(CFCNG_DEBUG) { echo "<pre>"; print_r( debug_backtrace() ); echo "</pre>"; } ?>
         
         <?php /* LOGO */ ?>	

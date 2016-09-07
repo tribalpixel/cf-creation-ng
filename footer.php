@@ -20,13 +20,13 @@
 <div class="row align-center">
     <div class="columns">
         <div class="nav">
-            <?php $currentLang = qtranxf_getLanguage(); ?>
+            
             <ul class="inline-list">
-                <li><a data-open="contact"><?php echo ($currentLang == 'fr') ? 'Contact' : MENU_CONTACT_EN; ?></a></li>
-                <li><a data-open="video"><?php echo ($currentLang == 'fr') ? 'Film d\'animation' : MENU_FILM_EN; ?></a></li>
-                <li><a data-open="biographie"><?php echo ($currentLang == 'fr') ? 'Biographie' : MENU_BIO_EN; ?></a></li>
-                <li><a data-open="presse"><?php echo ($currentLang == 'fr') ? 'Presse' : MENU_PRESSE_EN; ?></a></li>
-                <li><a data-open="liens"><?php echo ($currentLang == 'fr') ? 'Liens' : MENU_LIENS_EN; ?></a></li>					
+                <li><a data-open="contact"><?php echo ($current_lang == 'fr') ? 'Contact' : MENU_CONTACT_EN; ?></a></li>
+                <li><a data-open="video"><?php echo ($current_lang == 'fr') ? 'Film d\'animation' : MENU_FILM_EN; ?></a></li>
+                <li><a data-open="biographie"><?php echo ($current_lang == 'fr') ? 'Biographie' : MENU_BIO_EN; ?></a></li>
+                <li><a data-open="presse"><?php echo ($current_lang == 'fr') ? 'Presse' : MENU_PRESSE_EN; ?></a></li>
+                <li><a data-open="liens"><?php echo ($current_lang == 'fr') ? 'Liens' : MENU_LIENS_EN; ?></a></li>					
             </ul>            
         </div>
     </div>
@@ -55,10 +55,13 @@
             $cfcreation_fb = get_theme_mod('cfcreation_fb_settings');
             $cfcreation_fb_show = get_theme_mod('cfcreation_fb_footer');
             // show on page
-            if (!empty($cfcreation_fb) && $cfcreation_fb_show == TRUE) {
-                echo '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode($cfcreation_fb) . '&amp;width=330&amp;height=62&amp;show_faces=false&amp;colorscheme=light&amp;stream=false&amp;show_border=false&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:330px; height:62px;" allowTransparency="true"></iframe>';
-            }
-            ?>	
+            if (!empty($cfcreation_fb) && $cfcreation_fb_show == TRUE) : ?>
+            <div class="fb-page" data-href="<?php echo $cfcreation_fb; ?>" data-height="70" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false">
+                <blockquote cite="<?php echo $cfcreation_fb; ?>" class="fb-xfbml-parse-ignore">
+                    <a href="<?php echo $cfcreation_fb; ?>">CF-Création Christel Falconnier</a>
+                </blockquote>
+            </div>
+            <?php endif; ?>	
         </div>
         <hr>
         <div class="webdev">
