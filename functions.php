@@ -8,11 +8,9 @@
 /*
 TODOS
 ---------------------------------
-
 FIX: Configure SEO plugin, google sitemap
 BUG: Make tags/collection tags searchable in admin media
-
- */
+*/
 
 /*
 

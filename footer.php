@@ -3,8 +3,8 @@
     <div class="columns">
         <div class="diamant">
             <div class="diamant_wrapper">
-                <h4>Atelier sur rendez-vous</h4>
                 <div>				
+                    <h4>Atelier sur rendez-vous</h4>
                     <?php echo get_theme_mod('cfcreation_tel'); ?><br />
                     <?php echo get_theme_mod('cfcreation_mobile'); ?><br /><br />
                     <a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a><br /><br />
@@ -14,8 +14,8 @@
         </div>
     </div>
 </div>
-                    
-                    
+
+
 <?php /* NAV */ ?>	
 <div class="row align-center">
     <div class="columns">
@@ -32,16 +32,18 @@
     </div>
 </div> 
 
-<?php /* SPONSORS BANNER */ ?>	
-<div class="row align-center">
-    <div class="columns">
-        <div class="sponsor hidden_on_load" data-toggler data-animate="<?php echo get_theme_mod('cfcreation_modal_in_page'); ?>">
-            <div class="loader">&nbsp;</div>
-            <a href="http://www.maxhavelaar.ch/or" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/img/fairtrade_maxhavelaar_webbanner_large_f_2015.png" alt="fairetrade_maxhavelaar_webbanner" title="Fairetrade Maxhavelaar" /></a>
-        <hr>
+<?php /* SPONSORS BANNER */ ?>
+<?php if (is_home()): ?>
+    <div class="row align-center">
+        <div class="columns">
+            <div class="sponsor hidden_on_load" data-toggler data-animate="<?php echo get_theme_mod('cfcreation_modal_in_page'); ?>">
+                <div class="loader">&nbsp;</div>
+                <a href="<?php echo esc_url(get_permalink(34)); ?>" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/img/fairtrade_maxhavelaar_webbanner_large_f_2015.png" alt="fairetrade_maxhavelaar_webbanner" title="Fairetrade Maxhavelaar" /></a>
+                <hr>
+            </div>
         </div>
-    </div>
-</div>          
+    </div>          
+<?php endif; ?>
 
 <?php /* FOOTER */ ?>
 <div class="row align-center">
@@ -54,19 +56,19 @@
             $cfcreation_fb_show = get_theme_mod('cfcreation_fb_footer');
             // show on page
             if (!empty($cfcreation_fb) && $cfcreation_fb_show == TRUE) {
-                //echo '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode($cfcreation_fb) . '&amp;width=330&amp;height=62&amp;show_faces=false&amp;colorscheme=light&amp;stream=false&amp;show_border=false&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:330px; height:62px;" allowTransparency="true"></iframe>';
+                echo '<iframe src="//www.facebook.com/plugins/likebox.php?href=' . urlencode($cfcreation_fb) . '&amp;width=330&amp;height=62&amp;show_faces=false&amp;colorscheme=light&amp;stream=false&amp;show_border=false&amp;header=false" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:330px; height:62px;" allowTransparency="true"></iframe>';
             }
             ?>	
         </div>
         <hr>
-            <div class="webdev">
-                 Site realisé par <a href="http://www.tribalpixel.ch" target="_blank">/[tribalpixel]\</a>
-            </div>        
+        <div class="webdev">
+            Site realisé par <a href="http://www.tribalpixel.ch" target="_blank">/[tribalpixel]\</a>
+        </div>        
     </div>
 </div>	
 
-<?php 
-/* START MODAL BOXES */ 
+<?php
+/* START MODAL BOXES */
 $modal_in = get_theme_mod('cfcreation_modal_in');
 $modal_out = get_theme_mod('cfcreation_modal_out');
 ?>
@@ -86,11 +88,13 @@ $modal_out = get_theme_mod('cfcreation_modal_out');
 <?php /* CONTACT */ ?>
 <div id="contact" class="reveal" data-reveal>
     <div class="row align-center">	
-        <?php $page_id = 38; $page_data = get_page($page_id); ?>
+        <?php $page_id = 38;
+        $page_data = get_page($page_id);
+        ?>
         <div class="columns">
-            <?php 
+            <?php
             echo '<h2>' . apply_filters('the_title', $page_data->post_title) . '</h2>';
-            echo apply_filters('the_content', $page_data->post_content); 
+            echo apply_filters('the_content', $page_data->post_content);
             ?>
             <div>
                 <h3><?php bloginfo('name'); ?></h3>
@@ -99,7 +103,7 @@ $modal_out = get_theme_mod('cfcreation_modal_out');
                     <?php echo get_theme_mod('cfcreation_infos1'); ?><br />
                     <?php echo get_theme_mod('cfcreation_infos2'); ?><br /><br />
                     <?php echo get_theme_mod('cfcreation_tel'); ?><br />
-                    <?php echo get_theme_mod('cfcreation_mobile'); ?><br /><br />
+<?php echo get_theme_mod('cfcreation_mobile'); ?><br /><br />
                     <a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a><br />
                 </p>
             </div>
@@ -110,7 +114,7 @@ $modal_out = get_theme_mod('cfcreation_modal_out');
     </button>
 </div>
 
-<?php /* VIDEO */ ?>	
+    <?php /* VIDEO */ ?>	
 <div id="video" class="large reveal" data-reveal>
     <?php
     $page_data = get_page_by_title('Video');
@@ -118,7 +122,7 @@ $modal_out = get_theme_mod('cfcreation_modal_out');
     ?>
     <div class="flex-video">
         <?php echo apply_filters('the_content', $page_data->post_content); ?>
-        <?php edit_post_link('Modifier', '', '', $page_data->ID); // link to edit content if user is logged in ?>		
+<?php edit_post_link('Modifier', '', '', $page_data->ID); // link to edit content if user is logged in   ?>		
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&nbsp;&#215;&nbsp;</span>
@@ -136,7 +140,7 @@ $modal_out = get_theme_mod('cfcreation_modal_out');
             //echo get_the_post_thumbnail($page_data->ID, 'full-page');
             echo apply_filters('the_content', $page_data->post_content);
             ?>
-            <?php edit_post_link('Modifier', '', '', $page_data->ID); // link to edit content if user is logged in ?>
+<?php edit_post_link('Modifier', '', '', $page_data->ID); // link to edit content if user is logged in   ?>
         </div>
     </div>
     <button class="close-button" data-close aria-label="Close modal" type="button">
@@ -156,11 +160,12 @@ if ($presse_query->have_posts()) :
                 <h2>Presse</h2>
                 <ul class="no-bullet presse">
                     <?php while ($presse_query->have_posts()) : $presse_query->the_post(); ?>                   
-                        <?php //setup_postdata($presse_query->the_post()); ?>
+                            <?php //setup_postdata($presse_query->the_post());   ?>
                         <li><h3><?php the_title(); ?></h3>
                             <?php the_content(); ?><br />
-                            <?php //edit_post_link(); // link to edit content if user is logged in  ?></li>		
-                    <?php endwhile;
+                        <?php //edit_post_link(); // link to edit content if user is logged in  ?></li>		
+                        <?php
+                    endwhile;
                     wp_reset_postdata();
                     ?>
                 </ul>	
@@ -170,7 +175,8 @@ if ($presse_query->have_posts()) :
             <span aria-hidden="true">&nbsp;&#215;&nbsp;</span>
         </button>
     </div>
-<?php endif;
+    <?php
+endif;
 wp_reset_postdata();
 ?>
 
@@ -218,10 +224,10 @@ wp_reset_postdata();
 //var_dump ( is_page(580) );
 //echo('<hr>');
 ?>
-<?php // if ( !is_page(array('travaux', 'collections')) ): ?>
-<?php if ( !is_tax() && !( is_page('travaux') || is_page(580) ) ): ?>
+<?php // if ( !is_page(array('travaux', 'collections')) ):  ?>
+<?php if (!is_tax() && !( is_page('travaux') || is_page(580) )): ?>
 
-<!-- TEST -->
+    <!-- TEST -->
     <script>
         jQuery(document).ready(function ($) {
             $('.hidden_on_load').foundation('toggle');

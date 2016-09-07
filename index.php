@@ -3,9 +3,11 @@
 <?php /* FB PLUGIN SHORTCODE */ ?>
 <?php if (shortcode_exists('tplfbp-albums')): ?>
     <?php if (is_home()): ?>
+        <script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/slick/slick.js'></script>
         <div class="row align-center"> 
-            <div class="columns">
-                <?php echo do_shortcode('[tplfbp-albums]'); ?>
+            <div class="small-12 columns">
+                <?php //echo do_shortcode('[tplfbp-albums]'); ?>
+                <?php echo do_shortcode('[tplfbp-show id="1152276924806829"]'); ?>
             </div>
         </div>
         <script>
@@ -14,21 +16,21 @@
                 $('.slideshow-mini').slick({
                     slidesToShow: 1,
                     slidesToScroll: 1,
-                    arrows: false,
-                    infinite: true,
+//                    arrows: false,
+//                    infinite: true,
                     autoplay: true,
-                    autoplaySpeed: 10000,
-                    //adaptiveHeight: false,
-                    //variableWidth: true,
-                    dots: false,
-                    centered: false,
+                    autoplaySpeed: 1000,
+//                    adaptiveHeight: false,
+//                    variableWidth: true,
+//                    dots: false,
+//                    centered: false,
                     //lazyLoad: 'ondemand',
-                    //rmobileFirst: true,
+                    //mobileFirst: true,
                 });
 
-                $(".fancybox").fancybox();
+        //$(".fancybox").fancybox();
             });
-        </script>
+        </script>  
     <?php endif; ?>
 <?php endif; ?>       
 
