@@ -22,6 +22,7 @@
         <div class="nav">
             
             <ul class="inline-list">
+			<?php $current_lang = qtranxf_getLanguage();  ?>
                 <li><a data-open="contact"><?php echo ($current_lang == 'fr') ? 'Contact' : MENU_CONTACT_EN; ?></a></li>
                 <li><a data-open="video"><?php echo ($current_lang == 'fr') ? 'Film d\'animation' : MENU_FILM_EN; ?></a></li>
                 <li><a data-open="biographie"><?php echo ($current_lang == 'fr') ? 'Biographie' : MENU_BIO_EN; ?></a></li>
@@ -38,7 +39,7 @@
         <div class="columns">
             <div class="sponsor hidden_on_load" data-toggler data-animate="<?php echo get_theme_mod('cfcreation_modal_in_page'); ?>">
                 <div class="loader">&nbsp;</div>
-                <a href="<?php echo esc_url(get_permalink(34)); ?>" target="_blank"><img src="<?php echo get_template_directory_uri(); ?>/img/fairtrade_maxhavelaar_webbanner_large_f_2015.png" alt="fairetrade_maxhavelaar_webbanner" title="Fairetrade Maxhavelaar" /></a>
+                <a href="<?php echo esc_url(get_permalink(34)); ?>"><img src="<?php echo get_template_directory_uri(); ?>/img/fairtrade_maxhavelaar_webbanner_large_f_2015.png" alt="fairetrade_maxhavelaar_webbanner" title="Fairetrade Maxhavelaar" /></a>
                 <hr>
             </div>
         </div>
@@ -49,7 +50,7 @@
 <div class="row align-center">
     <div class="columns">
         <div class="footer">	
-            <span class="coypright"><?php bloginfo('name'); ?> &copy; 2005-<?php echo date('Y'); ?> / <?php echo get_theme_mod('cfcreation_name'); ?></span>
+            <div class="copyright"><?php bloginfo('name'); ?> &copy; 2005-<?php echo date('Y'); ?> / <?php echo get_theme_mod('cfcreation_name'); ?></div>
             <?php
             // get theme options
             $cfcreation_fb = get_theme_mod('cfcreation_fb_settings');
@@ -208,9 +209,13 @@ wp_reset_postdata();
 
 
 <?php /* END MODAL BOXES */ ?>
+<?php if(wp_is_mobile()): ?>
+<script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/swipebox/js/jquery.swipebox.min.js'></script>
+<?php else: ?>
 <script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/fancybox/jquery.fancybox-1.3.7.min.js'></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/fancybox/jquery.easing.pack.js"></script>
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/fancybox/jquery.mousewheel.pack.js"></script>
+<?php endif; ?>
 <link rel='stylesheet' id='cf-creation-styles-overrides'  href='<?php echo get_stylesheet_directory_uri(); ?>/css/overrides.css' type='text/css' media='all' />
 <script src="<?php echo get_template_directory_uri(); ?>/js/foundation.min.js"></script>
 <script>
@@ -218,16 +223,7 @@ wp_reset_postdata();
     jQuery(".gallery-icon a").fancybox().attr('rel', 'gallery');
 </script>
 
-<?php
-//echo('<hr> page: ');
-//var_dump( is_page() );
-//echo('<hr> travaux: ');
-//var_dump( is_page('travaux') );
-//echo('<hr> collections: ');
-//var_dump ( is_page(580) );
-//echo('<hr>');
-?>
-<?php // if ( !is_page(array('travaux', 'collections')) ):  ?>
+
 <?php if (!is_tax() && !( is_page('travaux') || is_page(580) )): ?>
 
     <!-- TEST -->

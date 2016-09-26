@@ -62,8 +62,9 @@ $attachments = get_posts($args);
 
                     $img_url = wp_get_attachment_url($attachment->ID);
                     $show_tags = cfcreation_show_tags($attachment->ID, $current_lang);
-
-                    $btn_fb = '<div class="fb-share-button" data-href="' . $img_url . '" data-layout="button"></div>';
+					
+                    //$btn_fb = '<div class="fb-share-button" data-href="' . $img_url . '" data-layout="button"></div>';
+					$btn_fb = "";
                     echo '<div class="slide">';
                     echo '<a href="' . wp_get_attachment_url($attachment->ID) . '" rel="gallery" class="image fancybox">';
                     echo wp_get_attachment_image($attachment->ID, 'thumbnail', false, array(

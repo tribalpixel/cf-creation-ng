@@ -1,18 +1,15 @@
-﻿<?php
-// http://code.tutsplus.com/articles/applying-categories-tags-and-custom-taxonomies-to-media-attachments--wp-32319
-// http://wordpress.stackexchange.com/questions/29858/adding-category-tag-taxonomy-support-to-images-media
-// http://wordpress.stackexchange.com/questions/76720/how-to-use-taxonomies-on-attachments-with-the-new-media-library
-// use #qtransLangSwLM?type=AL&title=none&colon=hidden&current=hidden for custom language switcher in menu
-// http://richardsweeney.com/add-a-category-to-media-items-in-wordpress/
+<?php
+
+//https://github.com/brutaldesign/swipebox
+//http://outdatedbrowser.com/
 
 /*
-TODOS
----------------------------------
-FIX: Configure SEO plugin, google sitemap
-BUG: Make tags/collection tags searchable in admin media
-*/
+Version: 0.2.2
+    UPDATE: added Swipebox support on mobile device
+    
 
-/*
+Version: 0.2.1
+    ONLINE THEME september 2016
 
 Version: 0.2.0
     UPDATE: Rewrite all Css with Sass reformatted html for flex boxes => better code and responsive
@@ -362,6 +359,9 @@ function cfcreation_load_styles() {
 
 add_action('wp_enqueue_scripts', 'cfcreation_load_styles');
 
+/**
+ * Add js script for images gallery in classical browser
+ */
 function cfcreation_slideshow_js(){
 ?>
 <script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/slick/slick.js'></script>
@@ -403,6 +403,9 @@ function cfcreation_slideshow_js(){
             ]
         });
 
+        <?php if(wp_is_mobile()) : ?> 
+        $(".fancybox").swipebox(); 
+        <?php else: ?>
         $(".fancybox").fancybox({
             'titlePosition': 'inside',
             'titleFromAlt': true,
@@ -410,10 +413,12 @@ function cfcreation_slideshow_js(){
                 FB.XFBML.parse();
             }
         });
+        <?php endif; ?>
     });
 </script>
 <?php
 }
+
 
 /* -----------------------------------------------------------------------------
  * REGISTER MENUS

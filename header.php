@@ -11,31 +11,31 @@
         
         <link rel='stylesheet' id='cf-creation-slick-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/slick/slick.css' type='text/css' media='all' />
         <link rel='stylesheet' id='cf-creation-slick-theme-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/slick/slick-theme.css' type='text/css' media='all' />
+        <?php if(wp_is_mobile()) : ?> 
+        <link rel='stylesheet' id='cf-creation-swipebox-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/swipebox/css/swipebox.min.css' type='text/css' media='all' />
+        <?php else : ?> 
         <link rel='stylesheet' id='cf-creation-fancybox-css'  href='<?php echo get_stylesheet_directory_uri(); ?>/fancybox/jquery.fancybox-1.3.7.min.css' type='text/css' media='all' />
-
+        <?php endif; ?> 
+        
         <?php wp_head(); ?>
         
     </head>
 	
     <body <?php body_class(); ?>>  
         <?php 
-        $current_lang = qtranxf_getLanguage(); 
+        if(!isset($current_lang)) { $current_lang = qtranxf_getLanguage(); global $current_lang; }       
         ($current_lang == "fr") ? $sdk_lang = 'fr_FR' : $sdk_lang = 'en_UK'; 
         ?>
         
-        <?php /* FB SDK for share button in faceybox */ ?>
-        <div id="fb-root"></div>
-        <script>
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id))
-                    return;
-                js = d.createElement(s);
-                js.id = id;
-                js.src = "//connect.facebook.net/<?php echo $sdk_lang; ?>/sdk.js#xfbml=1&version=v2.5";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-        </script>
+        <?php /* FB SDK for share button */ ?>
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/<?php echo $sdk_lang; ?>/sdk.js#xfbml=1&version=v2.7&appId=1771410066437379";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
 
 	<?php if(CFCNG_DEBUG) { echo "<pre>"; print_r( debug_backtrace() ); echo "</pre>"; } ?>
         
