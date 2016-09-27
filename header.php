@@ -54,15 +54,15 @@
             <div class="columns">
                 <div class="address">
                     <ul class="inline-list">
-                        <li class="show-for-medium"><?php echo get_theme_mod('cfcreation_name'); ?></li>
-                        <li class="show-for-medium">|</li>
+                        <li><?php echo get_theme_mod('cfcreation_name'); ?></li>
+                        <li class="show-only-above-small-portrait">|</li>
                         <li class="show-for-large"><?php echo get_theme_mod('cfcreation_infos1'); ?> </li>
                         <li class="show-for-large">|</li>
-                        <li class="show-for-large"><?php echo get_theme_mod('cfcreation_infos2'); ?> </li>
-                        <li class="show-for-large">|</li>
-                        <li><?php echo get_theme_mod('cfcreation_mobile'); ?> </li>
-                        <li class="show-only-above-small-portrait">|</li>
-                        <li><a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a></li>						  
+                        <li><?php echo get_theme_mod('cfcreation_infos2'); ?> </li>
+                        <li class="show-for-medium">|</li>
+                        <li class="show-for-medium"><?php echo get_theme_mod('cfcreation_mobile'); ?> </li>
+                        <li class="show-for-medium">|</li>
+                        <li class="show-for-medium"><a href="mailto:<?php echo get_theme_mod('cfcreation_email'); ?>" ><?php echo get_theme_mod('cfcreation_email'); ?></a></li>						  
                     </ul>
                 </div>
             </div>

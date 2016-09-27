@@ -1,13 +1,12 @@
 <?php
 
-//https://github.com/brutaldesign/swipebox
-//http://outdatedbrowser.com/
-
 /*
+Version: 0.2.3
+    UPDATE: show info in header responsive order changed (client request)
+
 Version: 0.2.2
     UPDATE: added Swipebox support on mobile device
     
-
 Version: 0.2.1
     ONLINE THEME september 2016
 
