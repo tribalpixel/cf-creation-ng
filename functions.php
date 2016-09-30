@@ -1,6 +1,10 @@
 <?php
 
 /*
+Version: 0.2.4
+    ADD: attachment.php custom FB og:meta for share/like in fancybox
+    
+
 Version: 0.2.3
     UPDATE: show info in header responsive order changed (client request)
 
@@ -32,8 +36,8 @@ Version: 0.1.8
 
 Version: 0.1.7
     UPDATE: slick.js FROM 1.5.9 TO 1.6.0
-    ADD: Facebook posts on homepage via plugin
-    SUPPORT: Tribalpixel Facebook Page plugin, theme use shortcodes
+    ** ADD: Facebook posts on homepage via plugin
+    ** SUPPORT: Tribalpixel Facebook Page plugin, theme use shortcodes
 
 Version: 0.1.6
     FIX: Pages Work/Collections now act with same pattern -> options in admin
@@ -49,7 +53,7 @@ Version: 0.1.5
 Version: 0.1.4
     FIX: Limited homepage posts to 1 category
     FIX: translated tags in picture popup
-    ADD: Make tags/collection tags searchable in admin media
+    ** ADD: Make tags/collection tags searchable in admin media
 
 Version: 0.1.3
     ADD: Collections in page, use custom attachment taxonomy
@@ -299,7 +303,7 @@ add_action('wp_head', 'cfcreation_add_custom_colors');
 /**
  * 
  */
-function cfcreation_show_tags($attachmentID, $current_lang) {
+function cfcreation_show_tags($attachmentID, $current_lang, $returnArray = false) {
 
     $attachment_tags = get_the_terms($attachmentID, 'media_tag');
     $attachment_tags_collection = get_the_terms($attachmentID, 'collection_tag');
@@ -328,7 +332,10 @@ function cfcreation_show_tags($attachmentID, $current_lang) {
 
     $show_all_tags_array = array_merge($show_tags_array, $show_special_tags_array);
     $show_tags = implode(' ', $show_all_tags_array);
-
+    
+    if($returnArray) {
+        return  array_map('strip_tags',$show_all_tags_array);
+    }
     return $show_tags;
 }
 
