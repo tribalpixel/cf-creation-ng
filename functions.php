@@ -1,6 +1,12 @@
 <?php
 
 /*
+TO FIX:
+    ** ADD: Make tags/collection tags searchable in admin media
+    ** ADD: Facebook posts on homepage via plugin
+    ** SUPPORT: Tribalpixel Facebook Page plugin, theme use shortcodes
+    ** FIX: Add image format for FB sharing (525x275, need to test)
+
 Version: 0.2.4
     ADD: attachment.php custom FB og:meta for share/like in fancybox
     
