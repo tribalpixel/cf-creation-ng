@@ -4,7 +4,7 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.2.3 
+Version: 0.2.5 
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -143,15 +143,15 @@ img.aligncenter { margin-top: 0.25em; margin-bottom: 0.5em; }
 .diamant_wrapper { 
     display:flex;
     background: url('img/overlay_map.png') no-repeat 10px center; 
-/*    margin: 0 auto; 
-    text-align: center; */
+    /*    margin: 0 auto; 
+        text-align: center; */
     padding: 2em 1em 4em 1em; 
-    
+
     div {
         text-align: center;
         margin-left: 2.75em;
     }
-    
+
     * {color: $color_active; }
 }
 
@@ -319,10 +319,17 @@ img.aligncenter { margin-top: 0.25em; margin-bottom: 0.5em; }
     right: 0;
 }
 
+#swipebox-title div {
+    color: $color_base_light;
+    display: inline-block;
+    padding: 1em 0.5em;
+}
+
 /* MEDIA QUERIES */
 @media screen and (max-width: 370px) {
-  .show-only-above-small-portrait { display:none !important; }
-  .inline-list { li { margin:0;} }
+    .show-only-above-small-portrait { display:none !important; }
+    .inline-list { li { margin:0;} }
+    .slick-next, .slick-prev { top: 48px; }
 }
 /* Small only */
 @media screen and (max-width: 39.9375em) {
@@ -332,7 +339,7 @@ img.aligncenter { margin-top: 0.25em; margin-bottom: 0.5em; }
         font-size:1em; 
 
         a { 
-            padding:0 0.25em;
+            padding:0 0.15em;
         } 
     }
 

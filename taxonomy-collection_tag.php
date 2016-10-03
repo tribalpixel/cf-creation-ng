@@ -59,14 +59,14 @@ $attachments = get_posts($args);
             <?php
             if ($attachments) {
                 foreach ($attachments as $attachment) {
-
                     $img_url = wp_get_attachment_url($attachment->ID);
+                    $img_page = get_permalink($attachment->ID);
                     $show_tags = cfcreation_show_tags($attachment->ID, $current_lang);
-					
-                    //$btn_fb = '<div class="fb-share-button" data-href="' . $img_url . '" data-layout="button"></div>';
-					$btn_fb = "";
+                    $show_tags_mobile = cfcreation_show_tags_mobile($attachment->ID, $current_lang);
+                    $btn_fb = '<div class="fb-like" data-href="'.$img_page.'" data-width="250" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>';
+                    $mobile_caption = (wp_is_mobile()) ? ' title="'.$show_tags_mobile.'"' : '';
                     echo '<div class="slide">';
-                    echo '<a href="' . wp_get_attachment_url($attachment->ID) . '" rel="gallery" class="image fancybox">';
+                    echo '<a href="' . wp_get_attachment_url($attachment->ID) . '" rel="gallery" class="image fancybox"'.$mobile_caption.'>';
                     echo wp_get_attachment_image($attachment->ID, 'thumbnail', false, array(
                         'alt' => '<div class="fancy-desc"><div class="fancy-desc-left">' . $show_tags . '</div><div class="fancy-desc-right">' . $btn_fb . '</div></div>',
                         'title' => strip_tags($show_tags),

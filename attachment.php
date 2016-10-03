@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Change de default WPSEO <meta property="og:title" />
+ * Change the default WPSEO <meta property="og:title" />
  * 
  * @param srting $title
  * @return string
@@ -17,7 +17,7 @@ function cfcreation_FB_attachments_title($title) {
 add_filter('wpseo_opengraph_title', 'cfcreation_FB_attachments_title', 999);
 
 /**
- * Change de default WPSEO <meta property="og:description" />
+ * Change the default WPSEO <meta property="og:description" />
  * 
  * @param srting $desc
  * @return string
@@ -35,8 +35,8 @@ function cfcreation_FB_attachments_dimension() {
     // Retrieve attachment metadata.
     $metadata = wp_get_attachment_metadata();
     $w = '<meta property="og:image:width" content="'.$metadata['width'].'" />'."\r\n";
-    $l = '<meta property="og:image:height" content="'.$metadata['height'].'" />'."\r\n";
-    echo $w.$l;
+    $h = '<meta property="og:image:height" content="'.$metadata['height'].'" />'."\r\n";
+    echo $w.$h;
 }
 
 add_action('wp_head', 'cfcreation_FB_attachments_dimension',1);

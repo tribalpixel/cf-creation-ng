@@ -7,10 +7,13 @@ TO FIX:
     ** SUPPORT: Tribalpixel Facebook Page plugin, theme use shortcodes
     ** FIX: Add image format for FB sharing (525x275, need to test)
 
+Version: 0.2.5
+    ADD: display tags work/collection in swipebox
+    FIX: CSS for mobile
+    
 Version: 0.2.4
     ADD: attachment.php custom FB og:meta for share/like in fancybox
     
-
 Version: 0.2.3
     UPDATE: show info in header responsive order changed (client request)
 
@@ -307,7 +310,12 @@ function cfcreation_add_custom_colors() {
 add_action('wp_head', 'cfcreation_add_custom_colors');
 
 /**
+ * Make HTML Markup for tags Work/Collection in fancybox
  * 
+ * @param int $attachmentID
+ * @param string $current_lang
+ * @param boolean $returnArray
+ * @return string
  */
 function cfcreation_show_tags($attachmentID, $current_lang, $returnArray = false) {
 
@@ -344,7 +352,38 @@ function cfcreation_show_tags($attachmentID, $current_lang, $returnArray = false
     }
     return $show_tags;
 }
-
+/**
+ * Make HTML Markup for tags Work/Collection in swipebox
+ * 
+ * @param int $attachmentID
+ * @param string $current_lang
+ * @return string
+ */
+function cfcreation_show_tags_mobile($attachmentID, $current_lang) {
+    $attachment_tags = get_the_terms($attachmentID, 'media_tag');
+    $attachment_tags_collection = get_the_terms($attachmentID, 'collection_tag');
+    $show_tags_array = array();
+    $show_collection_tags_array = array();
+    $travaux = ($current_lang == 'fr') ? 'Travaux:' : 'Works:';
+    $collection = ($current_lang == 'fr') ? 'Collection:' : 'Collection:';
+    if ($attachment_tags) {
+        $show_tags_array[] = '<div>'.$travaux;
+        foreach ($attachment_tags as $tag) {
+            $show_tags_array[] = '#' . qtranxf_use($current_lang, $tag->name, false);
+        }
+        $show_tags_array[] = '</div>';
+    }
+    if ($attachment_tags_collection) {
+        $show_collection_tags_array[] = '<div>'.$collection;
+        foreach ($attachment_tags_collection as $tag_collection) {
+            $show_collection_tags_array[] = '#' . qtranxf_use($current_lang, $tag_collection->name, false);
+        }
+        $show_collection_tags_array[] = '</div>';
+    }
+    
+    return implode(' ',array_merge($show_tags_array, $show_collection_tags_array));
+    
+}
 /* -----------------------------------------------------------------------------
  * ADD SCRIPTS AND EXTRA LIBRARIES
  * http://codex.wordpress.org/Function_Reference/wp_enqueue_script  
@@ -416,7 +455,9 @@ function cfcreation_slideshow_js(){
         });
 
         <?php if(wp_is_mobile()) : ?> 
-        $(".fancybox").swipebox(); 
+        $(".fancybox").swipebox({
+            removeBarsOnMobile: false
+        }); 
         <?php else: ?>
         $(".fancybox").fancybox({
             'titlePosition': 'inside',

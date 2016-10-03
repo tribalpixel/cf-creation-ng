@@ -220,13 +220,11 @@ wp_reset_postdata();
 <script src="<?php echo get_template_directory_uri(); ?>/js/foundation.min.js"></script>
 <script>
     jQuery(document).foundation();
-    jQuery(".gallery-icon a").fancybox().attr('rel', 'gallery');
+    //jQuery(".gallery-icon a").fancybox().attr('rel', 'gallery');
 </script>
 
 
 <?php if (!is_tax() && !( is_page('travaux') || is_page(580) )): ?>
-
-    <!-- TEST -->
     <script>
         jQuery(document).ready(function ($) {
             $('.hidden_on_load').foundation('toggle');
