@@ -23,7 +23,7 @@
 	
     <body <?php body_class(); ?>>  
         <?php 
-        if(!isset($current_lang)) { $current_lang = qtranxf_getLanguage(); global $current_lang; }       
+        $current_lang = qtranxf_getLanguage();      
         ($current_lang == "fr") ? $sdk_lang = 'fr_FR' : $sdk_lang = 'en_UK'; 
         ?>
         
@@ -37,7 +37,7 @@
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
 
-	<?php if(CFCNG_DEBUG) { echo "<pre>"; print_r( debug_backtrace() ); echo "</pre>"; } ?>
+	<?php if(CFCNG_DEBUG) {  var_dump($current_lang); } ?>
         
         <?php /* LOGO */ ?>	
         <div class="row align-center">
@@ -55,7 +55,7 @@
                 <div class="address">
                     <ul class="inline-list">
                         <li><?php echo get_theme_mod('cfcreation_name'); ?></li>
-                        <li class="show-only-above-small-portrait">|</li>
+                        <li>|</li>
                         <li class="show-for-large"><?php echo get_theme_mod('cfcreation_infos1'); ?> </li>
                         <li class="show-for-large">|</li>
                         <li><?php echo get_theme_mod('cfcreation_infos2'); ?> </li>

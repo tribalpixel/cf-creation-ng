@@ -1,11 +1,23 @@
 <?php
 
 /*
-TO FIX:
+TODO:
     ** ADD: Make tags/collection tags searchable in admin media
     ** ADD: Facebook posts on homepage via plugin
+    ** ADD: Share/like button in fancybox images 
+    ** 
     ** SUPPORT: Tribalpixel Facebook Page plugin, theme use shortcodes
+    ** 
     ** FIX: Add image format for FB sharing (525x275, need to test)
+    ** FIX: SEO sitemap, add all pictures for index in google images
+    ** 
+
+Version: 0.2.6
+    UPDATE: Contact From 7 -> captcha css + html markup changed
+    FIX: footer -> make Facebook widget and address on 2 block for mobile
+    FIX: Various CSS fixes for mobile
+    FIX: Display correct tag clouds in Admin/Medias/Options Tags
+    FIX: Check for current lang -> facebook sdk switch fr/en
 
 Version: 0.2.5
     ADD: display tags work/collection in swipebox
@@ -94,6 +106,9 @@ define("MENU_LIENS_EN", "Links");
 
 $color_array_options = array('-', CUSTOM_COLOR_4, CUSTOM_COLOR_5, CUSTOM_COLOR_6, CUSTOM_COLOR_7, CUSTOM_COLOR_8, CUSTOM_COLOR_9, CUSTOM_COLOR_10, CUSTOM_COLOR_11, CUSTOM_COLOR_12, CUSTOM_COLOR_13);
 
+require_once 'class-custom-dashboard.php';
+$cfcreation_dashboard = new TribalpixelCustomDashboard();
+
 /* -----------------------------------------------------------------------------
  * THEME FEATURES
  * ----------------------------------------------------------------------------- */
@@ -117,7 +132,6 @@ if (!function_exists('cfcreation_theme_features')) {
 
     add_action('after_setup_theme', 'cfcreation_theme_features');
 }
-
 
 /* -----------------------------------------------------------------------------
  * REGISTER CUSTOM TAXONOMY FOR MEDIAS

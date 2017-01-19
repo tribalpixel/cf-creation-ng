@@ -4,7 +4,7 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.2.5 
+Version: 0.2.6 
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -15,7 +15,7 @@ $color_base_light: #eeeeee;
 $color_active: #feba03;
 
 $font_normal: 400;
-$font_bold: 600;
+$font_bold: 600; 
 
 /* GENERIC STYLES */
 *, body { 
@@ -24,9 +24,7 @@ $font_bold: 600;
     font-weight:$font_normal; 
     line-height:1;  
     /*    transition-duration: .3s;*/
-
 }
-
 
 body {
     background-color: #FFF; 
@@ -325,11 +323,18 @@ img.aligncenter { margin-top: 0.25em; margin-bottom: 0.5em; }
     padding: 1em 0.5em;
 }
 
+/* ContactForm7 Fixes */
+.wpcf7-recaptcha {
+    div { width:auto !important; margin:5px 0; }
+}
+
 /* MEDIA QUERIES */
 @media screen and (max-width: 370px) {
     .show-only-above-small-portrait { display:none !important; }
     .inline-list { li { margin:0;} }
     .slick-next, .slick-prev { top: 48px; }
+    .footer { font-size:0.8em; }
+    
 }
 /* Small only */
 @media screen and (max-width: 39.9375em) {

@@ -22,7 +22,8 @@
         <div class="nav">
             
             <ul class="inline-list">
-			<?php $current_lang = qtranxf_getLanguage();  ?>
+		<?php $current_lang = qtranxf_getLanguage();  ?>
+                <?php if(CFCNG_DEBUG) {  var_dump($current_lang); } ?>
                 <li><a data-open="contact"><?php echo ($current_lang == 'fr') ? 'Contact' : MENU_CONTACT_EN; ?></a></li>
                 <li><a data-open="video"><?php echo ($current_lang == 'fr') ? 'Film d\'animation' : MENU_FILM_EN; ?></a></li>
                 <li><a data-open="biographie"><?php echo ($current_lang == 'fr') ? 'Biographie' : MENU_BIO_EN; ?></a></li>
@@ -49,15 +50,15 @@
 <?php /* FOOTER */ ?>
 <div class="row align-center">
     <div class="columns">
-        <div class="footer">	
-            <div class="copyright"><?php bloginfo('name'); ?> &copy; 2005-<?php echo date('Y'); ?> / <?php echo get_theme_mod('cfcreation_name'); ?></div>
+        <div class="footer row">	
+            <div class="copyright small-12 medium-6"><?php bloginfo('name'); ?> &copy; 2005-<?php echo date('Y'); ?> / <?php echo get_theme_mod('cfcreation_name'); ?></div>
             <?php
             // get theme options
             $cfcreation_fb = get_theme_mod('cfcreation_fb_settings');
             $cfcreation_fb_show = get_theme_mod('cfcreation_fb_footer');
             // show on page
             if (!empty($cfcreation_fb) && $cfcreation_fb_show == TRUE) : ?>
-            <div class="fb-page" data-href="<?php echo $cfcreation_fb; ?>" data-height="70" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false">
+            <div class="fb-page small-12 medium-6" data-href="<?php echo $cfcreation_fb; ?>" data-height="70" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false">
                 <blockquote cite="<?php echo $cfcreation_fb; ?>" class="fb-xfbml-parse-ignore">
                     <a href="<?php echo $cfcreation_fb; ?>">CF-Création Christel Falconnier</a>
                 </blockquote>
