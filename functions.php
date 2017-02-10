@@ -3,14 +3,13 @@
 /*
 TODO:
     ** ADD: Make tags/collection tags searchable in admin media
-    ** ADD: Facebook posts on homepage via plugin
     ** ADD: Share/like button in fancybox images 
     ** 
-    ** SUPPORT: Tribalpixel Facebook Page plugin, theme use shortcodes
-    ** 
     ** FIX: Add image format for FB sharing (525x275, need to test)
-    ** FIX: SEO sitemap, add all pictures for index in google images
-    ** 
+    ** FIX: SEO sitemap, add all pictures for index in google images 
+
+Version: 0.2.7
+    ADD: Facebook posts on homepage via plugin
 
 Version: 0.2.6
     UPDATE: Contact From 7 -> captcha css + html markup changed
@@ -434,14 +433,14 @@ function cfcreation_slideshow_js(){
     jQuery(document).ready(function ($) {
 
         $('.slideshow').slick({
+            autoplay: true,
+            autoplaySpeed: 10000,          
             slidesToShow: 6,
             slidesToScroll: 6,
             prevArrow: "<img class='slick-prev' src='<?php echo get_template_directory_uri(); ?>/img/back.png'>",
             nextArrow: "<img class='slick-next' src='<?php echo get_template_directory_uri(); ?>/img/next.png'>",
-            infinite: false,
-            autoplay: true,
-            autoplaySpeed: 10000,
             dots: false,
+            infinite: false,
             lazyLoad: 'progressive',
             responsive: [
                 {
@@ -486,6 +485,44 @@ function cfcreation_slideshow_js(){
 <?php
 }
 
+/**
+ * Add js script for images gallery in homepage
+ */
+function cfcreation_homepage_slideshow_js(){
+?>
+<script type='text/javascript' src='<?php echo get_template_directory_uri(); ?>/slick/slick.js'></script>
+<script>
+    jQuery(document).ready(function ($) {
+
+        $('.home-slideshow').slick({     
+//            slidesToShow: 2,
+//            slidesToScroll: 2,
+            prevArrow: "<img class='slick-prev' src='<?php echo get_template_directory_uri(); ?>/img/back.png'>",
+            nextArrow: "<img class='slick-next' src='<?php echo get_template_directory_uri(); ?>/img/next.png'>",
+            //dots: true,
+            infinite: false,
+                    adaptiveHeight:true,
+                    mobileFirst:true,
+            lazyLoad: 'progressive',
+        });
+
+        <?php if(wp_is_mobile()) : ?> 
+        $(".fancybox").swipebox({
+            removeBarsOnMobile: false
+        }); 
+        <?php else: ?>
+        $(".fancybox").fancybox({
+            'titlePosition': 'inside',
+            'titleFromAlt': true,
+            onComplete: function () {
+                FB.XFBML.parse();
+            }
+        });
+        <?php endif; ?>
+    });
+</script>
+<?php
+}
 
 /* -----------------------------------------------------------------------------
  * REGISTER MENUS

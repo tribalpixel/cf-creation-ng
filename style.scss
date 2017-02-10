@@ -4,7 +4,7 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.2.6 
+Version: 0.2.7 
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -293,14 +293,29 @@ img.aligncenter { margin-top: 0.25em; margin-bottom: 0.5em; }
     overflow: hidden; 
     background: #FFF url(' img/loading.gif') center center no-repeat;
 } 
-.slideshow .slide {
+.home-slideshow {
+    overflow: hidden; 
+    background: #FFF url(' img/loading.gif') center center no-repeat;   
+}
+.slideshow .slide, 
+.home-slideshow .slide {
     display: none;
 }
-.slideshow.slick-initialized {
+.slideshow.slick-initialized,
+.home-slideshow.slick-initialized {
     background:none;
 }          
-.slideshow.slick-initialized .slide {
+.slideshow.slick-initialized .slide,
+.home-slideshow.slick-initialized .slide {
     display: block;
+}
+.home-slideshow.slick-initialized .slide {
+padding:0.5em; 
+margin:0 auto; 
+text-align:center;
+}
+.home-slideshow.slick-initialized .slide-txt {
+    padding:0.5em 0;
 }
 .slick-list {
     margin: 0 3em;
@@ -334,7 +349,7 @@ img.aligncenter { margin-top: 0.25em; margin-bottom: 0.5em; }
     .inline-list { li { margin:0;} }
     .slick-next, .slick-prev { top: 48px; }
     .footer { font-size:0.8em; }
-    
+
 }
 /* Small only */
 @media screen and (max-width: 39.9375em) {
