@@ -63,9 +63,9 @@ $attachments = get_posts($args);
                     $img_page = get_permalink($attachment->ID);
                     $show_tags = cfcreation_show_tags($attachment->ID, $current_lang);
                     $show_tags_mobile = cfcreation_show_tags_mobile($attachment->ID, $current_lang);
-                    $btn_fb = '<div class="fb-like" data-href="'.$img_page.'" data-width="250" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>';
-                    //$btn_fb = '';
-                    $mobile_caption = (wp_is_mobile()) ? ' title="'.$show_tags_mobile.'"' : '';
+                    $btn_fb_size = (wp_is_mobile()) ? 'small' : 'large';
+                    $btn_fb = '<div class="fb-share-button" data-href="'.$img_page.'" data-layout="button_count" data-size="'.$btn_fb_size.'" data-mobile-iframe="true"></div>';
+                    $mobile_caption = (wp_is_mobile()) ? " title='{$show_tags_mobile} {$btn_fb}'" : "";
                     echo '<div class="slide">';
                     echo '<a href="' . wp_get_attachment_url($attachment->ID) . '" rel="gallery" class="image fancybox"'.$mobile_caption.'>';
                     echo wp_get_attachment_image($attachment->ID, 'thumbnail', false, array(

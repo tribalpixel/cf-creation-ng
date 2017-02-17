@@ -4,7 +4,7 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.2.7 
+Version: 0.2.8
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -310,9 +310,9 @@ img.aligncenter { margin-top: 0.25em; margin-bottom: 0.5em; }
     display: block;
 }
 .home-slideshow.slick-initialized .slide {
-padding:0.5em; 
-margin:0 auto; 
-text-align:center;
+    padding:0.5em; 
+    margin:0 auto; 
+    text-align:center;
 }
 .home-slideshow.slick-initialized .slide-txt {
     padding:0.5em 0;
@@ -331,12 +331,20 @@ text-align:center;
 .slick-next {
     right: 0;
 }
+#swipebox-title {
+    margin-top: 10px;
+}
 
 #swipebox-title div {
     color: $color_base_light;
     display: inline-block;
-    padding: 1em 0.5em;
+    padding: 0.5em 0.25em;
+    
+    strong { font-weight: bold; color: #FFF; }
 }
+
+#swipebox-overlay { z-index:9000 !important; }
+#fb-root { z-index:9999 !important; }
 
 /* ContactForm7 Fixes */
 .wpcf7-recaptcha {

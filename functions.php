@@ -8,6 +8,10 @@ TODO:
     ** FIX: Add image format for FB sharing (525x275, need to test)
     ** FIX: SEO sitemap, add all pictures for index in google images 
 
+Version: 0.2.8
+    FIX: Facebook Share button on Works/Collection images: Fancybox/Swipebox
+    FIX: Attachment.php -> better layout, display tags, link back to main gallery, ...
+
 Version: 0.2.7
     ADD: Facebook posts on homepage via plugin
 
@@ -340,7 +344,7 @@ function cfcreation_show_tags($attachmentID, $current_lang, $returnArray = false
 
     if ($attachment_tags) {
         foreach ($attachment_tags as $tag) {
-            if ('en-stock' == $tag->slug || 'nouveaute' == $tag->slug) {
+            if ('en-stock' == $tag->slug || 'nouveaute' == $tag->slug) {    
                 $show_special_tags_array[] = '<span class="success label radius">' . qtranxf_use($current_lang, $tag->name, false) . '</span>';
             } else {
                 $show_tags_array[] = '<span class="secondary label radius">' . qtranxf_use($current_lang, $tag->name, false) . '</span>';
@@ -380,14 +384,14 @@ function cfcreation_show_tags_mobile($attachmentID, $current_lang) {
     $travaux = ($current_lang == 'fr') ? 'Travaux:' : 'Works:';
     $collection = ($current_lang == 'fr') ? 'Collection:' : 'Collection:';
     if ($attachment_tags) {
-        $show_tags_array[] = '<div>'.$travaux;
+        $show_tags_array[] = '<div><strong>'.$travaux.'</strong>';
         foreach ($attachment_tags as $tag) {
             $show_tags_array[] = '#' . qtranxf_use($current_lang, $tag->name, false);
         }
         $show_tags_array[] = '</div>';
     }
     if ($attachment_tags_collection) {
-        $show_collection_tags_array[] = '<div>'.$collection;
+        $show_collection_tags_array[] = '<div><strong>'.$collection.'</strong>';
         foreach ($attachment_tags_collection as $tag_collection) {
             $show_collection_tags_array[] = '#' . qtranxf_use($current_lang, $tag_collection->name, false);
         }
@@ -469,8 +473,12 @@ function cfcreation_slideshow_js(){
 
         <?php if(wp_is_mobile()) : ?> 
         $(".fancybox").swipebox({
-            removeBarsOnMobile: false
+            removeBarsOnMobile: false,
+            afterOpen: function () { FB.XFBML.parse(); },
+            nextSlide: function () { FB.XFBML.parse(); },
+            prevSlide: function () { FB.XFBML.parse(); }
         }); 
+
         <?php else: ?>
         $(".fancybox").fancybox({
             'titlePosition': 'inside',
@@ -508,8 +516,14 @@ function cfcreation_homepage_slideshow_js(){
 
         <?php if(wp_is_mobile()) : ?> 
         $(".fancybox").swipebox({
-            removeBarsOnMobile: false
+            removeBarsOnMobile: false,
+            beforeOpen: function () {
+            afterOpen: function () { FB.XFBML.parse(); },
+            nextSlide: function () { FB.XFBML.parse(); },
+            prevSlide: function () { FB.XFBML.parse(); }
+            }
         }); 
+        
         <?php else: ?>
         $(".fancybox").fancybox({
             'titlePosition': 'inside',
