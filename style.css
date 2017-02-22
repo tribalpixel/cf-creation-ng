@@ -4,7 +4,7 @@ Theme URI:
 Description: 
 Author: Tribalpixel
 Author URI: http://tribalpixel.ch/
-Version: 0.2.8
+Version: 0.2.9
 License: GNU General Public License v3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -55,6 +55,9 @@ hr { border-bottom: 1px solid #444444; margin: 2em 0 0 0; }
 
 .tags-cloud a { color: #444444; white-space: nowrap; padding: 0 0.25em; }
 .tags-cloud a:hover, .tags-cloud a.active-tag { color: #feba03; }
+
+a.tag-links { color: #444444; }
+a.tag-links:hover { text-decoration: underline; }
 
 /* WORDPRESS CORE Images */
 .alignleft { float: left; }
@@ -113,6 +116,8 @@ img.aligncenter { margin-top: 0.25em; margin-bottom: 0.5em; }
 .links ul li a, .presse ul li a { /*padding:0.25em;*/ }
 .links p, .presse p { /*font-size: 0.925em;*/ }
 
+.labels-large .label { font-size: 1.125em; padding: 10px; }
+
 /* SLICK OVERRIDES & FIX */
 .slideshow { height: 140px; overflow: hidden; background: #FFF url(" img/loading.gif") center center no-repeat; }
 
@@ -136,9 +141,15 @@ img.aligncenter { margin-top: 0.25em; margin-bottom: 0.5em; }
 
 .slick-next { right: 0; }
 
+#swipebox-top-bar { top: -80px; }
+
+#swipebox-top-bar { height: 80px; }
+
+#swipebox-top-bar.visible-bars { -webkit-transform: translate3d(0, 80px, 0); transform: translate3d(0, 80px, 0); }
+
 #swipebox-title { margin-top: 10px; }
 
-#swipebox-title div { color: #eeeeee; display: inline-block; padding: 0.5em 0.25em; }
+#swipebox-title div { color: #eeeeee; display: inline-block; padding: 0.125em 0.5em; }
 #swipebox-title div strong { font-weight: bold; color: #FFF; }
 
 #swipebox-overlay { z-index: 9000 !important; }

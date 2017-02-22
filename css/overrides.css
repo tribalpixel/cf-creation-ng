@@ -4,25 +4,6 @@
 .gallery-icon {}
 .gallery-caption {}
 
-/*.slideshow{ height:auto; }*/
-
-/*.slick-slider .slick-list {
-    transform: none;
-    margin: 0 45px 0 45px;
-    overflow: hidden;
-    width:95%;
-
-    border: 1px solid green;  
-}
-.slick-slide{ 
-    width:140px; 
-    margin: 0 5px;     
-    border: 1px solid red; 
-}*/
-
-
-
-
 
 /* FANCYBOX OVERRIDES */
 
@@ -60,8 +41,10 @@
 
 .label {
     /*font-family: 'Josefin Slab', serif;*/
-    font-size: 1.25em;
+    /*font-size: 1.25em;*/
     /* color:#000; */
+    padding: 0.22222rem 0.5rem;
+    line-height: 1.1;
 }
 
 @media only screen and (max-width: 610px) {

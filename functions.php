@@ -3,13 +3,18 @@
 /*
 TODO:
     ** ADD: Make tags/collection tags searchable in admin media
-    ** ADD: Share/like button in fancybox images 
-    ** 
     ** FIX: Add image format for FB sharing (525x275, need to test)
     ** FIX: SEO sitemap, add all pictures for index in google images 
 
+Version: 0.2.9
+    FIX: CSS, Facebook Share button on Works/Collection images: Fancybox/Swipebox
+    FIX: CSS labels to match FB Share size
+    FIX: Layout/display for attachment.php
+    UPDATE: cfcreation_show_tags() now can have link -> lang/taxonomy/tag-slug
+    FIX: FB Metatags for homepage -> plugin SEO config
+
 Version: 0.2.8
-    FIX: Facebook Share button on Works/Collection images: Fancybox/Swipebox
+    ADD: Facebook Share button on Works/Collection images: Fancybox/Swipebox
     FIX: Attachment.php -> better layout, display tags, link back to main gallery, ...
 
 Version: 0.2.7
@@ -334,8 +339,12 @@ add_action('wp_head', 'cfcreation_add_custom_colors');
  * @param boolean $returnArray
  * @return string
  */
-function cfcreation_show_tags($attachmentID, $current_lang, $returnArray = false) {
+function cfcreation_show_tags($attachmentID, $current_lang, $returnArray = false, $links = false) {
 
+    $current_lang = qtranxf_getLanguage();
+    $tag_slug = ($current_lang == 'fr') ? 'travaux' : 'works';
+    $tag_slug_collection = ($current_lang == 'fr') ? 'collections' : 'collections';
+    
     $attachment_tags = get_the_terms($attachmentID, 'media_tag');
     $attachment_tags_collection = get_the_terms($attachmentID, 'collection_tag');
 
@@ -344,19 +353,23 @@ function cfcreation_show_tags($attachmentID, $current_lang, $returnArray = false
 
     if ($attachment_tags) {
         foreach ($attachment_tags as $tag) {
+            $tag_name = htmlentities(qtranxf_use($current_lang, $tag->name, false));  
+            $tag_link = get_home_url() . '/' . $tag_slug . '/' . get_term_meta($tag->term_id, '_qts_slug_'.$current_lang, true);
             if ('en-stock' == $tag->slug || 'nouveaute' == $tag->slug) {    
-                $show_special_tags_array[] = '<span class="success label radius">' . qtranxf_use($current_lang, $tag->name, false) . '</span>';
+                if($links) { $show_special_tags_array[] = '<span class="success label radius"><a href="'.$tag_link.'" class="tag-links">' . $tag_name . '</a></span>'; } else { $show_special_tags_array[] = '<span class="success label radius">' . $tag_name . '</span>'; }
             } else {
-                $show_tags_array[] = '<span class="secondary label radius">' . qtranxf_use($current_lang, $tag->name, false) . '</span>';
+                if($links) { $show_tags_array[] = '<span class="secondary label radius"><a href="'.$tag_link.'" class="tag-links">' . $tag_name . '</a></span>'; } else { $show_tags_array[] = '<span class="secondary label radius">' . $tag_name . '</span>'; }
             }
         }
     }
     if ($attachment_tags_collection) {
         foreach ($attachment_tags_collection as $tag_collection) {
+            $tag_name_collection = htmlentities(qtranxf_use($current_lang, $tag_collection->name, false));          
+            $tag_link_collection =  get_home_url().'/'.$tag_slug_collection .'/'.get_term_meta($tag_collection->term_id, '_qts_slug_'.$current_lang, true);
             if ('en-stock' == $tag_collection->slug || 'nouveaute' == $tag_collection->slug) {
-                $show_special_tags_array[] = '<span class="success label radius">' . qtranxf_use($current_lang, $tag_collection->name, false) . '</span>';
+                if($links) { $show_special_tags_array[] = '<span class="success label radius"><a href="'.$tag_link_collection.'" class="tag-links">' . $tag_name_collection . '</a></span>'; } else { $show_special_tags_array[] = '<span class="success label radius">' . $tag_name_collection . '</span>'; }
             } else {
-                $show_tags_array[] = '<span class="label radius">' . qtranxf_use($current_lang, $tag_collection->name, false) . '</span>';
+                if($links) { $show_tags_array[] = '<span class="secondary label radius"><a href="'.$tag_link_collection.'" class="tag-links">' . $tag_name_collection . '</a></span>'; } else { $show_tags_array[] = '<span class="label radius">' . $tag_name_collection . '</span>'; }
             }
         }
     }
@@ -369,6 +382,8 @@ function cfcreation_show_tags($attachmentID, $current_lang, $returnArray = false
     }
     return $show_tags;
 }
+
+
 /**
  * Make HTML Markup for tags Work/Collection in swipebox
  * 
@@ -376,29 +391,32 @@ function cfcreation_show_tags($attachmentID, $current_lang, $returnArray = false
  * @param string $current_lang
  * @return string
  */
-function cfcreation_show_tags_mobile($attachmentID, $current_lang) {
+function cfcreation_show_tags_mobile($attachmentID) {
+    $current_lang = qtranxf_getLanguage();
     $attachment_tags = get_the_terms($attachmentID, 'media_tag');
     $attachment_tags_collection = get_the_terms($attachmentID, 'collection_tag');
     $show_tags_array = array();
     $show_collection_tags_array = array();
     $travaux = ($current_lang == 'fr') ? 'Travaux:' : 'Works:';
     $collection = ($current_lang == 'fr') ? 'Collection:' : 'Collection:';
+    
     if ($attachment_tags) {
         $show_tags_array[] = '<div><strong>'.$travaux.'</strong>';
         foreach ($attachment_tags as $tag) {
-            $show_tags_array[] = '#' . qtranxf_use($current_lang, $tag->name, false);
+            $show_tags_array[] = '#' . htmlentities(qtranxf_use($current_lang, $tag->name, false));
         }
-        $show_tags_array[] = '</div>';
+        $show_tags_array[] = '</div><br />';
     }
     if ($attachment_tags_collection) {
         $show_collection_tags_array[] = '<div><strong>'.$collection.'</strong>';
         foreach ($attachment_tags_collection as $tag_collection) {
-            $show_collection_tags_array[] = '#' . qtranxf_use($current_lang, $tag_collection->name, false);
+            $show_collection_tags_array[] = '#' . htmlentities(qtranxf_use($current_lang, $tag_collection->name, false));
         }
         $show_collection_tags_array[] = '</div>';
     }
-    
-    return implode(' ',array_merge($show_tags_array, $show_collection_tags_array));
+    $html_before[] = '';
+    $html_after[] = '<br />';
+    return implode(' ',array_merge($html_before,$show_tags_array, $show_collection_tags_array, $html_after));
     
 }
 /* -----------------------------------------------------------------------------
@@ -474,6 +492,7 @@ function cfcreation_slideshow_js(){
         <?php if(wp_is_mobile()) : ?> 
         $(".fancybox").swipebox({
             removeBarsOnMobile: false,
+            hideBarsDelay: 10000,
             afterOpen: function () { FB.XFBML.parse(); },
             nextSlide: function () { FB.XFBML.parse(); },
             prevSlide: function () { FB.XFBML.parse(); }

@@ -31,6 +31,10 @@ function cfcreation_FB_attachments_desc($desc) {
 
 add_filter('wpseo_opengraph_desc', 'cfcreation_FB_attachments_desc', 999);
 
+/**
+ * Add image width/height to metas
+ * @return string 
+ */
 function cfcreation_FB_attachments_dimension() {
     // Retrieve attachment metadata.
     $metadata = wp_get_attachment_metadata();
@@ -42,6 +46,7 @@ function cfcreation_FB_attachments_dimension() {
 add_action('wp_head', 'cfcreation_FB_attachments_dimension', 1);
 
 /**
+ * Add # for each tags
  * 
  * @param string $string
  * @return string
@@ -49,15 +54,17 @@ add_action('wp_head', 'cfcreation_FB_attachments_dimension', 1);
 function cfcreation_add_hashtag_to_string($string) {
     return '#' . $string;
 }
+
+$extra_classes = (wp_is_mobile()) ? 'labels-small' : 'labels-large';
 ?>
 <?php get_header(); ?>
 <?php while (have_posts()) : the_post(); ?>
     <div class="loader">&nbsp;</div>
     <div class="hidden_on_load" data-toggler data-animate="<?php echo get_theme_mod('cfcreation_modal_in_page'); ?>"><br />
         <div class="row align-center text-center">
-            <div class="small-12 column"><?php echo cfcreation_show_tags(get_the_ID(), $current_lang); ?><br /><br /></div>
+            <div class="small-12 column<?php echo $extra_classes; ?>"><?php echo cfcreation_show_tags(get_the_ID(), $current_lang, false, true); ?><br /><br /></div>
             <div class="small-12 column"> <?php echo wp_get_attachment_image(get_the_ID(), 'large'); ?></div>
-            <div class="small-12 column fb-share-button" data-href="<?php $PHP_SELF; ?>" data-layout="button_count" data-size="large" data-mobile-iframe="true"></div>
+            <!--<div class="fb-share-button" data-href="<?php $PHP_SELF; ?>" data-layout="button" data-size="small" data-mobile-iframe="true"></div>-->
         </div>
     </div>
     </div>
