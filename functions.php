@@ -2,9 +2,12 @@
 
 /*
 TODO:
-    ** ADD: Make tags/collection tags searchable in admin media
-    ** FIX: Add image format for FB sharing (525x275, need to test)
-    ** FIX: SEO sitemap, add all pictures for index in google images 
+    ADD: Make tags/collection tags searchable in admin media
+    UPDATE:
+    FIX: SEO sitemap, add all pictures for index in google images 
+
+Version: 0.3.0
+    FIX: Add image format for FB sharing (600x315) https://developers.facebook.com/docs/sharing/best-practices/
 
 Version: 0.2.9
     FIX: CSS, Facebook Share button on Works/Collection images: Fancybox/Swipebox
@@ -131,9 +134,11 @@ if (!function_exists('cfcreation_theme_features')) {
         // add post-formats to post_type 'page'
         //add_post_type_support('page', 'post-formats');
         add_theme_support('post-thumbnails');
+        add_image_size('fb-thumb', 1200, 630, false);
         //add_image_size('bio-thumb', 460, 250, true);
         //add_image_size('presse-thumb', 250, 250, true);
         //add_image_size('full-page', 970, 250, true);
+        
         // Adds RSS feed links to <head> for posts and comments.
         add_theme_support('automatic-feed-links');
     }
